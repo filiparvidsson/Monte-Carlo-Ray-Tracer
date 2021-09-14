@@ -1,5 +1,5 @@
-#ifndef RAY_TNCG15_H //So we wont declare things more than once
-#define RAY_TNCG15_H
+#ifndef SCENE_TNCG15_H //So we wont declare things more than once
+#define SCENE_TNCG15_H
 
 #include <glm/glm.hpp>
 #include <vector>

@@ -16,6 +16,7 @@ public:
 	Triangle(const vec3&, const vec3&, const vec3&);
 
 	bool rayIntersection(Ray &arg);
+	void setColor(const ColorDbl& newColor);
 
 
 private:
