@@ -13,10 +13,9 @@ public:
 	glm::vec3 const& y;
 	glm::vec3 const& z;*/
 	Triangle() : Triangle(glm::vec3(), glm::vec3(), glm::vec3()) {};
-	Triangle(const vec3&, const vec3&, const vec3&);
+	Triangle(const vec3&, const vec3&, const vec3&, const ColorDbl&);
 
 	bool rayIntersection(Ray &arg);
-	void setColor(const ColorDbl& newColor);
 
 
 private:

@@ -15,6 +15,9 @@ public:
 
 	void setColor(const ColorDbl &newColor);
 
+	vec3 getStart();
+	vec3 getEnd();
+
 private:
 	ColorDbl color = ColorDbl(0.0);
 	vec3 start, end;

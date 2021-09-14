@@ -11,3 +11,13 @@ void Ray::setColor(const ColorDbl &newColor)
 {
 	color = newColor;
 }
+
+vec3 Ray::getStart()
+{
+	return start;
+}
+
+vec3 Ray::getEnd()
+{
+	return end;
+}
