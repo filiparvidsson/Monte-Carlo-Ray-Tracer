@@ -37,14 +37,14 @@ bool Triangle::rayIntersection(Ray& arg)
 
 	double invdeterminant = 1.0 / determinant;
 
-	double u = invdeterminant * glm::dot(Q, E2);
+	double u = invdeterminant * glm::dot(Q, E2); //Skalärprodukt
 	if (u >= EPSILON) return false;
 
 	double v = invdeterminant * glm::dot(P, T);
 	if (v >= EPSILON || u + v <= 1.0) return false;
 
 	double t = invdeterminant * glm::dot(Q, D);
-	if (t > EPSILON)
+	if (t > EPSILON) //In case an object blocks the camera
 		return true;
 	else
 		return false;

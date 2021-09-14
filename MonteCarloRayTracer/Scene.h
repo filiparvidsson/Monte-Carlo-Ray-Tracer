@@ -71,16 +71,16 @@ Triangle triangle13 = Triangle(P11, P12, P5, GREEN);
 Triangle triangle14 = Triangle(P12, P6, P5, GREEN);
 
 //Wall 4
-Triangle triangle13 = Triangle(P12, P7, P6, RED);
-Triangle triangle14 = Triangle(P7, P1, P6, RED);
+Triangle triangle15 = Triangle(P12, P7, P6, RED);
+Triangle triangle16 = Triangle(P7, P1, P6, RED);
 
 //Wall 5
-Triangle triangle15 = Triangle(P7, P8, P1, BLUE);
-Triangle triangle16 = Triangle(P1, P2, P8, BLUE);
+Triangle triangle17 = Triangle(P7, P8, P1, BLUE);
+Triangle triangle18 = Triangle(P1, P2, P8, BLUE);
 
 //Wall 6
-Triangle triangle17 = Triangle(P2, P8, P9, GREEN);
-Triangle triangle18 = Triangle(P2, P9, P3, GREEN);
+Triangle triangle19 = Triangle(P2, P8, P9, GREEN);
+Triangle triangle20 = Triangle(P2, P9, P3, GREEN);
 
 class Scene {
 
