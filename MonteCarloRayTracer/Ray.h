@@ -18,7 +18,6 @@ public:
 private:
 	ColorDbl color = ColorDbl(0.0);
 	vec3 start, end;
-
 };
 
 #endif

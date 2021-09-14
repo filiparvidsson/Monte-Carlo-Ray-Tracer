@@ -4,11 +4,15 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include "Triangle.h"
+#include "Camera.h"
 
 int main()
 {
-    Triangle soup;
+    //Triangle soup;
     std::cout << "Hello World!\n";
+
+    Camera test;
+    test.createImage();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
