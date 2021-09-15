@@ -3,6 +3,10 @@
 #include "typedefs.h"
 #include "Pixel.h"
 #include "Ray.h"
+//#include "EasyBMP.hpp"
+#include "Ray.h"
+#include "Scene.h"
+#include <vector>
 #include <iostream>
 #include <fstream>
 
@@ -20,10 +24,12 @@ public:
 	// Creates the output RBG-image
 	void createImage();
 
+	void createImage2(Scene& scene);
+
 private:
 	Vertex plane[2][2];
 	Vertex observer;
-	Pixel pixels[RESOLUTION][RESOLUTION];
+	//Pixel pixels[RESOLUTION][RESOLUTION]; //Too big for stack, use EasyBMP instead
 	float pixel_delt;
 };
 

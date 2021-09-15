@@ -22,7 +22,7 @@ void Camera::render() {
 void Camera::createImage() {
 
 	// Test render 
-	FILE* out_img = fopen("../Renders/out_img.bmp", "w");
+	/*FILE* out_img = fopen("../Renders/out_img.bmp", "w");
 	
 	for (int i = 0; i < RESOLUTION; ++i) {
 		for (int j = 0; j < RESOLUTION; ++j) {
@@ -31,5 +31,34 @@ void Camera::createImage() {
 		}	
 	}
 
-	fclose(out_img);
+	fclose(out_img);*/
+
+
+
+}
+
+void Camera::createImage2(Scene& scene)
+{
+	/*std::vector< double > charges = {1024.0, 2048.0};
+	// R, G, B [0, 255]
+	EasyBMP::RGBColor black(0, 0, 0);
+	// sizeX, sizeY, FileName, BackgroundColor
+	EasyBMP::Image img(800, 800, "sample.bmp", black);
+
+	int final_color = 250;
+
+	for (int y = 0; y < 800; ++y) {
+		for (int x = 0; x < 800; ++x) {
+
+			for (int i = 0; i < scene.getTriangles().size(); ++i) {
+				
+			}
+
+				// PositionX, PisitionY, Color
+				img.SetPixel(x, y, EasyBMP::RGBColor(final_color, 0, 0)); //Final color is an int
+		}
+	}
+	img.Write();*/
+
+	std::cout << "the scene has " << scene.getTriangles().size() << " Triangles, let's create an image";
 }

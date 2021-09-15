@@ -12,7 +12,7 @@ public:
 	/*glm::vec3 const& x;
 	glm::vec3 const& y;
 	glm::vec3 const& z;*/
-	Triangle() : Triangle(glm::vec3(), glm::vec3(), glm::vec3(), const ColorDbl(1.0, 1.0, 1.0)) {};
+	Triangle() : Triangle(glm::vec3(), glm::vec3(), glm::vec3(), ColorDbl(1.0, 1.0, 1.0)) {};
 	Triangle(const vec3&, const vec3&, const vec3&, const ColorDbl&);
 
 	bool rayIntersection(Ray &arg);
