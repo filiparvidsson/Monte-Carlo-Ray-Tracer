@@ -24,26 +24,27 @@ const ColorDbl RED = ColorDbl(1.0, 0.0, 0.0);
 const ColorDbl GREEN = ColorDbl(0.0, 1.0, 0.0);
 const ColorDbl BLUE = ColorDbl(0.0, 0.0, 1.0);
 const ColorDbl WHITE = ColorDbl(1.0, 1.0, 1.0);
+const ColorDbl PURPLE = ColorDbl(1.0, 0.0, 1.0);
 
 //Bottom
-const vec3 P1 = vec3(6.0f, 0.0f, -5.0f);
+const vec3 P1 = vec3(0.0f, 6.0f, -5.0f);
 const vec3 P2 = vec3(-3.0f, 0.0f, -5.0f);
 const vec3 P3 = vec3(0.0f, -6.0f, -5.0f);
 const vec3 P4 = vec3(10.0f, -6.0f, -5.0f);
 const vec3 P5 = vec3(13.0f, 0.0f, -5.0f);
-const vec3 P6 = vec3(10.0f, -6.0f, -5.0f);
+const vec3 P6 = vec3(10.0f, 6.0f, -5.0f);
 
 //Top
-const vec3 P7 = vec3(6.0f, 0.0f, 5.0f);
+const vec3 P7 = vec3(0.0f, 6.0f, 5.0f);
 const vec3 P8 = vec3(-3.0f, 0.0f, 5.0f);
 const vec3 P9 = vec3(0.0f, -6.0f, 5.0f);
 const vec3 P10 = vec3(10.0f, -6.0f, 5.0f);
 const vec3 P11 = vec3(13.0f, 0.0f, 5.0f);
-const vec3 P12 = vec3(10.0f, -6.0f, 5.0f);
+const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
 //Bottom
 Triangle triangle1 = Triangle(P1, P2, P3, WHITE);
-Triangle triangle2 = Triangle(P4, P5, P6, WHITE);
+Triangle triangle2 = Triangle(P4, P5, P6, PURPLE);
 Triangle triangle3 = Triangle(P1, P3, P6, WHITE);
 Triangle triangle4 = Triangle(P3, P4, P6, WHITE);
 

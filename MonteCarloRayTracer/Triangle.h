@@ -17,10 +17,14 @@ public:
 
 	bool rayIntersection(Ray &arg);
 
+	ColorDbl getColor();
 
 private:
 	std::array<vec3, 3> vertex;
 	Direction normal;
+	vec3 edge1() const { return vertex[1] - vertex[0]; }
+	vec3 edge2() const { return vertex[2] - vertex[0]; }
+
 	ColorDbl color = ColorDbl(0.0);
 };
 

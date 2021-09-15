@@ -4,7 +4,7 @@
 Ray::Ray(const vec3& a, const vec3& b)
 {
 	start = a;
-	end = b;
+	direction = b;
 }
 
 void Ray::setColor(const ColorDbl &newColor)
@@ -17,7 +17,7 @@ vec3 Ray::getStart()
 	return start;
 }
 
-vec3 Ray::getEnd()
+vec3 Ray::getDirection()
 {
-	return end;
+	return direction;
 }
