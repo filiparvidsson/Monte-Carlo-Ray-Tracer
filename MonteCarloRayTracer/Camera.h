@@ -1,36 +1,37 @@
 #ifndef CAMERA_TNCG15_H //So we wont declare things more than once
 #define CAMERA_TNCG15_H
+
 #include "typedefs.h"
 #include "Pixel.h"
 #include "Ray.h"
-//#include "EasyBMP.hpp"
 #include "Ray.h"
 #include "Scene.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <array>
 
-int constexpr RESOLUTION = 800;
+size_t constexpr RESOLUTION = 800;
 
 class Camera {
 public:
-	Camera();
-	
-	~Camera() {};
+
+	Camera(Vertex obs1, Vertex obs2);
 
 	// Sends rays from each pixel
-	void render();
+	void render(Scene& scene);
 
 	// Creates the output RBG-image
-	void createImage();
+	void createImage(const char* file_name);
 
-	void createImage2(Scene& scene);
+	Pixel& getPixel(size_t i, size_t j);
 
 private:
 	Vertex plane[2][2];
-	Vertex observer;
-	//Pixel pixels[RESOLUTION][RESOLUTION]; //Too big for stack, use EasyBMP instead
-	float pixel_delt;
+	Vertex obs1;
+	Vertex obs2;
+	bool main_obs;
+	std::array<Pixel, RESOLUTION * RESOLUTION>* pixels;
 };
 
 #endif

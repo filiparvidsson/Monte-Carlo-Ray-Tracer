@@ -5,12 +5,16 @@
 
 class Pixel {
 public:
-	Pixel();
+	Pixel()
+		: color{ ColorDbl(0.0, 0.0, 0.0) } {};
 
-private:
+	Pixel(ColorDbl clr)
+		: color{ clr } {};
 
 	ColorDbl color;
-	Ray passingRay;
+private:
+
+	//Ray passingRay;
 
 };
 

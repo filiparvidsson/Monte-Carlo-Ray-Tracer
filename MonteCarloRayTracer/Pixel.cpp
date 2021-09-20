@@ -5,8 +5,4 @@
 //Build a scene
 
 
-Pixel::Pixel()
-{
-	
-}
 
