@@ -7,7 +7,7 @@ We will use this to clean upp the code
 #ifndef TYPEDEFS_TNCG15_H //So we wont declare things more than once
 #define TYPEDEFS_TNCG15_H
 
-constexpr auto EPSILON = 0.0000000000001;
+constexpr auto EPSILON = 1e-8;
 
 #include <glm/vec3.hpp> //We don't need the whole library
 
