@@ -9,6 +9,8 @@ public:
 	virtual double rayIntersection(const Ray&) = 0;
 
 private:
+
+	ColorDbl color;
 	
 };
 
