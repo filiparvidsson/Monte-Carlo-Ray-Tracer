@@ -20,6 +20,10 @@ int main()
     Scene scene;
     std::cout << "DONE!\n";
 
+    std::cout << "Adding sphere...\n";
+    scene.addSphere(PURPLE, dvec3(10.0, 0.0, 0.0), 1.0);
+    std::cout << "DONE!\n";
+
     std::cout << "Rendering scene...\n";
     test_cam.render(scene);
     std::cout << "DONE!\n";

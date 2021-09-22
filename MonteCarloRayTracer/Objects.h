@@ -7,23 +7,25 @@ class Object {
 public:
 	
 	virtual double rayIntersection(const Ray&) = 0;
+	virtual ~Object();
 
 private:
-
-	ColorDbl color;
 	
 };
 
 class Sphere : public Object {
 public:
-	Sphere(dvec3 pos, double rad)
-		: position{ pos }, radius{ rad } {};
+	Sphere(ColorDbl col, dvec3 pos, double rad)
+		: color(col), position{ pos }, radius{ rad } {};
 
 	double rayIntersection(const Ray& ray);
+
+	ColorDbl getColor();
 
 private:
 	dvec3 position;
 	double radius;
+	ColorDbl color;
 };
 
 //class Triangle : Object {

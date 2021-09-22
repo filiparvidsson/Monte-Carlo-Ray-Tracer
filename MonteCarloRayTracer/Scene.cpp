@@ -19,12 +19,7 @@
     (9)--------(10)
 */
 
-//Colors
-const ColorDbl RED = ColorDbl(1.0, 0.0, 0.0);
-const ColorDbl GREEN = ColorDbl(0.0, 1.0, 0.0);
-const ColorDbl BLUE = ColorDbl(0.0, 0.0, 1.0);
-const ColorDbl WHITE = ColorDbl(1.0, 1.0, 1.0);
-const ColorDbl PURPLE = ColorDbl(1.0, 0.0, 1.0);
+
 
 //Bottom
 const vec3 P1 = vec3(0.0f, 6.0f, -5.0f);
@@ -112,13 +107,19 @@ void Scene::loadTriangles()
 
 }
 
+void Scene::addSphere(ColorDbl col, dvec3 pos, double rad)
+{
+    objects.push_back(new Sphere(PURPLE, dvec3(10.0, 0.0, 0.0), 1.0));
+}
+
 std::vector<Triangle>& Scene::getTriangles()
 {
     return triangles;
 }
 
-void Scene::addSphere(dvec3 pos, double rad) {
-    Sphere s = Sphere(dvec3(10.0, 0.0, 0.0), 1.0);
-    objects.push_back(s);
+std::vector<Object*> Scene::getObjects()
+{
+    return objects;
 }
+
 

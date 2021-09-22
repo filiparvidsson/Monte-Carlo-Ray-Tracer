@@ -35,6 +35,7 @@ void Camera::render(Scene& scene) {
 					break;
 				}
 			}
+
 		}
 	}
 }

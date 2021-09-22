@@ -15,14 +15,15 @@ public:
 
     void loadTriangles();
     
-    void addSphere(dvec3 pos, double rad);
+    void addSphere(ColorDbl col, dvec3 pos, double rad);
 
     std::vector<Triangle>& getTriangles();
+    std::vector<Object*> getObjects();
     
 private:
    
     std::vector<Triangle> triangles;
-    std::vector<Object> objects;
+    std::vector<Object*> objects;
 
 };
 
