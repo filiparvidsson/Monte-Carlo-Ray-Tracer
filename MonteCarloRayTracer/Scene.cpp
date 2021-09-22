@@ -117,4 +117,8 @@ std::vector<Triangle>& Scene::getTriangles()
     return triangles;
 }
 
+void Scene::addSphere(dvec3 pos, double rad) {
+    Sphere s = Sphere(dvec3(10.0, 0.0, 0.0), 1.0);
+    objects.push_back(s);
+}
 

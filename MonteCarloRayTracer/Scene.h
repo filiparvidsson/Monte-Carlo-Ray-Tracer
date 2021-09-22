@@ -5,6 +5,7 @@
 #include <vector>
 #include "typedefs.h"
 #include "Triangle.h"
+#include "Objects.h"
 
 
 class Scene {
@@ -13,12 +14,15 @@ public:
 	Scene();
 
     void loadTriangles();
+    
+    void addSphere(dvec3 pos, double rad);
 
     std::vector<Triangle>& getTriangles();
     
 private:
    
     std::vector<Triangle> triangles;
+    std::vector<Object> objects;
 
 };
 

@@ -11,6 +11,7 @@ constexpr auto EPSILON = 1e-10;
 
 #include <glm/vec3.hpp> //We don't need the whole library
 
+typedef glm::dvec3 dvec3;
 typedef glm::vec3 vec3;
 typedef glm::vec3 Vertex;
 typedef glm::vec3 Direction;
