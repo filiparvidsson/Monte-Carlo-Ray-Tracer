@@ -15,7 +15,7 @@ public:
 	Triangle() : Triangle(glm::vec3(), glm::vec3(), glm::vec3(), ColorDbl(1.0, 1.0, 1.0)) {};
 	Triangle(const vec3&, const vec3&, const vec3&, const ColorDbl&);
 
-	bool rayIntersection(Ray &arg);
+	double rayIntersection(Ray &arg);
 
 	ColorDbl getColor();
 

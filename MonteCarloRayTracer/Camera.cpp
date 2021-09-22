@@ -30,7 +30,7 @@ void Camera::render(Scene& scene) {
 
 			// This part might need fixing to get the scene to show up
 			for (Triangle& tri : scene.getTriangles()) {
-				if (tri.rayIntersection(ray)) {
+				if (tri.rayIntersection(ray) > 0.0) {
 					p.color = tri.getColor();
 					break;
 				}

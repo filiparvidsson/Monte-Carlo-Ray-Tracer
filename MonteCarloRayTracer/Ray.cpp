@@ -4,7 +4,7 @@
 Ray::Ray(const vec3& a, const vec3& b)
 {
 	start = a;
-	direction = b;
+	direction = glm::normalize(b-a);
 }
 
 void Ray::setColor(const ColorDbl &newColor)
