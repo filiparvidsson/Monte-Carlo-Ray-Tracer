@@ -1,4 +1,5 @@
 #include "Objects.h"
+#include <iostream>
 
 double Sphere::rayIntersection(Ray& ray) {
 
@@ -12,6 +13,8 @@ double Sphere::rayIntersection(Ray& ray) {
 	dotProds.x = glm::dot(ray.getDirection(), ray.getDirection());
 	dotProds.y = 2.0 * glm::dot(ray.getDirection(), ray.getStart() - vec3(position));
 	dotProds.z = glm::dot(ray.getStart() - vec3(position), ray.getStart() - vec3(position)) - radius * radius;
+
+	std::cout << "x: " << dotProds.x << "y: " << dotProds.y << "z: " << dotProds.z << std::endl;
 
 	//The dicriminant which check for hits
 	double discriminant = dotProds.y * dotProds.y - 4 * dotProds.x * dotProds.z;

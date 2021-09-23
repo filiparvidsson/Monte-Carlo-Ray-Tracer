@@ -21,8 +21,8 @@ void Camera::render(Scene& scene) {
 	vec3 p_end;
 	Ray ray;
 
-	for (size_t i = 0; i < RESOLUTION; ++i) {
-		for (size_t j = 0; j < RESOLUTION; ++j) {
+	for (size_t j = 0; j < RESOLUTION; ++j) {
+		for (size_t i = 0; i < RESOLUTION; ++i) {
 			
 			Pixel& p = getPixel(i, j);
 			p_end = vec3(0.0, i*PIX_DELTA-(1.0-PIX_DELTA), j*PIX_DELTA-(1.0-PIX_DELTA));

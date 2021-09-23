@@ -107,7 +107,7 @@ void Scene::loadTriangles()
 
 }
 
-void Scene::addSphere(Sphere * s)
+void Scene::addSphere(Sphere * s) //Could just make a function addObject
 {
     objects.push_back(s);
 }

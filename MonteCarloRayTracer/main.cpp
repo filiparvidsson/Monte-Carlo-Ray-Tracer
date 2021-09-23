@@ -26,7 +26,7 @@ int main()
     std::cout << "DONE!\n";
 
     std::cout << "Rendering scene...\n";
-    test_cam.render(scene);
+    test_cam.render(scene); //Remake this function to render one sphere to test intersection function
     std::cout << "DONE!\n";
 
     std::cout << "Creating image...\n";

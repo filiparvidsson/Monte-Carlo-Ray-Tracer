@@ -8,6 +8,7 @@ public:
 	
 	virtual double rayIntersection(Ray& ray) = 0;
 	//virtual ~Object();
+	virtual ColorDbl getColor() = 0;
 
 private:
 	
@@ -18,9 +19,9 @@ public:
 	Sphere(ColorDbl col, dvec3 pos, double rad)
 		: color(col), position{ pos }, radius{ rad } {};
 
-	double rayIntersection(Ray& ray) override;
+	double rayIntersection(Ray& ray) override; //Use override to connect to virtual function
 
-	ColorDbl getColor();
+	ColorDbl getColor() override;
 
 private:
 	dvec3 position;

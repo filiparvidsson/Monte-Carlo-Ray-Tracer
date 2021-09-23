@@ -37,9 +37,7 @@ double Triangle::rayIntersection(Ray& arg)
 	
 
 	if (abs(determinant) < EPSILON) {
-		//std::cout << "ray was not intersected" << std::endl;
 		return -1.0; //They parallel, thus determinant is 0
-		
 	}
 	double invdeterminant = 1.0 / determinant;
 	//std::cout << invdeterminant << std::endl;
