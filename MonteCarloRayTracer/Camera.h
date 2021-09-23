@@ -4,7 +4,6 @@
 #include "typedefs.h"
 #include "Pixel.h"
 #include "Ray.h"
-#include "Ray.h"
 #include "Scene.h"
 #include <vector>
 #include <iostream>

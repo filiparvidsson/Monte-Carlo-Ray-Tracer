@@ -1,16 +1,17 @@
 #include "Objects.h"
-#include "Objects.h"
-#include "Objects.h"
-#include "Objects.h"
 
-double Sphere::rayIntersection(const Ray& ray) {
+double Sphere::rayIntersection(Ray& ray) {
 
 	//Intersection for spheres
 	//Follows following theroey viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
 
 	//A = rayStart, B = rayDirection, C = sphereCenter
 	//All dot products for the quadratic formula
-	dvec3 dotProds = dvec3(glm::dot(ray.getDirection(), ray.getDirection()), 2 * glm::dot(ray.getDirection(), ray.getStart() - position), glm::dot(ray.getStart() - position, ray.getStart() - position) - radius * radius);
+	dvec3 dotProds;
+
+	dotProds.x = glm::dot(ray.getDirection(), ray.getDirection());
+	dotProds.y = 2.0 * glm::dot(ray.getDirection(), ray.getStart() - vec3(position));
+	dotProds.z = glm::dot(ray.getStart() - vec3(position), ray.getStart() - vec3(position)) - radius * radius;
 
 	//The dicriminant which check for hits
 	double discriminant = dotProds.y * dotProds.y - 4 * dotProds.x * dotProds.z;

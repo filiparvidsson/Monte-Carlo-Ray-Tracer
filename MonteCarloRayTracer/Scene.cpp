@@ -107,9 +107,9 @@ void Scene::loadTriangles()
 
 }
 
-void Scene::addSphere(ColorDbl col, dvec3 pos, double rad)
+void Scene::addSphere(Sphere * s)
 {
-    objects.push_back(new Sphere(PURPLE, dvec3(10.0, 0.0, 0.0), 1.0));
+    objects.push_back(s);
 }
 
 std::vector<Triangle>& Scene::getTriangles()

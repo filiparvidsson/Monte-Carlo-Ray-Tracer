@@ -15,7 +15,9 @@ public:
 
     void loadTriangles();
     
-    void addSphere(ColorDbl col, dvec3 pos, double rad);
+    //void addSphere(ColorDbl col, dvec3 pos, double rad);
+
+    void addSphere( Sphere* s);
 
     std::vector<Triangle>& getTriangles();
     std::vector<Object*> getObjects();

@@ -6,8 +6,8 @@
 class Object {
 public:
 	
-	virtual double rayIntersection(const Ray&) = 0;
-	virtual ~Object();
+	virtual double rayIntersection(Ray& ray) = 0;
+	//virtual ~Object();
 
 private:
 	
@@ -18,7 +18,7 @@ public:
 	Sphere(ColorDbl col, dvec3 pos, double rad)
 		: color(col), position{ pos }, radius{ rad } {};
 
-	double rayIntersection(const Ray& ray);
+	double rayIntersection(Ray& ray) override;
 
 	ColorDbl getColor();
 
