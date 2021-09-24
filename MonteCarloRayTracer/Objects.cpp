@@ -14,7 +14,7 @@ double Sphere::rayIntersection(Ray& ray) {
 	dotProds.y = 2.0 * glm::dot(ray.getDirection(), ray.getStart() - vec3(position));
 	dotProds.z = glm::dot(ray.getStart() - vec3(position), ray.getStart() - vec3(position)) - radius * radius;
 
-	std::cout << "x: " << dotProds.x << "y: " << dotProds.y << "z: " << dotProds.z << std::endl;
+	//std::cout << "x: " << dotProds.x << "y: " << dotProds.y << "z: " << dotProds.z << std::endl;
 
 	//The dicriminant which check for hits
 	double discriminant = dotProds.y * dotProds.y - 4 * dotProds.x * dotProds.z;

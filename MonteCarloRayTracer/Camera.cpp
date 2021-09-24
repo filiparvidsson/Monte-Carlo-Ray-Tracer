@@ -28,13 +28,22 @@ void Camera::render(Scene& scene) {
 			p_end = vec3(0.0, i*PIX_DELTA-(1.0-PIX_DELTA), j*PIX_DELTA-(1.0-PIX_DELTA));
 			ray = Ray(p_start, p_end);
 
-			// This part might need fixing to get the scene to show up
+			// Rayintersection for spheres
+			/*
+			for (Object* tri : scene.getObjects()) {
+				if (tri->rayIntersection(ray) > 0.0) {
+					p.color = tri->getColor();
+					break;
+				}
+			}
+			*/
 			for (Triangle& tri : scene.getTriangles()) {
 				if (tri.rayIntersection(ray) > 0.0) {
 					p.color = tri.getColor();
 					break;
 				}
 			}
+			
 
 		}
 	}

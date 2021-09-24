@@ -22,7 +22,8 @@ int main()
 
     std::cout << "Adding sphere...\n";
     Sphere s(PURPLE, dvec3(10.0, 0.0, 0.0), 1.0);
-    //scene.addSphere(&s);
+    scene.addSphere(&s);
+    std::cout << "Number of objects " << scene.getObjects().size() << std::endl;
     std::cout << "DONE!\n";
 
     std::cout << "Rendering scene...\n";
