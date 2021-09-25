@@ -21,7 +21,7 @@ public:
 	void render(Scene& scene);
 
 	// Creates the output RBG-image
-	void createImage(const char* file_name);
+	void createImage(const char* file_path);
 
 	Pixel& getPixel(size_t i, size_t j);
 

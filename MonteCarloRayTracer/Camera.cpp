@@ -27,24 +27,18 @@ void Camera::render(Scene& scene) {
 			Pixel& p = getPixel(i, j);
 			p_end = vec3(0.0, i*PIX_DELTA-(1.0-PIX_DELTA), j*PIX_DELTA-(1.0-PIX_DELTA));
 			ray = Ray(p_start, p_end);
-
-			// Rayintersection for spheres
-			/*
-			for (Object* tri : scene.getObjects()) {
-				if (tri->rayIntersection(ray) > 0.0) {
-					p.color = tri->getColor();
-					break;
-				}
-			}
-			*/
-			for (Triangle& tri : scene.getTriangles()) {
-				if (tri.rayIntersection(ray) > 0.0) {
-					p.color = tri.getColor();
-					break;
-				}
-			}
 			
+			// Iterated through all objects and gets the color of the closest intersection
+			double closestObj = std::numeric_limits<double>::max();
+			for (Object* obj : scene.getObjects()) {
 
+				double hitX = obj->rayIntersection(ray);
+
+				if (hitX > 0.0 && hitX < closestObj) {
+					closestObj = hitX;
+					p.color = obj->getColor();
+				}
+			}
 		}
 	}
 }
@@ -70,28 +64,3 @@ Pixel& Camera::getPixel(size_t i, size_t j) {
 	return (*pixels)[i * RESOLUTION + j];
 }
 
-//void Camera::createImage2(Scene& scene)
-//{
-//	/*std::vector< double > charges = {1024.0, 2048.0};
-//	// R, G, B [0, 255]
-//	EasyBMP::RGBColor black(0, 0, 0);
-//	// sizeX, sizeY, FileName, BackgroundColor
-//	EasyBMP::Image img(800, 800, "sample.bmp", black);
-//
-//	int final_color = 250;
-//
-//	for (int y = 0; y < 800; ++y) {
-//		for (int x = 0; x < 800; ++x) {
-//
-//			for (int i = 0; i < scene.getTriangles().size(); ++i) {
-//				
-//			}
-//
-//				// PositionX, PisitionY, Color
-//				img.SetPixel(x, y, EasyBMP::RGBColor(final_color, 0, 0)); //Final color is an int
-//		}
-//	}
-//	img.Write();*/
-//
-//	std::cout << "the scene has " << scene.getTriangles().size() << " Triangles, let's create an image";
-//}

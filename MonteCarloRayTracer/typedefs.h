@@ -24,5 +24,6 @@ const ColorDbl GREEN = ColorDbl(0.0, 1.0, 0.0);
 const ColorDbl BLUE = ColorDbl(0.0, 0.0, 1.0);
 const ColorDbl WHITE = ColorDbl(1.0, 1.0, 1.0);
 const ColorDbl PURPLE = ColorDbl(1.0, 0.0, 1.0);
+const ColorDbl YELLOW{ 1.0, 1.0, 0.0 };
 
 #endif

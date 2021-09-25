@@ -41,12 +41,45 @@ double Sphere::rayIntersection(Ray& ray) {
 
 	return -1.0;
 	}
-	
-
-
 }
 
 ColorDbl Sphere::getColor()
+{
+	return color;
+}
+
+Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, const ColorDbl& col)
+	: color{ col }
+{
+	vertices[0] = x;
+	vertices[1] = y;
+	vertices[2] = z;
+
+	normal = glm::normalize(glm::cross(z - x, y - x));
+	edge1 = y - x;
+	edge2 = z - x;
+		
+}
+
+double Triangle::rayIntersection(Ray& ray)
+{
+	//Möller-Trumbore
+	vec3 T = vec3(ray.getStart() - vertices[0]);
+	vec3 D = ray.getDirection();
+	vec3 P = glm::cross(D, edge2);
+	vec3 Q = glm::cross(T, edge1);
+
+	vec3 hit = (1 / glm::dot(P, edge1)) * vec3(dot(Q, edge2), dot(P, T), dot(Q, D));
+
+	if (hit.x < EPSILON || hit.y < EPSILON || hit.z < EPSILON || hit.z + hit.y > 1.0f) {
+		return -1.0;
+	}
+	else {
+		return hit.x;
+	}
+}
+
+ColorDbl Triangle::getColor()
 {
 	return color;
 }

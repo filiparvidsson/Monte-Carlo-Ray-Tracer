@@ -2,12 +2,13 @@
 
 #include "typedefs.h"
 #include "Ray.h"
+#include <array>
 
 class Object {
 public:
 	
 	virtual double rayIntersection(Ray& ray) = 0;
-	//virtual ~Object();
+	
 	virtual ColorDbl getColor() = 0;
 
 private:
@@ -16,28 +17,33 @@ private:
 
 class Sphere : public Object {
 public:
-	Sphere(ColorDbl col, dvec3 pos, double rad)
-		: color(col), position{ pos }, radius{ rad } {};
+	Sphere(const vec3& pos, double rad, const ColorDbl& col)
+		: position{ pos }, radius{ rad }, color(col) {};
 
 	double rayIntersection(Ray& ray) override; //Use override to connect to virtual function
 
 	ColorDbl getColor() override;
 
 private:
-	dvec3 position;
+	vec3 position;
 	double radius;
 	ColorDbl color;
 };
 
-//class Triangle : Object {
-//public:
-//
-//private:
-//
-//};
+class Triangle : public Object {
+public:
+	
+	Triangle(const vec3&, const vec3&, const vec3&, const ColorDbl&);
 
+	double rayIntersection(Ray& arg) override;
 
+	ColorDbl getColor() override;
 
-//class Box : Triangle {
-//
-//};
+private:
+	std::array<vec3, 3> vertices;
+	vec3 normal;
+	vec3 edge1; 
+	vec3 edge2;
+	ColorDbl color;
+};
+
