@@ -15,7 +15,7 @@ size_t constexpr RESOLUTION = 800;
 class Camera {
 public:
 
-	Camera(Vertex obs1, Vertex obs2);
+	Camera( Vertex obs1, Vertex obs2 );
 
 	// Sends rays from each pixel
 	void render(Scene& scene);
@@ -24,6 +24,10 @@ public:
 	void createImage(const char* file_path);
 
 	Pixel& getPixel(size_t i, size_t j);
+
+	void toggleObserver() {
+		main_obs = !main_obs;
+	}
 
 private:
 	Vertex plane[2][2];

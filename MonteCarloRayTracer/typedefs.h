@@ -19,11 +19,13 @@ typedef glm::dvec3 ColorDbl; //double precision values
 typedef glm::ivec3 RGBval; //integer precision values for pixels
 
 //Colors
-const ColorDbl RED = ColorDbl(1.0, 0.0, 0.0);
-const ColorDbl GREEN = ColorDbl(0.0, 1.0, 0.0);
-const ColorDbl BLUE = ColorDbl(0.0, 0.0, 1.0);
-const ColorDbl WHITE = ColorDbl(1.0, 1.0, 1.0);
-const ColorDbl PURPLE = ColorDbl(1.0, 0.0, 1.0);
+const ColorDbl RED{ 1.0, 0.0, 0.0 };
+const ColorDbl GREEN{ 0.0, 1.0, 0.0 };
+const ColorDbl BLUE{ 0.0, 0.0, 1.0 };
+const ColorDbl WHITE{ 1.0, 1.0, 1.0 };
+const ColorDbl BLACK{ 0.0, 0.0 ,0.0 };
+const ColorDbl PURPLE{ 1.0, 0.0, 1.0 };
 const ColorDbl YELLOW{ 1.0, 1.0, 0.0 };
+const ColorDbl TEAL{ 0.0, 1.0, 1.0 };
 
 #endif

@@ -53,21 +53,21 @@ int main()
     const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
     //Bottom
-    Triangle triangle1 = Triangle(P1, P2, P3, WHITE);
+    Triangle triangle1 = Triangle(P1, P2, P3, PURPLE);
     Triangle triangle2 = Triangle(P4, P5, P6, PURPLE);
-    Triangle triangle3 = Triangle(P1, P3, P6, WHITE);
-    Triangle triangle4 = Triangle(P3, P4, P6, WHITE);
+    Triangle triangle3 = Triangle(P1, P3, P6, PURPLE);
+    Triangle triangle4 = Triangle(P3, P4, P6, PURPLE);
 
 
     //Top
-    Triangle triangle5 = Triangle(P9, P8, P7, WHITE);
-    Triangle triangle6 = Triangle(P12, P11, P10, WHITE);
-    Triangle triangle7 = Triangle(P9, P7, P12, WHITE);
-    Triangle triangle8 = Triangle(P9, P12, P10, WHITE);
+    Triangle triangle5 = Triangle(P9, P8, P7, RED);
+    Triangle triangle6 = Triangle(P12, P11, P10, RED);
+    Triangle triangle7 = Triangle(P9, P7, P12, RED);
+    Triangle triangle8 = Triangle(P9, P12, P10, RED);
 
     //Wall 1
-    Triangle triangle9 = Triangle(P3, P9, P10, RED);
-    Triangle triangle10 = Triangle(P3, P10, P4, RED);
+    Triangle triangle9 = Triangle(P3, P9, P10, WHITE);
+    Triangle triangle10 = Triangle(P3, P10, P4, WHITE);
 
     //Wall 2
     Triangle triangle11 = Triangle(P10, P11, P4, BLUE);
@@ -109,26 +109,39 @@ int main()
     scene.addObject(&triangle18);
     scene.addObject(&triangle19);
     scene.addObject(&triangle20);
+    std::cout << "Number of objects: " << scene.getObjects().size() << std::endl;
     std::cout << "DONE!\n";
 
-    std::cout << "Adding purple sphere...\n";
-    Sphere s1{ dvec3(8.0, 1.0, 0.0), 1.0, PURPLE };
+    std::cout << "Adding teal sphere...\n";
+    Sphere s1{ dvec3(8.0, 1.0, 0.0), 1.0, TEAL };
     scene.addObject(&s1);
-    std::cout << "Number of objects " << scene.getObjects().size() << std::endl;
+    std::cout << "Number of objects: " << scene.getObjects().size() << std::endl;
     std::cout << "DONE!\n";
 
     std::cout << "Adding yellow sphere...\n";
     Sphere s2{ dvec3(10.0, -1.0, -0.5), 1.3, YELLOW };
     scene.addObject(&s2);
-    std::cout << "Number of objects " << scene.getObjects().size() << std::endl;
+    std::cout << "Number of objects: " << scene.getObjects().size() << std::endl;
+    std::cout << "DONE!\n";
+
+    std::cout << "Adding white point light...\n";
+    PointLight pl1{ dvec3(9.0, -5.0, 0.0), 0.7, WHITE };
+    scene.addPointLight(pl1);
+    std::cout << "Number of point lights: " << scene.getPointLights().size() << std::endl;
+    std::cout << "DONE!\n";
+
+    std::cout << "Adding spherical white area light...\n";
+    Sphere al1{ dvec3(9.0, -5.0, 0.0), 0.7, WHITE };
+    scene.addAreaLight(&al1);
+    std::cout << "Number of area lights: " << scene.getAreaLights().size() << std::endl;
     std::cout << "DONE!\n";
 
     std::cout << "Rendering scene...\n";
-    test_cam.render(scene); //Remake this function to render one sphere to test intersection function
+    test_cam.render(scene);
     std::cout << "DONE!\n";
 
     std::cout << "Creating image...\n";
-    test_cam.createImage("../Renders/test_image.bmp");
+    test_cam.createImage("../Renders/light_image.bmp");
     std::cout << "DONE!\n";
     std::cout << "Exiting program...\n";
 

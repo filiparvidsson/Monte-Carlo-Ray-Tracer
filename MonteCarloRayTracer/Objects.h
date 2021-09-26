@@ -35,7 +35,7 @@ public:
 	
 	Triangle(const vec3&, const vec3&, const vec3&, const ColorDbl&);
 
-	double rayIntersection(Ray& arg) override;
+	double rayIntersection(Ray& ray) override;
 
 	ColorDbl getColor() override;
 

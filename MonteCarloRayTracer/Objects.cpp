@@ -83,3 +83,4 @@ ColorDbl Triangle::getColor()
 {
 	return color;
 }
+

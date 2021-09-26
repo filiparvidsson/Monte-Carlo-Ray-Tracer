@@ -11,7 +11,6 @@ class Ray {
 public:
 	Ray() : Ray(vec3(0.0), vec3(0.0)) {};
 	Ray(const vec3&, const vec3&);
-	~Ray() {};
 
 	void setColor(const ColorDbl &newColor);
 
