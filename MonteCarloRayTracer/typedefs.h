@@ -23,7 +23,9 @@ const ColorDbl WHITE{ 1.0, 1.0, 1.0 };
 const ColorDbl BLACK{ 0.0, 0.0 ,0.0 };
 const ColorDbl PURPLE{ 1.0, 0.0, 1.0 };
 const ColorDbl YELLOW{ 1.0, 1.0, 0.0 };
-const ColorDbl TEAL{ 0.0, 1.0, 1.0 };
+const ColorDbl CYAN{ 0.0, 1.0, 1.0 };
+const ColorDbl TEAL{ 0.0, 0.5, 0.5 };
+const ColorDbl PINK{ 1.0, 0.4, 0.7 };
 
 // Forward declarations
 class PointLight;

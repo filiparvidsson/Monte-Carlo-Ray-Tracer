@@ -29,6 +29,10 @@ int main()
     Camera test_cam(main_observer, sub_observer);
     std::cout << "DONE!\n";
 
+    std::cout << "Changing to secondary observer...\n";
+    test_cam.toggleObserver();
+    std::cout << "DONE!\n";
+
     std::cout << "Creating scene...\n";
     Scene scene;
     std::cout << "DONE!\n";
@@ -58,14 +62,14 @@ int main()
 
 
     //Top
-    Triangle triangle5 = Triangle(P9, P8, P7, RED);
-    Triangle triangle6 = Triangle(P12, P11, P10, RED);
-    Triangle triangle7 = Triangle(P9, P7, P12, RED);
-    Triangle triangle8 = Triangle(P9, P12, P10, RED);
+    Triangle triangle5 = Triangle(P9, P8, P7, WHITE);
+    Triangle triangle6 = Triangle(P12, P11, P10, WHITE);
+    Triangle triangle7 = Triangle(P9, P7, P12, WHITE);
+    Triangle triangle8 = Triangle(P9, P12, P10, WHITE);
 
     //Wall 1
-    Triangle triangle9 = Triangle(P3, P9, P10, WHITE);
-    Triangle triangle10 = Triangle(P3, P10, P4, WHITE);
+    Triangle triangle9 = Triangle(P3, P9, P10, CYAN);
+    Triangle triangle10 = Triangle(P3, P10, P4, CYAN);
 
     //Wall 2
     Triangle triangle11 = Triangle(P10, P11, P4, BLUE);
@@ -80,12 +84,12 @@ int main()
     Triangle triangle16 = Triangle(P7, P1, P6, RED);
 
     //Wall 5
-    Triangle triangle17 = Triangle(P7, P8, P1, BLUE);
-    Triangle triangle18 = Triangle(P1, P2, P8, BLUE);
+    Triangle triangle17 = Triangle(P7, P8, P1, WHITE);
+    Triangle triangle18 = Triangle(P1, P2, P8, WHITE);
 
     //Wall 6
-    Triangle triangle19 = Triangle(P2, P8, P9, GREEN);
-    Triangle triangle20 = Triangle(P2, P9, P3, GREEN);
+    Triangle triangle19 = Triangle(P2, P8, P9, WHITE);
+    Triangle triangle20 = Triangle(P2, P9, P3, WHITE);
 
     scene.addObject(&triangle1);
     scene.addObject(&triangle2);
@@ -128,7 +132,13 @@ int main()
     std::cout << "Number of point lights: " << scene.getPointLights().size() << std::endl;
     std::cout << "DONE!\n";
 
-    std::cout << "Adding spherical white area light...\n";
+    //std::cout << "Adding pink point light...\n";
+    //PointLight pl2{ dvec3(6.0, -4.0, 0.0), 0.4, PINK };
+    //scene.addPointLight(pl2);
+    //std::cout << "Number of point lights: " << scene.getPointLights().size() << std::endl;
+    //std::cout << "DONE!\n";
+
+    std::cout << "Adding white spherical area light...\n";
     Sphere al1{ dvec3(9.0, -5.0, 0.0), 0.7, WHITE };
     scene.addAreaLight(&al1);
     std::cout << "Number of area lights: " << scene.getAreaLights().size() << std::endl;
@@ -139,7 +149,7 @@ int main()
     std::cout << "DONE!\n";
 
     std::cout << "Creating image...\n";
-    test_cam.createImage("../Renders/light_image4.bmp");
+    test_cam.createImage("../Renders/shadow_1.bmp");
     std::cout << "DONE!\n";
     std::cout << "Exiting program...\n";
 
