@@ -1,12 +1,8 @@
 #ifndef SCENE_TNCG15_H //So we wont declare things more than once
 #define SCENE_TNCG15_H
 
-#include <glm/glm.hpp>
-#include <vector>
 #include "typedefs.h"
-#include "Objects.h"
-#include "Ray.h"
-#include "PointLight.h"
+#include <vector>
 
 
 class Scene {
@@ -21,11 +17,11 @@ public:
 
     std::vector<Object*>& getObjects();
 
+    Object* getObject(size_t ind);
+
     std::vector<Object*>& getAreaLights();
 
     std::vector<PointLight>& getPointLights();
-
-    void phongLight(const Ray& ray);
     
 private:
    

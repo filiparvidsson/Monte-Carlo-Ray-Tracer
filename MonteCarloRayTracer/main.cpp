@@ -2,9 +2,7 @@
 
 #include <iostream>
 #include "typedefs.h"
-#include <glm/glm.hpp>
-#include "Camera.h"
-#include "Ray.h"
+
 
 /*
 
@@ -26,8 +24,8 @@
 int main()
 {
     std::cout << "Creating camera...\n";
-    vec3 main_observer(-2, 0, 0);
-    vec3 sub_observer(-1, 0, 0);
+    dvec3 main_observer(-2, 0, 0);
+    dvec3 sub_observer(-1, 0, 0);
     Camera test_cam(main_observer, sub_observer);
     std::cout << "DONE!\n";
 
@@ -37,20 +35,20 @@ int main()
 
     std::cout << "Setting up room...\n";
     //Bottom
-    const vec3 P1(0.0f, 6.0f, -5.0f); // = vec3(0.0f, 6.0f, -5.0f);
-    const vec3 P2 = vec3(-3.0f, 0.0f, -5.0f);
-    const vec3 P3 = vec3(0.0f, -6.0f, -5.0f);
-    const vec3 P4 = vec3(10.0f, -6.0f, -5.0f);
-    const vec3 P5 = vec3(13.0f, 0.0f, -5.0f);
-    const vec3 P6 = vec3(10.0f, 6.0f, -5.0f);
+    const dvec3 P1(0.0f, 6.0f, -5.0f); // = vec3(0.0f, 6.0f, -5.0f);
+    const dvec3 P2 = dvec3(-3.0f, 0.0f, -5.0f);
+    const dvec3 P3 = dvec3(0.0f, -6.0f, -5.0f);
+    const dvec3 P4 = dvec3(10.0f, -6.0f, -5.0f);
+    const dvec3 P5 = dvec3(13.0f, 0.0f, -5.0f);
+    const dvec3 P6 = dvec3(10.0f, 6.0f, -5.0f);
 
     //Top
-    const vec3 P7 = vec3(0.0f, 6.0f, 5.0f);
-    const vec3 P8 = vec3(-3.0f, 0.0f, 5.0f);
-    const vec3 P9 = vec3(0.0f, -6.0f, 5.0f);
-    const vec3 P10 = vec3(10.0f, -6.0f, 5.0f);
-    const vec3 P11 = vec3(13.0f, 0.0f, 5.0f);
-    const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
+    const dvec3 P7 = dvec3(0.0f, 6.0f, 5.0f);
+    const dvec3 P8 = dvec3(-3.0f, 0.0f, 5.0f);
+    const dvec3 P9 = dvec3(0.0f, -6.0f, 5.0f);
+    const dvec3 P10 = dvec3(10.0f, -6.0f, 5.0f);
+    const dvec3 P11 = dvec3(13.0f, 0.0f, 5.0f);
+    const dvec3 P12 = dvec3(10.0f, 6.0f, 5.0f);
 
     //Bottom
     Triangle triangle1 = Triangle(P1, P2, P3, PURPLE);
@@ -125,7 +123,7 @@ int main()
     std::cout << "DONE!\n";
 
     std::cout << "Adding white point light...\n";
-    PointLight pl1{ dvec3(9.0, -5.0, 0.0), 0.7, WHITE };
+    PointLight pl1{ dvec3(8.0, -4.0, -4.0), 1.0, WHITE };
     scene.addPointLight(pl1);
     std::cout << "Number of point lights: " << scene.getPointLights().size() << std::endl;
     std::cout << "DONE!\n";
@@ -141,7 +139,7 @@ int main()
     std::cout << "DONE!\n";
 
     std::cout << "Creating image...\n";
-    test_cam.createImage("../Renders/light_image.bmp");
+    test_cam.createImage("../Renders/light_image4.bmp");
     std::cout << "DONE!\n";
     std::cout << "Exiting program...\n";
 

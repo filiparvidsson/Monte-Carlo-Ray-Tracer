@@ -3,12 +3,12 @@
 #include "typedefs.h"
 
 
-struct PointLight {
-
-	PointLight(vec3 pos, double intens, ColorDbl col)
+class PointLight {
+public:
+	PointLight(dvec3 pos, double intens, ColorDbl col)
 		: position{ pos }, intensity{ intens }, color{ col } {};
 
-	vec3 position;
+	dvec3 position;
 	double intensity;
 	ColorDbl color;
 };

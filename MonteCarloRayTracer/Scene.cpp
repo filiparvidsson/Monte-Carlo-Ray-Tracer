@@ -1,5 +1,3 @@
-
-#include "Scene.h"
 #include "typedefs.h"
 
 
@@ -33,19 +31,7 @@ std::vector<PointLight>& Scene::getPointLights()
     return point_lights;
 }
 
-// Adds contributions from all point- and area lights to each pixel
-void Scene::phongLight(const Ray& ray)
+Object* Scene::getObject(size_t ind)
 {
-    ColorDbl color{ BLACK };
-    
-    for(PointLight& point_light : getPointLights())
-    {
-
-    }
-
-    for (Object* area_light : getAreaLights())
-    {
-
-    }
-
+    return this->objects[ind];
 }
