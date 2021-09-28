@@ -11,6 +11,8 @@ public:
 	
     void addObject(Object* obj);
 
+    void addBox(Box* box);
+
     void addAreaLight(Object* light);
 
     void addPointLight(PointLight& light);

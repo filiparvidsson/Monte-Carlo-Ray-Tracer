@@ -6,6 +6,13 @@ void Scene::addObject(Object* obj) //Could just make a function addObject
     objects.push_back(obj);
 }
 
+void Scene::addBox(Box* box)
+{
+    for (int i = 0; i < box->getTriangles().size(); ++i) {
+        addObject(&box->getTriangles()[i]);
+    }
+}
+
 void Scene::addAreaLight(Object* light)
 {
     area_lights.push_back(light);

@@ -94,3 +94,40 @@ dvec3 Sphere::getNormal(const dvec3& hit)
 {
 	return glm::normalize(hit - this->position);
 }
+
+Box::Box(const dvec3& pos, double height, double width1, double width2, const ColorDbl& color)
+{
+	corners[0] = pos + dvec3(width1 * 0.5, width2 * -0.5, height * 0.5);
+	corners[1] = pos + dvec3(width1 * -0.5, width2 * -0.5, height * 0.5);
+	corners[2] = pos + dvec3(width1 * -0.5, width2 * 0.5, height * 0.5);
+	corners[3] = pos + dvec3(width1 * 0.5, width2 * 0.5, height * 0.5);
+	corners[4] = pos + dvec3(width1 * 0.5, width2 * -0.5, height * -0.5);
+	corners[5] = pos + dvec3(width1 * -0.5, width2 * -0.5, height * -0.5);
+	corners[6] = pos + dvec3(width1 * -0.5, width2 * 0.5, height * -0.5);
+	corners[7] = pos + dvec3(width1 * 0.5, width2 * 0.5, height * -0.5);
+
+	//Top
+	triangles[0] = Triangle(corners[0], corners[3], corners[1], color);
+	triangles[1] = Triangle(corners[1], corners[3], corners[2], color);
+	//Bottom
+	triangles[2] = Triangle(corners[4], corners[5], corners[6], color);
+	triangles[3] = Triangle(corners[4], corners[6], corners[7], color);
+	//Wall 1
+	triangles[4] = Triangle(corners[0], corners[7], corners[3], color);
+	triangles[5] = Triangle(corners[0], corners[4], corners[7], color);
+	//Wall 2
+	triangles[6] = Triangle(corners[0], corners[1], corners[4], color);
+	triangles[7] = Triangle(corners[1], corners[5], corners[4], color);
+	//Wall 3
+	triangles[8] = Triangle(corners[1], corners[2], corners[5], color);
+	triangles[9] = Triangle(corners[2], corners[6], corners[5], color);
+	//Wall 4
+	triangles[10] = Triangle(corners[3], corners[6], corners[2], color);
+	triangles[11] = Triangle(corners[3], corners[7], corners[6], color);
+
+}
+
+std::array<Triangle, 12>& Box::getTriangles()
+{
+	return triangles;
+}

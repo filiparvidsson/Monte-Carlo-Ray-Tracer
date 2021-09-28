@@ -126,6 +126,12 @@ int main()
     std::cout << "Number of objects: " << scene.getObjects().size() << std::endl;
     std::cout << "DONE!\n";
 
+    std::cout << "Adding a blue box...\n";
+    Box b1 = Box(dvec3(7.0, -2.0, 2.0), 1.0, 1.0, 1.0, BLUE);
+    scene.addBox(&b1);
+    //scene.addObject(&b1.getTriangles()[0]);
+    std::cout << "A box is made up of " << b1.getTriangles().size() << " triangles\n";
+
     std::cout << "Adding white point light...\n";
     PointLight pl1{ dvec3(8.0, -4.0, -4.0), 1.0, WHITE };
     scene.addPointLight(pl1);

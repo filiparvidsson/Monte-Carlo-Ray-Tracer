@@ -36,6 +36,7 @@ class Triangle : public Object {
 public:
 	
 	Triangle(const dvec3&, const dvec3&, const dvec3&, const ColorDbl&);
+	Triangle() = default;
 
 	double rayIntersection(Ray& ray) override;
 
@@ -49,5 +50,18 @@ private:
 	dvec3 edge1; 
 	dvec3 edge2;
 	ColorDbl color;
+};
+
+
+class Box : public Triangle {
+public:
+
+	Box(const dvec3&, double, double, double, const ColorDbl&);
+
+	std::array<Triangle, 12>& getTriangles();
+
+private:
+	std::array<dvec3, 8> corners;
+	std::array<Triangle, 12> triangles;
 };
 
