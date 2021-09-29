@@ -4,7 +4,9 @@
 #ifndef TYPEDEFS_TNCG15_H //So we wont declare things more than once
 #define TYPEDEFS_TNCG15_H
 
+//Constants
 constexpr auto EPSILON = 1e-10;
+const int SHADOWSAMPLES = 1;
 
 #include <glm/glm.hpp>
 
@@ -35,12 +37,14 @@ class Scene;
 class Ray;
 class Camera;
 
+
 #include "PointLight.h"
 #include "Pixel.h"
 #include "Objects.h"
 #include "Scene.h"
 #include "Ray.h"
 #include "Camera.h"
+#include <stdlib.h>
 // **********************************************
 
 #endif

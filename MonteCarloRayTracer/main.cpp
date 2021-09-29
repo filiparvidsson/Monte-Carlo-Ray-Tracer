@@ -128,15 +128,15 @@ int main()
 
     std::cout << "Adding a blue box...\n";
     Box b1 = Box(dvec3(7.0, -2.0, 2.0), 1.0, 1.0, 1.0, BLUE);
-    scene.addBox(&b1);
+    scene.addBox(&b1); 
     //scene.addObject(&b1.getTriangles()[0]);
     std::cout << "A box is made up of " << b1.getTriangles().size() << " triangles\n";
 
-    std::cout << "Adding white point light...\n";
+    /*std::cout << "Adding white point light...\n";
     PointLight pl1{ dvec3(8.0, -4.0, -4.0), 1.0, WHITE };
     scene.addPointLight(pl1);
     std::cout << "Number of point lights: " << scene.getPointLights().size() << std::endl;
-    std::cout << "DONE!\n";
+    std::cout << "DONE!\n";*/
 
     //std::cout << "Adding pink point light...\n";
     //PointLight pl2{ dvec3(6.0, -4.0, 0.0), 0.4, PINK };
@@ -145,7 +145,7 @@ int main()
     //std::cout << "DONE!\n";
 
     std::cout << "Adding white spherical area light...\n";
-    Sphere al1{ dvec3(9.0, -5.0, 0.0), 0.7, WHITE };
+    Sphere al1{ dvec3(5.0, 0.0, 5.0), 1.0, WHITE };
     scene.addAreaLight(&al1);
     std::cout << "Number of area lights: " << scene.getAreaLights().size() << std::endl;
     std::cout << "DONE!\n";

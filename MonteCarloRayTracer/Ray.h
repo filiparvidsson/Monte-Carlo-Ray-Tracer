@@ -22,6 +22,8 @@ public:
 
 	void localLight(Scene& scene, size_t obj_ind);
 
+	//Generate random end points for shadow rays
+
 private:
 	ColorDbl color{ BLACK };
 	dvec3 start;

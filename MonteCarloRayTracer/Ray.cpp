@@ -66,5 +66,8 @@ void Ray::localLight(Scene& scene, size_t obj_ind)
 		double fall_off = glm::sqrt(glm::length(hit_to_light));
 		this->color += diffuse * point_light.color * point_light.intensity / fall_off;
 	}
+
+	
+
 	this->color *= obj->getColor();
 }

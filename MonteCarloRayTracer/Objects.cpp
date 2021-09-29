@@ -44,6 +44,11 @@ double Sphere::rayIntersection(Ray& ray) {
 	}
 }
 
+std::vector<Ray> Sphere::generateShadowRays(const dvec3& start)
+{
+	return std::vector<Ray>();
+}
+
 ColorDbl Sphere::getColor()
 {
 	return color;
@@ -78,6 +83,18 @@ double Triangle::rayIntersection(Ray& ray)
 	else {
 		return hit.x;
 	}
+}
+
+std::vector<Ray> Triangle::generateShadowRays(const dvec3& start)
+{
+	std::vector<Ray> shadowRays;
+	for (int i = 0; i < SHADOWSAMPLES; ++i) {
+		double u = ((double)rand()) / RAND_MAX;
+		double v = (1 - u) * ((double)rand()) / RAND_MAX;
+		dvec3 end = this->vertices[0] * (1.0 - u - v) + this->vertices[1] * u + this->vertices[2] * v;
+		shadowRays.emplace_back(Ray{ start, end });
+	}
+	return shadowRays;
 }
 
 ColorDbl Triangle::getColor()

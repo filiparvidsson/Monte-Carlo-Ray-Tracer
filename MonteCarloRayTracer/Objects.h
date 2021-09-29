@@ -2,6 +2,7 @@
 
 #include "typedefs.h"
 #include <array>
+#include <vector>
 
 
 class Object {
@@ -10,6 +11,7 @@ public:
 	virtual double rayIntersection(Ray& ray) = 0;
 	virtual dvec3 getNormal(const dvec3& hit) = 0;
 	virtual ColorDbl getColor() = 0;
+	virtual std::vector<Ray> generateShadowRays(const dvec3& start) = 0;
 
 private:
 	
@@ -21,6 +23,8 @@ public:
 		: position{ pos }, radius{ rad }, color(col) {};
 
 	double rayIntersection(Ray& ray) override;
+
+	std::vector<Ray> generateShadowRays(const dvec3& start) override;
 
 	dvec3 getNormal(const dvec3& hit) override;
 
@@ -39,6 +43,8 @@ public:
 	Triangle() = default;
 
 	double rayIntersection(Ray& ray) override;
+
+	std::vector<Ray> generateShadowRays(const dvec3& start) override;
 
 	dvec3 getNormal(const dvec3& hit) override;
 

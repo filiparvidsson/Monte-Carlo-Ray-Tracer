@@ -8,7 +8,7 @@
 class Scene {
 
 public:
-	
+	//Adding objects to the scene
     void addObject(Object* obj);
 
     void addBox(Box* box);
@@ -17,6 +17,7 @@ public:
 
     void addPointLight(PointLight& light);
 
+    //Get objects from scene
     std::vector<Object*>& getObjects();
 
     Object* getObject(size_t ind);
@@ -24,6 +25,7 @@ public:
     std::vector<Object*>& getAreaLights();
 
     std::vector<PointLight>& getPointLights();
+
     
 private:
    
