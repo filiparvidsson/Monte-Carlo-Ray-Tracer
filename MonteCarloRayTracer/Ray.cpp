@@ -13,7 +13,7 @@ void Ray::setEnd(const float t)
 
 void Ray::AreaLighting(Scene& scene, size_t obj_ind)
 {
-	Object* obj = this->target.get();
+	Object* obj = scene.getObject(obj_ind);
 	dvec3 finalColor = BLACK;
 
 	//According to Lesson
