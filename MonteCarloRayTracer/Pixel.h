@@ -1,21 +1,19 @@
-#ifndef PIXEL_TNCG15_H //So we wont declare things more than once
-#define PIXEL_TNCG15_H
-#include "typedefs.h"
+#pragma once
+#include "dependencies.h"
 
 
-class Pixel {
-public:
-	Pixel()
-		: color{ ColorDbl(0.0, 0.0, 0.0) } {};
-
-	Pixel(ColorDbl clr)
-		: color{ clr } {};
-
-	ColorDbl color;
-private:
+struct Pixel {
+	
+	dvec3 color;
 
 	//Ray passingRay;
+	
+	Pixel()
+		: color{ dvec3(0.0, 0.0, 0.0) } {};
+
+	Pixel(dvec3 clr)
+		: color{ clr } {};
+
+
 
 };
-
-#endif

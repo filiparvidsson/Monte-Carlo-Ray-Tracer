@@ -1,73 +1,57 @@
 #pragma once
 
-#include "typedefs.h"
+#include "dependencies.h"
+#include <iostream>
 #include <array>
 #include <vector>
 
+struct Object {
 
-class Object {
-public:
-	
-	virtual double rayIntersection(Ray& ray) = 0;
-	virtual dvec3 getNormal(const dvec3& hit) = 0;
-	virtual ColorDbl getColor() = 0;
-	virtual std::vector<Ray> generateShadowRays(const dvec3& start) = 0;
+	const Material* material;
 
-private:
-	
+	Object(const Material* material)
+		: material{ material } {};
+
+	virtual float rayIntersection(Ray* ray) = 0;
+	virtual vec3 getNormal(const vec3& hit) = 0;
+	virtual std::vector<Ray> generateShadowRays(const vec3& start) = 0;
 };
 
-class Sphere : public Object {
-public:
-	Sphere(const dvec3& pos, double rad, const ColorDbl& col)
-		: position{ pos }, radius{ rad }, color(col) {};
+struct Sphere : public Object {
 
-	double rayIntersection(Ray& ray) override;
-
-	std::vector<Ray> generateShadowRays(const dvec3& start) override;
-
-	dvec3 getNormal(const dvec3& hit) override;
-
-	ColorDbl getColor() override;
-
-private:
-	dvec3 position;
+	vec3 position;
 	double radius;
-	ColorDbl color;
+
+	Sphere(const vec3& pos, double rad, const Material* material)
+		: Object{ material }, position{ pos }, radius{ rad } {};
+
+	float rayIntersection(Ray* ray) override;
+	std::vector<Ray> generateShadowRays(const vec3& start) override;
+	vec3 getNormal(const vec3& hit) override;
+
 };
 
-class Triangle : public Object {
-public:
-	
-	Triangle(const dvec3&, const dvec3&, const dvec3&, const ColorDbl&);
+struct Triangle : public Object {
+	std::array<vec3, 3> vertices;
+	vec3 normal;
+	vec3 edge1;
+	vec3 edge2;
+
+	Triangle(const vec3&, const vec3&, const vec3&, const Material* material);
 	Triangle() = default;
 
-	double rayIntersection(Ray& ray) override;
+	float rayIntersection(Ray* ray) override;
+	std::vector<Ray> generateShadowRays(const vec3&) override;
+	vec3 getNormal(const vec3& hit) override;
 
-	std::vector<Ray> generateShadowRays(const dvec3& start) override;
-
-	dvec3 getNormal(const dvec3& hit) override;
-
-	ColorDbl getColor() override;
-
-private:
-	std::array<dvec3, 3> vertices;
-	dvec3 normal;
-	dvec3 edge1; 
-	dvec3 edge2;
-	ColorDbl color;
 };
 
-
-class Box : public Triangle {
-public:
-
-	Box(const dvec3&, double, double, double, const ColorDbl&);
-
-	std::array<Triangle, 12>& getTriangles();
-
-private:
-	std::array<dvec3, 8> corners;
-	std::array<Triangle, 12> triangles;
-};
-
+//struct Box : public Triangle {
+//
+//	std::array<dvec3, 8> corners;
+//	std::array<Triangle, 12> triangles;
+//
+//
+//	Box(const vec3& pos, float height, float width1, float width2, Material* material);
+//
+//};

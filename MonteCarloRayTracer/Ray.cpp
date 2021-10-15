@@ -1,73 +1,65 @@
-#include "typedefs.h"
+#include "dependencies.h"
 
+Ray::Ray(vec3 start, vec3 end)
+	: start{ start }, end{ end }, direction{ glm::normalize(end - start) }, importance{ 1.0 }, target{ nullptr }, color{ BLACK } {};
 
-Ray::Ray(const dvec3& a, const dvec3& b)
-	: start{ a }, end{ b }, direction{ glm::normalize(b - a) } { }
+Ray::Ray(vec3 start, vec3 end, double importance)
+	: start{ start }, end{ end }, direction{ glm::normalize(end - start) }, importance{ importance }, target{ nullptr }, color{ BLACK } {};
 
-void Ray::setColor(const ColorDbl &newColor)
+void Ray::setEnd(const float t)
 {
-	color = newColor;
+	end = start + direction * t;
 }
 
-ColorDbl Ray::getColor()
+void Ray::localLight(Scene& scene)
 {
-	return this->color;
-}
+	Object* obj = this->target.get();
+	dvec3 finalColor = BLACK;
 
-dvec3 Ray::getStart()
-{
-	return start;
-}
+	//According to Lesson
+	for (Object* lightSource : scene.area_lights) {
 
-dvec3 Ray::getDirection()
-{
-	return direction;
-}
+		dvec3 thisLight = BLACK;
 
-void Ray::setEnd(const double hit) 
-{
-	end = start + direction * hit;
-}
 
-dvec3 Ray::getEnd()
-{
-	return end;
-}
+		//for (Object* shadowObject : scene.getObjects()) {
+			//ColorDbl rayLight = BLACK;
+		vec3 endOffset = this->end + 3e-4f * obj->getNormal(this->end);
+		std::vector<Ray> shadowRays = lightSource->generateShadowRays(endOffset);
+		for (Ray& shadowRay : shadowRays) {
+			bool occluded = false;
+			float target_length = glm::length(shadowRay.end - shadowRay.start);
+			vec3 targetNormal = obj->getNormal(this->end);
+			vec3 lightNormal = lightSource->getNormal(shadowRay.end);
+			float beta = glm::dot(-shadowRay.direction, lightNormal);
+			float alpha = glm::dot(targetNormal, shadowRay.direction);
+			//alpha = glm::max(0.0, alpha);
+			double cosTerm = alpha * beta;
+			cosTerm = glm::max(cosTerm, 0.0);
 
-void Ray::localLight(Scene& scene, size_t obj_ind)
-{
-	Object* obj = scene.getObject(obj_ind);
-	for (PointLight& point_light : scene.getPointLights())
-	{
-
-		// Check if light is blocked 
-		bool occluded = false;
-		for (Object* shadow_obj : scene.getObjects())
-		{
-			// Get length of ray between ray intersection and all point lights
-			Ray shadow_ray{ this->end, point_light.position };
-			double target_length = glm::length(shadow_ray.end - shadow_ray.start);
-
-			double hitX = shadow_obj->rayIntersection(shadow_ray);
-			shadow_ray.setEnd(hitX);
-
-			// Ray intersection is occluded if the intersected ray is shorter than the original ray
-			if (hitX > EPSILON && glm::length(shadow_ray.end - shadow_ray.start) < target_length) {
-				occluded = true;
-				break;
+			for (Object* shadowObject : scene.area_lights) {
+				float hitX = shadowObject->rayIntersection(&shadowRay);
+				shadowRay.setEnd(hitX);
+				//Becomes false for hitX>Epsilon, since it intersects with itself
+				if (hitX > 0.002f && glm::length(shadowRay.end - shadowRay.start) < target_length) {
+					occluded = true;
+					break;
+				}
 			}
-		}
-		if (occluded) {
-			continue;
-		}
-		dvec3 hit_to_light = point_light.position - this->end;
-		double diffuse = glm::max(glm::dot(glm::normalize(hit_to_light), obj->getNormal(this->getEnd())), 0.0);
-		//double fall_off = glm::pow(glm::length(hot_to_light), 2);
-		double fall_off = glm::sqrt(glm::length(hit_to_light));
-		this->color += diffuse * point_light.color * point_light.intensity / fall_off;
-	}
+			// Ray intersection is occluded if the intersected ray is shorter than the original ray
+			if (!occluded) {
 
-	
+				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2.0);
+				thisLight += cosTerm * lightSource->material->color / dropoff;
+				thisLight = thisLight;
+				finalColor = finalColor;
+			}
 
-	this->color *= obj->getColor();
+		}
+		finalColor += thisLight / (double)shadowRays.size();
+
+		//finalColor += rayLight;
+	} //sqrt for gamma correction = 2
+	this->color = sqrt(finalColor * obj->material->color);
 }
+

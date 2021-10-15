@@ -1,37 +1,19 @@
-#ifndef SCENE_TNCG15_H //So we wont declare things more than once
-#define SCENE_TNCG15_H
-
-#include "typedefs.h"
+#pragma once
+#include "dependencies.h"
 #include <vector>
 
-
-class Scene {
+struct Scene {
 
 public:
-	//Adding objects to the scene
-    void addObject(Object* obj);
 
-    void addBox(Box* box);
-
-    void addAreaLight(Object* light);
-
-    void addPointLight(PointLight& light);
-
-    //Get objects from scene
-    std::vector<Object*>& getObjects();
-
-    Object* getObject(size_t ind);
-
-    std::vector<Object*>& getAreaLights();
-
-    std::vector<PointLight>& getPointLights();
-
-    
-private:
-   
     std::vector<Object*> objects;
     std::vector<Object*> area_lights;
-    std::vector<PointLight> point_lights;
-};
 
-#endif
+    void addObject(Object* obj);
+    void addAreaLight(Object* light);
+    //void addPointLight(PointLight& light);
+    //void addBox(Box* box);
+    Object* getObject(size_t ind);
+    //vec3 traceRay(Ray& ray) const;
+
+};

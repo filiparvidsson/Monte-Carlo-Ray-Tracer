@@ -1,35 +1,22 @@
+#pragma once
+#include "dependencies.h"
 
-#ifndef RAY_TNCG15_H //So we wont declare things more than once
-#define RAY_TNCG15_H
+struct Ray
+{
+	dvec3 color;
+	vec3 start;
+	vec3 end;
+	vec3 direction;
 
-#include "typedefs.h"
+	double importance;
 
+	std::shared_ptr<Object> target;
 
-//Based on www.youtube.com/watch?v=AHe8PUr7Jqw
+	Ray(vec3 start, vec3 end);
+	Ray(vec3 start, vec3 direction, double importance);
 
-class Ray {
-public:
-	//Ray() : start{ vec3{0.0} }, end{ vec3{0.0} }, direction{ vec3{0.0} }{};
-	Ray(const dvec3&, const dvec3&);
-
-	void setColor(const ColorDbl &newColor);
-	void setEnd(const double hit);
-
-	ColorDbl getColor();
-	dvec3 getStart();
-	dvec3 getDirection();
-	dvec3 getEnd();
-
+	void setEnd( const float t);
+	//AreaLight
 	void localLight(Scene& scene, size_t obj_ind);
 
-	//Generate random end points for shadow rays
-
-private:
-	ColorDbl color{ BLACK };
-	dvec3 start;
-	dvec3 direction;
-	dvec3 end;
-
 };
-
-#endif
