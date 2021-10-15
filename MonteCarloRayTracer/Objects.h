@@ -43,7 +43,7 @@ struct Triangle : public Object {
 	Triangle() = default;
 
 	float rayIntersection(Ray* ray) override;
-	std::vector<Ray> generateShadowRays(const vec3&) override;
+	std::vector<Ray> generateShadowRays(const vec3& start) override;
 	vec3 getNormal(const vec3& hit) override;
 
 };

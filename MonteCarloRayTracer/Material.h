@@ -11,14 +11,14 @@ struct Material
 	Material();
 	Material(const dvec3& color);
 
-	virtual Ray handleRayHit(const Ray& incoming) = 0;
+	virtual Ray brdf(const std::shared_ptr<Ray> incoming) const = 0;
 };
 
 struct Mirror : Material
 {
 	Mirror();
 
-	Ray handleRayHit(const Ray& incoming) override;
+	Ray brdf(const std::shared_ptr<Ray> incoming) const override;
 };
 
 struct DiffuseLambertian : Material
@@ -27,5 +27,5 @@ struct DiffuseLambertian : Material
 
 	DiffuseLambertian(dvec3 color, double albedo);
 
-	Ray handleRayHit(const Ray& incoming) override;
+	Ray brdf(const std::shared_ptr<Ray> incoming) const override;
 };

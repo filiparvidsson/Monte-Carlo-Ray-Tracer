@@ -10,13 +10,15 @@ struct Ray
 
 	double importance;
 
-	std::shared_ptr<Object> target;
+	Object* target;
 
+	std::shared_ptr<Ray> parent;
+	std::shared_ptr<Ray> reflected;
+	//std::vector<std::shared_ptr<Ray>> reflected;
+
+	Ray() = default;
 	Ray(vec3 start, vec3 end);
 	Ray(vec3 start, vec3 direction, double importance);
 
 	void setEnd( const float t);
-	//AreaLight
-	void AreaLighting(Scene& scene, size_t obj_ind);
-
 };

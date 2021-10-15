@@ -1,6 +1,5 @@
 #pragma once
 #include "dependencies.h"
-#include <vector>
 
 struct Scene {
 
@@ -11,9 +10,9 @@ public:
 
     void addObject(Object* obj);
     void addAreaLight(Object* light);
-    //void addPointLight(PointLight& light);
     void addBox(Box* box);
-    Object* getObject(size_t ind);
-    //vec3 traceRay(Ray& ray) const;
 
+    void rayTarget(Ray& ray) const;
+    dvec3 localLighting(Ray& ray) const;
+    void traceRay(std::shared_ptr<Ray> root) const;
 };

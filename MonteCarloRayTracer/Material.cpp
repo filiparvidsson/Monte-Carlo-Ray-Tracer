@@ -1,4 +1,3 @@
-
 #include "dependencies.h"
 
 Material::Material()
@@ -15,25 +14,19 @@ Mirror::Mirror()
 	this->absorption = 0.0;
 }
 
-Ray Mirror::handleRayHit(const Ray& incoming)
+Ray Mirror::brdf(const std::shared_ptr<Ray> incoming) const
 {
 	// Perfect reflection with no loss of importance
-	return Ray{
-		incoming.end,
-		glm::reflect(incoming.end, incoming.target->getNormal(incoming.end)),
-		incoming.importance
-	};
+	Ray reflected{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), incoming->importance };
+
+	return reflected;
 }
 
 DiffuseLambertian::DiffuseLambertian(dvec3 color, double albedo)
 	: Material(color), albedo{ albedo }{};
 
-Ray DiffuseLambertian::handleRayHit(const Ray& incoming)
+Ray DiffuseLambertian::brdf(const std::shared_ptr<Ray> incoming) const
 {
 	// Temporary ray stop because importance sets to 0.0
-	return Ray{
-		incoming.end,
-		incoming.end,
-		0.0
-	};
+	return Ray{ incoming->end, incoming->end, 0.0 };
 }

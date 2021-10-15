@@ -26,24 +26,19 @@ void Camera::render(Scene& scene) {
 		for (size_t i = 0; i < RESOLUTION; ++i) {
 
 			Pixel& p = getPixel(i, j);
-			p_end = vec3(0.0, i * PIX_DELTA - (1.0 - PIX_DELTA), j * PIX_DELTA - (1.0 - PIX_DELTA));
+			p_end = vec3(0.0f, static_cast<float>(i) * PIX_DELTA - (1.0f - PIX_DELTA), static_cast<float>(j) * PIX_DELTA - (1.0f - PIX_DELTA));
+			
 			Ray ray{ p_start, p_end };
+			scene.rayTarget(ray);
+			std::shared_ptr<Ray> ray_ptr = std::make_shared<Ray>(ray);
 
-			// Iterated through all objects and gets the color of the closest intersection
-			double closest_obj = std::numeric_limits<double>::max();
-			size_t closest_ind = 0;
-			size_t counter = 0;
-			for (Object* obj : scene.objects) {
-				float hitX = obj->rayIntersection(&ray);
-				if (hitX > 0.0 && hitX < closest_obj) {
-					closest_obj = hitX;
-					closest_ind = counter;
-					ray.setEnd(closest_obj);
-				}
-				++counter;
+			// I don't know why but sometimes we can't find a target, need this check
+			if (ray.target != nullptr)
+			{
+				scene.traceRay(ray_ptr);
 			}
-			ray.AreaLighting(scene, closest_ind);
-			p.color = ray.color;
+
+			p.color = ray_ptr->color;
 		}
 	}
 }

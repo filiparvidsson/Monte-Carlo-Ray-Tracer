@@ -5,13 +5,15 @@
 #define TYPEDEFS_DEPENDENCIES
 
 //Constants
-constexpr auto EPSILON = 1e-10;
-const int SHADOWSAMPLES = 1;
+constexpr auto EPSILON = 1e-8;
+constexpr int SHADOWSAMPLES = 1;
 constexpr auto MIN_ABSORP = 0.5;
 constexpr auto MAX_ABSORP = 0.85;
+constexpr float IMPORTANCE_THRESHOLD = 0.2;
 
 #include <glm/glm.hpp>
 #include <memory>
+#include <vector>
 
 typedef glm::dvec3 dvec3; //Mainly for Colors
 typedef glm::vec3 vec3;

@@ -166,7 +166,7 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-        test_cam.createImage("../Renders/importance_4.bmp");
+        test_cam.createImage("../Renders/mirror_2.bmp");
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 
