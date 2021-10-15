@@ -11,7 +11,7 @@ void Ray::setEnd(const float t)
 	end = start + direction * t;
 }
 
-void Ray::localLight(Scene& scene)
+void Ray::AreaLighting(Scene& scene, size_t obj_ind)
 {
 	Object* obj = this->target.get();
 	dvec3 finalColor = BLACK;

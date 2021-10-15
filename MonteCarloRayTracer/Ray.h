@@ -17,6 +17,6 @@ struct Ray
 
 	void setEnd( const float t);
 	//AreaLight
-	void localLight(Scene& scene, size_t obj_ind);
+	void AreaLighting(Scene& scene, size_t obj_ind);
 
 };

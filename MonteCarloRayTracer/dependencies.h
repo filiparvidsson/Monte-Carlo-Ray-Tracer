@@ -30,13 +30,13 @@ const dvec3 TEAL{ 0.0, 0.5, 0.5 };
 const dvec3 PINK{ 1.0, 0.4, 0.7 };
 
 // Forward declarations
-class PointLight;
-class Pixel;
-class Object;
-class Scene;
-class Ray;
-class Camera;
-class Material;
+//struct PointLight;
+struct Pixel;
+struct Object;
+struct Scene;
+struct Ray;
+struct Camera;
+struct Material;
 
 
 #include "PointLight.h"

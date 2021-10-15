@@ -42,7 +42,7 @@ void Camera::render(Scene& scene) {
 				}
 				++counter;
 			}
-			ray.localLight(scene, closest_ind);
+			ray.AreaLighting(scene, closest_ind);
 			p.color = ray.color;
 		}
 	}
