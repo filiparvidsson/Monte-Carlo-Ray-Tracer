@@ -25,8 +25,8 @@ int main()
         (9)--------(10)
     */
         std::cout << "Creating camera...\n";
-        dvec3 main_observer(-2, 0, 0);
-        dvec3 sub_observer(-1, 0, 0);
+        vec3 main_observer(-2, 0, 0);
+        vec3 sub_observer(-1, 0, 0);
         Camera test_cam(main_observer, sub_observer);
         std::cout << "DONE!\n";
 
@@ -136,21 +136,20 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Adding teal sphere...\n";
-        Sphere s1{ dvec3(8.0, 1.0, 0.0), 1.0, &mirror };
+        Sphere s1{ vec3(8.0f, 1.0f, 0.0f), 1.0f, &mirror };
         scene.addObject(&s1);
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";
 
         std::cout << "Adding yellow sphere...\n";
-        Sphere s2{ dvec3(10.0, -1.0, -0.5), 1.3, &mirror };
+        Sphere s2{ dvec3(10.0f, -1.0f, -0.5f), 1.3f, &mirror };
         scene.addObject(&s2);
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";
 
         //std::cout << "Adding a blue box...\n";
-        //Box b1 = Box(dvec3(7.0, -2.0, 2.0), 1.0, 1.0, 1.0, BLUE);
-        //scene.addBox(&b1);
-        ////scene.addObject(&b1.getTriangles()[0]);
+        Box b1 = Box(vec3(7.0f, -2.0f, 2.0f), 1.0f, 1.0f, 1.0f, &blue_lambertian);
+        scene.addBox(&b1);
         //std::cout << "A box is made up of " << b1.getTriangles().size() << " triangles\n";
 
         std::cout << "Adding Area Light...\n";

@@ -12,7 +12,7 @@ public:
     void addObject(Object* obj);
     void addAreaLight(Object* light);
     //void addPointLight(PointLight& light);
-    //void addBox(Box* box);
+    void addBox(Box* box);
     Object* getObject(size_t ind);
     //vec3 traceRay(Ray& ray) const;
 

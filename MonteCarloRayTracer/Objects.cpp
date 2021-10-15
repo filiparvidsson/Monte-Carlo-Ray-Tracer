@@ -19,37 +19,37 @@ Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, const Material* 
 
 //Sphere's is already made in .h
 
-//Box::Box(const vec3& pos, float height, float width1, float width2, Material * material)
-//{
-//	corners[0] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * 0.5f);
-//	corners[1] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * 0.5f);
-//	corners[2] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * 0.5f);
-//	corners[3] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * 0.5f);
-//	corners[4] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * -0.5f);
-//	corners[5] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * -0.5f);
-//	corners[6] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * -0.5f);
-//	corners[7] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * -0.5f);
-//
-//	//Top
-//	triangles[0] = Triangle(corners[0], corners[3], corners[1], material);
-//	triangles[1] = Triangle(corners[1], corners[3], corners[2], material);
-//	//Bottom
-//	triangles[2] = Triangle(corners[4], corners[5], corners[6], material);
-//	triangles[3] = Triangle(corners[4], corners[6], corners[7], material);
-//	//Wall 1
-//	triangles[4] = Triangle(corners[0], corners[7], corners[3], material);
-//	triangles[5] = Triangle(corners[0], corners[4], corners[7], material);
-//	//Wall 2
-//	triangles[6] = Triangle(corners[0], corners[1], corners[4], material);
-//	triangles[7] = Triangle(corners[1], corners[5], corners[4], material);
-//	//Wall 3
-//	triangles[8] = Triangle(corners[1], corners[2], corners[5], material);
-//	triangles[9] = Triangle(corners[2], corners[6], corners[5], material);
-//	//Wall 4
-//	triangles[10] = Triangle(corners[3], corners[6], corners[2], material);
-//	triangles[11] = Triangle(corners[3], corners[7], corners[6], material);
-//
-//}
+Box::Box(const vec3& pos, float height, float width1, float width2, Material* material)
+{
+	corners[0] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * 0.5f);
+	corners[1] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * 0.5f);
+	corners[2] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * 0.5f);
+	corners[3] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * 0.5f);
+	corners[4] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * -0.5f);
+	corners[5] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * -0.5f);
+	corners[6] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * -0.5f);
+	corners[7] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * -0.5f);
+
+	//Top
+	triangles[0] = Triangle(corners[0], corners[3], corners[1], material);
+	triangles[1] = Triangle(corners[1], corners[3], corners[2], material);
+	//Bottom
+	triangles[2] = Triangle(corners[4], corners[5], corners[6], material);
+	triangles[3] = Triangle(corners[4], corners[6], corners[7], material);
+	//Wall 1
+	triangles[4] = Triangle(corners[0], corners[7], corners[3], material);
+	triangles[5] = Triangle(corners[0], corners[4], corners[7], material);
+	//Wall 2
+	triangles[6] = Triangle(corners[0], corners[1], corners[4], material);
+	triangles[7] = Triangle(corners[1], corners[5], corners[4], material);
+	//Wall 3
+	triangles[8] = Triangle(corners[1], corners[2], corners[5], material);
+	triangles[9] = Triangle(corners[2], corners[6], corners[5], material);
+	//Wall 4
+	triangles[10] = Triangle(corners[3], corners[6], corners[2], material);
+	triangles[11] = Triangle(corners[3], corners[7], corners[6], material);
+
+}
 
 // --GET NORMALS--
 vec3 Triangle::getNormal(const vec3& hit)
@@ -73,8 +73,8 @@ float Triangle::rayIntersection(Ray* ray)
 
 	vec3 hit = (1 / glm::dot(P, edge1)) * vec3(dot(Q, edge2), dot(P, T), dot(Q, D));
 
-	if (hit.x < EPSILON || hit.y < EPSILON || hit.z < EPSILON || hit.z + hit.y > 1.0f + EPSILON) {
-		return -1.0;
+	if (hit.x < 0.0f || hit.y < 0.0f || hit.z < 0.0f || hit.z + hit.y > 1.0f) {
+		return -1.0f;
 	}
 	else {
 		return hit.x;

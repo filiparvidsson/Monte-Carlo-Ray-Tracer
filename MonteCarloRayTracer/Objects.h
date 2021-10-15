@@ -12,6 +12,8 @@ struct Object {
 	Object(const Material* material)
 		: material{ material } {};
 
+	Object() = default;
+
 	virtual float rayIntersection(Ray* ray) = 0;
 	virtual vec3 getNormal(const vec3& hit) = 0;
 	virtual std::vector<Ray> generateShadowRays(const vec3& start) = 0;
@@ -46,12 +48,12 @@ struct Triangle : public Object {
 
 };
 
-//struct Box : public Triangle {
-//
-//	std::array<dvec3, 8> corners;
-//	std::array<Triangle, 12> triangles;
-//
-//
-//	Box(const vec3& pos, float height, float width1, float width2, Material* material);
-//
-//};
+struct Box : public Triangle {
+
+	std::array<vec3, 8> corners;
+	std::array<Triangle, 12> triangles;
+
+
+	Box(const vec3& pos, float height, float width1, float width2, Material* material);
+
+};
