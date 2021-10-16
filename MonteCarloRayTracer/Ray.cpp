@@ -11,4 +11,3 @@ void Ray::setEnd(const float t)
 {
 	end = start + direction * t;
 }
-

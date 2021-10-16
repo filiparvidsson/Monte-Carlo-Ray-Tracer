@@ -1,4 +1,3 @@
-
 #include "dependencies.h"
 
 void Scene::addObject(Object* obj) //Could just make a function addObject
@@ -91,37 +90,47 @@ dvec3 Scene::localLighting(Ray& ray) const
 // Creates a tree structure of rays none-recursivly to avoid stack overflow
 // We first create all rays and when we reach the end (low importance) we set the rays' color
 // This function will become more complex as we add more reflected rays and refractions
-void Scene::traceRay(std::shared_ptr<Ray> root) const
+void Scene::traceRay(std::shared_ptr<Ray> &root) const
 {
 	std::shared_ptr<Ray> current = root;
 
-	bool tree_finished = false;
+	bool is_leaf = false;
 
 	while(true)
 	{
 		// Creates reflected ray and sets current to the created ray
-		if (!tree_finished)
+		if (!is_leaf)
 		{
 			this->rayTarget(*current);
 			
-			Ray reflected = current->target->material->brdf(current);
+			// TODO Fix so this check is not needed, maybe with offset?
+			if (current->target != nullptr)
+			{
+				Ray reflected = current->target->material->brdf(current);
 
-			reflected.parent = current;
-			current->reflected = std::make_shared<Ray>(reflected);
+				reflected.parent = current;
+				current->reflected = std::make_shared<Ray>(reflected);
 
-			// Reached end of tree
-			if (reflected.importance < IMPORTANCE_THRESHOLD) {
-				tree_finished = true;
+				// Reached a leaf node
+				if (reflected.importance < IMPORTANCE_THRESHOLD) {
+					is_leaf = true;
+				}
+				else
+				{
+					current = current->reflected;
+				}
 			}
 			else
 			{
-				current = current->reflected;
+				break;
 			}
 		}
 		// Set ray color
 		else {
 			current->color += this->localLighting(*current);
-			current->color += (current->reflected->color * current->reflected->importance) / current->importance;
+
+			current->color += current->reflected->color * current->reflected->importance;
+			
 			// Reached the root
 			if (current->parent == nullptr)
 			{
@@ -131,5 +140,4 @@ void Scene::traceRay(std::shared_ptr<Ray> root) const
 			current = current->parent;
 		}
 	}
-	root->color = current->color;
 }

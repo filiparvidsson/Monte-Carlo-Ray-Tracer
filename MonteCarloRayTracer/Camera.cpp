@@ -36,9 +36,9 @@ void Camera::render(Scene& scene) {
 			if (ray.target != nullptr)
 			{
 				scene.traceRay(ray_ptr);
-			}
 
-			p.color = ray_ptr->color;
+				p.color = ray_ptr->color;
+			}
 		}
 	}
 }

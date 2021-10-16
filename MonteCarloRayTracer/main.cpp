@@ -3,8 +3,8 @@
 
 // TNCG15.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
-#include <iostream>
 #include "dependencies.h"
+
 
 int main()
 {
@@ -27,11 +27,11 @@ int main()
         std::cout << "Creating camera...\n";
         vec3 main_observer(-2, 0, 0);
         vec3 sub_observer(-1, 0, 0);
-        Camera test_cam(main_observer, sub_observer);
+        Camera camera(main_observer, sub_observer);
         std::cout << "DONE!\n";
 
         std::cout << "Changing to secondary observer...\n";
-        test_cam.toggleObserver();
+        camera.toggleObserver();
         std::cout << "DONE!\n";
 
         std::cout << "Creating scene...\n";
@@ -53,7 +53,7 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Setting up room...\n";
-        //Bottom
+        //Top
         const vec3 P1(0.0f, 6.0f, -5.0f); // = vec3(0.0f, 6.0f, -5.0f);
         const vec3 P2 = vec3(-3.0f, 0.0f, -5.0f);
         const vec3 P3 = vec3(0.0f, -6.0f, -5.0f);
@@ -61,7 +61,7 @@ int main()
         const vec3 P5 = vec3(13.0f, 0.0f, -5.0f);
         const vec3 P6 = vec3(10.0f, 6.0f, -5.0f);
 
-        //Top
+        //Bottom
         const vec3 P7 = vec3(0.0f, 6.0f, 5.0f);
         const vec3 P8 = vec3(-3.0f, 0.0f, 5.0f);
         const vec3 P9 = vec3(0.0f, -6.0f, 5.0f);
@@ -70,27 +70,26 @@ int main()
         const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
         //Square light
-        const vec3 P13 = vec3(9.0f, 1.0f, 4.9f);
-        const vec3 P14 = vec3(8.0f, -1.0f, 4.9f);
-        const vec3 P15 = vec3(9.0f, -1.0f, 4.9f);
-        const vec3 P16 = vec3(8.0f, 1.0f, 4.9f);
+        const vec3 P13 = vec3(1.0f, -1.0f, -4.9f);
+        const vec3 P14 = vec3(-1.0f, -2.0f, -4.9f);
+        const vec3 P15 = vec3(-1.0f, -1.0f, -4.9f);
+        const vec3 P16 = vec3(1.0f, -2.0f, -4.9f);
 
-        //Bottom
+        //Top
         Triangle triangle1 = Triangle(P1, P2, P3, &purple_lambertian);
         Triangle triangle2 = Triangle(P4, P5, P6, &purple_lambertian);
         Triangle triangle3 = Triangle(P1, P3, P6, &purple_lambertian);
         Triangle triangle4 = Triangle(P3, P4, P6, &purple_lambertian);
 
-
-        //Top
+        //Bottom
         Triangle triangle5 = Triangle(P9, P8, P7, &white_lambertian);
         Triangle triangle6 = Triangle(P12, P11, P10, &white_lambertian);
         Triangle triangle7 = Triangle(P9, P7, P12, &white_lambertian);
         Triangle triangle8 = Triangle(P9, P12, P10, &white_lambertian);
 
         //Wall 1
-        Triangle triangle9 = Triangle(P3, P9, P10, &cyan_lambertian);
-        Triangle triangle10 = Triangle(P3, P10, P4, &cyan_lambertian);
+        Triangle triangle9 = Triangle(P3, P9, P10, &red_lambertian);
+        Triangle triangle10 = Triangle(P3, P10, P4, &red_lambertian);
 
         //Wall 2
         Triangle triangle11 = Triangle(P10, P11, P4, &blue_lambertian);
@@ -101,12 +100,12 @@ int main()
         Triangle triangle14 = Triangle(P12, P6, P5, &green_lambertian);
 
         //Wall 4
-        Triangle triangle15 = Triangle(P12, P7, P6, &red_lambertian);
-        Triangle triangle16 = Triangle(P7, P1, P6, &red_lambertian);
+        Triangle triangle15 = Triangle(P12, P7, P6, &cyan_lambertian);
+        Triangle triangle16 = Triangle(P7, P1, P6, &cyan_lambertian);
 
         //Wall 5
         Triangle triangle17 = Triangle(P7, P8, P1, &white_lambertian);
-        Triangle triangle18 = Triangle(P1, P2, P8, &white_lambertian);
+        Triangle triangle18 = Triangle(P1, P8, P2, &white_lambertian);
 
         //Wall 6
         Triangle triangle19 = Triangle(P2, P8, P9, &white_lambertian);
@@ -135,25 +134,31 @@ int main()
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";
 
-        std::cout << "Adding teal sphere...\n";
-        Sphere s1{ vec3(8.0f, 1.0f, 0.0f), 1.0f, &mirror };
+        std::cout << "Adding mirror sphere...\n";
+        Sphere s1{ vec3(10.0f, -1.5f, -0.5f), 1.5f, &mirror };
         scene.addObject(&s1);
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";
 
         std::cout << "Adding yellow sphere...\n";
-        Sphere s2{ dvec3(10.0f, -1.0f, -0.5f), 1.3f, &mirror };
+        Sphere s2{ dvec3(8.0f, 2.5f, 0.75f), 1.0f, &yellow_lambertian };
         scene.addObject(&s2);
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";
 
-        //std::cout << "Adding a blue box...\n";
-        Box b1 = Box(vec3(7.0f, -2.0f, 2.0f), 1.0f, 1.0f, 1.0f, &blue_lambertian);
+        std::cout << "Adding mirror box...\n";
+        Box b1 = Box(vec3(5.0f, 1.0f, 3.0f), 0.5f, 0.5f, 2.0f, &mirror);
         scene.addBox(&b1);
-        //std::cout << "A box is made up of " << b1.getTriangles().size() << " triangles\n";
+        std::cout << "Number of objects: " << scene.objects.size() << std::endl;
+        std::cout << "DONE!\n";
 
-        std::cout << "Adding Area Light...\n";
-        //Sphere al1{ dvec3(5.0, 0.0, 5.0), 1.0, WHITE };
+        std::cout << "Adding pink box...\n";
+        Box b2 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &pink_lambertian);
+        scene.addBox(&b2);
+        std::cout << "Number of objects: " << scene.objects.size() << std::endl;
+        std::cout << "DONE!\n";
+
+        std::cout << "Adding square area light...\n";
         Triangle al1 = Triangle(P14, P13, P15, &white_lambertian);
         Triangle al2 = Triangle(P16, P13, P14, &white_lambertian);
         scene.addAreaLight(&al1);
@@ -162,11 +167,11 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Rendering scene...\n";
-        test_cam.render(scene);
+        camera.render(scene);
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-        test_cam.createImage("../Renders/mirror_2.bmp");
+        camera.createImage("../Renders/diffuse_bounce_3.bmp");
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 

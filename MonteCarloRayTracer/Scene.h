@@ -14,5 +14,5 @@ public:
 
     void rayTarget(Ray& ray) const;
     dvec3 localLighting(Ray& ray) const;
-    void traceRay(std::shared_ptr<Ray> root) const;
+    void traceRay(std::shared_ptr<Ray> &root) const;
 };

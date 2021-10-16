@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#endif
 
 #ifndef TYPEDEFS_DEPENDENCIES //So we wont declare things more than once
 #define TYPEDEFS_DEPENDENCIES
@@ -7,13 +10,18 @@
 //Constants
 constexpr auto EPSILON = 1e-8;
 constexpr int SHADOWSAMPLES = 1;
-constexpr auto MIN_ABSORP = 0.5;
-constexpr auto MAX_ABSORP = 0.85;
+constexpr auto MIN_REFLECTANCE = 0.5;
+constexpr auto MAX_REFLECTANCE = 0.85;
+constexpr auto R_ROULETTE_THRESHOLD = 0.2;
 constexpr float IMPORTANCE_THRESHOLD = 0.2;
 
 #include <glm/glm.hpp>
+#include <iostream>
 #include <memory>
 #include <vector>
+#include <array>
+#include <cstdlib>
+#include <math.h>
 
 typedef glm::dvec3 dvec3; //Mainly for Colors
 typedef glm::vec3 vec3;

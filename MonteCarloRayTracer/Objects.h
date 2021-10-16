@@ -1,9 +1,7 @@
 #pragma once
 
 #include "dependencies.h"
-#include <iostream>
-#include <array>
-#include <vector>
+
 
 struct Object {
 
