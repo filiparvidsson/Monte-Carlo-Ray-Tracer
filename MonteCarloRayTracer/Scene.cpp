@@ -44,7 +44,7 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 		//for (Object* shadowObject : scene.getObjects()) {
 			//ColorDbl rayLight = BLACK;
-		vec3 endOffset = ray.end + 3e-4f * ray.target->getNormal(ray.end);
+		vec3 endOffset = ray.end + 3e-2f * ray.target->getNormal(ray.end);
 		std::vector<Ray> shadowRays = lightSource->generateShadowRays(endOffset);
 
 		for (Ray& shadowRay : shadowRays) {
@@ -55,13 +55,13 @@ dvec3 Scene::localLighting(Ray& ray) const
 			vec3 targetNormal = ray.target->getNormal(ray.end);
 			vec3 lightNormal = lightSource->getNormal(shadowRay.end);
 
-			float beta = glm::dot(-shadowRay.direction, lightNormal);
-			float alpha = glm::dot(targetNormal, shadowRay.direction);
+			double beta = glm::dot(-shadowRay.direction, lightNormal);
+			double alpha = glm::dot(targetNormal, shadowRay.direction);
 			//alpha = glm::max(0.0, alpha);
 			double cosTerm = alpha * beta;
 			cosTerm = glm::max(cosTerm, 0.0);
 
-			for (Object* shadowObject : this->area_lights) {
+			for (Object* shadowObject : this->objects) {
 				float hitX = shadowObject->rayIntersection(&shadowRay);
 				shadowRay.setEnd(hitX);
 				//Becomes false for hitX>Epsilon, since it intersects with itself
@@ -103,6 +103,7 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 		{
 			this->rayTarget(*current);
 			
+
 			// TODO Fix so this check is not needed, maybe with offset?
 			if (current->target != nullptr)
 			{
@@ -128,7 +129,6 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 		// Set ray color
 		else {
 			current->color += this->localLighting(*current);
-
 			current->color += current->reflected->color * current->reflected->importance;
 			
 			// Reached the root

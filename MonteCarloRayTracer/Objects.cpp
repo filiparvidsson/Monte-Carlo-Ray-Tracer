@@ -65,7 +65,7 @@ vec3 Sphere::getNormal(const vec3& hit)
 float Triangle::rayIntersection(Ray* ray)
 {
 	//Möller-Trumbore
-	vec3 T = dvec3(ray->start - vertices[0]);
+	vec3 T = vec3(ray->start - vertices[0]);
 	vec3 D = ray->direction;
 	vec3 P = glm::cross(D, edge2);
 	vec3 Q = glm::cross(T, edge1);

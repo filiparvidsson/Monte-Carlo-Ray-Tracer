@@ -32,13 +32,8 @@ void Camera::render(Scene& scene) {
 			scene.rayTarget(ray);
 			std::shared_ptr<Ray> ray_ptr = std::make_shared<Ray>(ray);
 
-			// I don't know why but sometimes we can't find a target, need this check
-			if (ray.target != nullptr)
-			{
-				scene.traceRay(ray_ptr);
-
-				p.color = ray_ptr->color;
-			}
+			scene.traceRay(ray_ptr);
+			p.color = ray_ptr->color;
 		}
 	}
 }

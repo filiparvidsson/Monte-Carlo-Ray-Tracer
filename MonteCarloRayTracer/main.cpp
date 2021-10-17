@@ -70,10 +70,10 @@ int main()
         const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
         //Square light
-        const vec3 P13 = vec3(1.0f, -1.0f, -4.9f);
-        const vec3 P14 = vec3(-1.0f, -2.0f, -4.9f);
-        const vec3 P15 = vec3(-1.0f, -1.0f, -4.9f);
-        const vec3 P16 = vec3(1.0f, -2.0f, -4.9f);
+        const vec3 P13 = vec3(6.0f, -1.0f, -4.9f);
+        const vec3 P14 = vec3(4.0f, -2.0f, -4.9f);
+        const vec3 P15 = vec3(4.0f, -1.0f, -4.9f);
+        const vec3 P16 = vec3(6.0f, -2.0f, -4.9f);
 
         //Top
         Triangle triangle1 = Triangle(P1, P2, P3, &purple_lambertian);
@@ -141,7 +141,7 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Adding yellow sphere...\n";
-        Sphere s2{ dvec3(8.0f, 2.5f, 0.75f), 1.0f, &yellow_lambertian };
+        Sphere s2{ dvec3(8.0f, 2.5f, 0.65f), 1.0f, &yellow_lambertian };
         scene.addObject(&s2);
         std::cout << "Number of objects: " << scene.objects.size() << std::endl;
         std::cout << "DONE!\n";

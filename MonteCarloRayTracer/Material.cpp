@@ -58,12 +58,15 @@ Ray DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) const
 								sin(reflected_spherical.g) * sin(reflected_spherical.b),
 								cos(reflected_spherical.b) };
 
+	reflected_cartesian = glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end)));
+
 	if (this->russianRoulette())
 	{
 		reflected_importance = incoming->importance * this->reflectance;
 	}
 	
-	return Ray{ incoming->end, reflected_cartesian, reflected_importance };
+	// Replace with the commented last part to get diffuse reflections
+	return Ray{ incoming->end, reflected_cartesian, 0.0 };//reflected_importance };
 }
 
 bool Material::russianRoulette() const
