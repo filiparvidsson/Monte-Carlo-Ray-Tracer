@@ -12,7 +12,6 @@ struct Material
 	Material(const dvec3& color);
 
 	virtual Ray brdf(const std::shared_ptr<Ray> &incoming) const = 0;
-	bool russianRoulette() const;
 };
 
 struct Mirror : Material

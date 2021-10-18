@@ -9,6 +9,9 @@ struct Ray
 	vec3 direction;
 
 	double importance;
+	double radiance;
+
+	int depth{ 0 };
 
 	Object* target;
 

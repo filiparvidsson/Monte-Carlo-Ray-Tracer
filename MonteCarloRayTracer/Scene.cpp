@@ -44,7 +44,7 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 		//for (Object* shadowObject : scene.getObjects()) {
 			//ColorDbl rayLight = BLACK;
-		vec3 endOffset = ray.end + 3e-2f * ray.target->getNormal(ray.end);
+		vec3 endOffset = ray.end + ray.target->getNormal(ray.end) * RAY_OFFSET_AMOUNT;
 		std::vector<Ray> shadowRays = lightSource->generateShadowRays(endOffset);
 
 		for (Ray& shadowRay : shadowRays) {
@@ -75,16 +75,15 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2.0);
 				thisLight += cosTerm * lightSource->material->color / dropoff;
-				thisLight = thisLight;
-				finalColor = finalColor;
 			}
-
 		}
+
 		finalColor += thisLight / static_cast<double>(shadowRays.size());
 
 		//finalColor += rayLight;
 	} //sqrt for gamma correction = 2
 	return sqrt(finalColor * ray.target->material->color);
+	//return finalColor * ray.target->material->color;
 }
 
 // Creates a tree structure of rays none-recursivly to avoid stack overflow
@@ -103,6 +102,26 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 		{
 			this->rayTarget(*current);
 			
+
+			// THIS IS JUST FOR TESTING WITHOUT THE nullptr-CHECK
+
+			//Ray reflected = current->target->material->brdf(current);
+
+			//reflected.parent = current;
+			//current->reflected = std::make_shared<Ray>(reflected);
+
+			//// Reached a leaf node
+			//if (reflected.importance < IMPORTANCE_THRESHOLD) {
+			//	is_leaf = true;
+			//}
+			//else
+			//{
+			//	current = current->reflected;
+			//}
+
+
+
+
 
 			// TODO Fix so this check is not needed, maybe with offset?
 			if (current->target != nullptr)
@@ -128,15 +147,23 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 		}
 		// Set ray color
 		else {
-			current->color += this->localLighting(*current);
-			current->color += current->reflected->color * current->reflected->importance;
+
+			dvec3 local_color = this->localLighting(*current);
+			current->radiance = glm::length(local_color);
+			current->radiance += current->reflected->radiance * current->reflected->importance / current->importance;
+			current->color = local_color * current->radiance;
+			current->color += current->reflected->color;
 			
+			current->reflected.reset();
+
+			//std::cout << glm::to_string(local_color) << "\n";
+
 			// Reached the root
 			if (current->parent == nullptr)
 			{
+				current.reset();	// Current and root points to the same ray, delete the extra
 				break;
 			}
-
 			current = current->parent;
 		}
 	}

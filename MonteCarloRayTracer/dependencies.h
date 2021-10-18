@@ -10,12 +10,14 @@
 //Constants
 constexpr auto EPSILON = 1e-8;
 constexpr int SHADOWSAMPLES = 1;
-constexpr auto MIN_REFLECTANCE = 0.5;
-constexpr auto MAX_REFLECTANCE = 0.85;
-constexpr auto R_ROULETTE_THRESHOLD = 0.2;
-constexpr float IMPORTANCE_THRESHOLD = 0.2;
+constexpr auto MIN_REFLECTANCE = 0.3;
+constexpr auto MAX_REFLECTANCE = 0.65;
+constexpr float IMPORTANCE_THRESHOLD = 0.2f;
+constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
+constexpr int MAX_RAY_DEPTH = 15;
 
 #include <glm/glm.hpp>
+#include "glm/gtx/string_cast.hpp"
 #include <iostream>
 #include <memory>
 #include <vector>
