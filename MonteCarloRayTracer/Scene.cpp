@@ -36,6 +36,8 @@ dvec3 Scene::localLighting(Ray& ray) const
 {
 	dvec3 finalColor = BLACK;
 
+	if (ray.target == nullptr) return finalColor;
+
 	//According to Lesson
 	for (Object* lightSource : this->area_lights) {
 
@@ -88,83 +90,90 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 // Creates a tree structure of rays none-recursivly to avoid stack overflow
 // We first create all rays and when we reach the end (low importance) we set the rays' color
-// This function will become more complex as we add more reflected rays and refractions
+// Each ray can have any number of children that will all contribute to the result
 void Scene::traceRay(std::shared_ptr<Ray> &root) const
 {
 	std::shared_ptr<Ray> current = root;
 
-	bool is_leaf = false;
 
 	while(true)
 	{
-		// Creates reflected ray and sets current to the created ray
-		if (!is_leaf)
+		
+		// Sets color from local lighting for leaf node
+		if (current->importance < IMPORTANCE_THRESHOLD)
 		{
 			this->rayTarget(*current);
-			
 
-			// THIS IS JUST FOR TESTING WITHOUT THE nullptr-CHECK
-
-			//Ray reflected = current->target->material->brdf(current);
-
-			//reflected.parent = current;
-			//current->reflected = std::make_shared<Ray>(reflected);
-
-			//// Reached a leaf node
-			//if (reflected.importance < IMPORTANCE_THRESHOLD) {
-			//	is_leaf = true;
-			//}
-			//else
-			//{
-			//	current = current->reflected;
-			//}
-
-
-
-
-
-			// TODO Fix so this check is not needed, maybe with offset?
-			if (current->target != nullptr)
-			{
-				Ray reflected = current->target->material->brdf(current);
-
-				reflected.parent = current;
-				current->reflected = std::make_shared<Ray>(reflected);
-
-				// Reached a leaf node
-				if (reflected.importance < IMPORTANCE_THRESHOLD) {
-					is_leaf = true;
-				}
-				else
-				{
-					current = current->reflected;
-				}
-			}
-			else
+			if (current->target == nullptr)
 			{
 				break;
 			}
-		}
-		// Set ray color
-		else {
+			current->is_leaf = true;
 
 			dvec3 local_color = this->localLighting(*current);
 			current->radiance = glm::length(local_color);
-			current->radiance += current->reflected->radiance * current->reflected->importance / current->importance;
 			current->color = local_color * current->radiance;
-			current->color += current->reflected->color;
-			
-			current->reflected.reset();
+			current = current->parent;
+		}
+		// Create child rays if there are none and current isn't a leaf node
+		else if (current->children.size() == 0)
+		{
+			this->rayTarget(*current);
 
-			//std::cout << glm::to_string(local_color) << "\n";
-
-			// Reached the root
-			if (current->parent == nullptr)
+			if (current->target == nullptr)
 			{
-				current.reset();	// Current and root points to the same ray, delete the extra
 				break;
 			}
-			current = current->parent;
+			std::vector<Ray> child_rays = current->target->material->brdf(current);
+
+			for (Ray& r : child_rays)
+			{
+				r.parent = current;
+				current->children.push_back(std::make_shared<Ray>(r));
+			}
+		}
+		// Iterate through all child nodes, if all are leaves, evaluate color, delete children, make current a leaf and set current to parent.
+		// If a child branch is not yet evaluated, evaluate that branch by setting current to that child.
+		else
+		{
+			bool evaluate = true;
+			for (std::shared_ptr<Ray>& child : current->children)
+			{
+				// Checks if child branch needs evaluation
+				if (!child->is_leaf)
+				{
+					current = child;
+					evaluate = false;
+					break;
+				}
+			}
+
+			if (evaluate)
+			{
+				dvec3 local_color = this->localLighting(*current);
+				current->radiance = glm::length(local_color);
+
+				for (std::shared_ptr<Ray>& child : current->children)
+				{
+					current->radiance += child->radiance * child->importance / current->importance;
+
+				}
+				current->color = local_color * current->radiance;
+				for (std::shared_ptr<Ray>& child : current->children)
+				{
+					current->color += child->color * 0.05;
+					child.reset();
+				}
+
+				// Reached the root
+				if (current->parent == nullptr)
+				{
+					current.reset();	// Current and root points to the same ray, delete the extra node
+					break;	// End the function
+				}
+				current->is_leaf = true;
+				current = current->parent;
+			}
 		}
 	}
 }

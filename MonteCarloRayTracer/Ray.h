@@ -12,12 +12,12 @@ struct Ray
 	double radiance;
 
 	int depth{ 0 };
+	bool is_leaf{ false };
 
 	Object* target;
 
 	std::shared_ptr<Ray> parent;
-	std::shared_ptr<Ray> reflected;
-	//std::vector<std::shared_ptr<Ray>> reflected;
+	std::vector<std::shared_ptr<Ray>> children;
 
 	Ray() = default;
 	Ray(vec3 start, vec3 end);

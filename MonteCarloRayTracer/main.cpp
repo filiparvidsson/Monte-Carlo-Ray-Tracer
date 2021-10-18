@@ -1,8 +1,3 @@
-// MergingRayTracerTemp.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-// TNCG15.cpp : This file contains the 'main' function. Program execution begins and ends there.
-
 #include "dependencies.h"
 
 
@@ -171,11 +166,7 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-<<<<<<< HEAD
-        camera.createImage("../Renders/diffuse_bounce_4.bmp");
-=======
         camera.createImage("../Renders/diffuse_bounce_7.bmp");
->>>>>>> fb76d93 (Removed memory leaks, introduced radiance and depth to rays, problem with too bright light from local and bounces)
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 

@@ -15,6 +15,7 @@ constexpr auto MAX_REFLECTANCE = 0.65;
 constexpr float IMPORTANCE_THRESHOLD = 0.2f;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
 constexpr int MAX_RAY_DEPTH = 15;
+constexpr int N_DIFFUSE_BOUNCES = 1;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
