@@ -9,6 +9,9 @@ Material::Material(const dvec3& color)
 	reflectance = MIN_REFLECTANCE + (MAX_REFLECTANCE - MIN_REFLECTANCE) * glm::length(color) / glm::length(WHITE);
 }
 
+Material::Material(const dvec3& color, double emittance)
+	: color{ color }, emittance{ emittance }, reflectance{ 0.0 } {};
+
 Mirror::Mirror()
 {
 	this->reflectance = 0.0;
@@ -86,3 +89,19 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 
 	return reflected;
 }
+
+Light::Light(dvec3 color, double emittance)
+	: Material(color, emittance) {}
+
+Ray Light::brdf(const std::shared_ptr<Ray>& incoming) const
+{
+	double reflected_importance = 0.0;
+
+	return Ray{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
+}
+
+
+
+
+
+

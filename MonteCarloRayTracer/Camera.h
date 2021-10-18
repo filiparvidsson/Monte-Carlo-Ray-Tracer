@@ -29,4 +29,6 @@ struct Camera {
 		main_obs = !main_obs;
 	}
 
+	void dynamicRange();
+
 };

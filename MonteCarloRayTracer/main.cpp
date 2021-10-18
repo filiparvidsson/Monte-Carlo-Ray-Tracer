@@ -35,6 +35,9 @@ int main()
 
         std::cout << "Creating all materials...\n";
         Mirror mirror{};
+        Light white_light{ WHITE, 1.0 };
+        Light red_light{ RED, 1.0 };
+        Light blue_light{ RED, 1.0 };
         DiffuseLambertian white_lambertian{ WHITE, 0.5 };
         DiffuseLambertian black_lambertian{ BLACK, 0.5 };
         DiffuseLambertian red_lambertian{ RED, 0.5 };
@@ -154,8 +157,8 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Adding square area light...\n";
-        Triangle al1 = Triangle(P14, P13, P15, &white_lambertian);
-        Triangle al2 = Triangle(P16, P13, P14, &white_lambertian);
+        Triangle al1 = Triangle(P14, P13, P15, &white_light);
+        Triangle al2 = Triangle(P16, P13, P14, &white_light);
         scene.addAreaLight(&al1);
         scene.addAreaLight(&al2);
         std::cout << "Number of area lights: " << scene.area_lights.size() << std::endl;
@@ -166,7 +169,9 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-        camera.createImage("../Renders/diffuse_bounce_7.bmp");
+
+        camera.createImage("../Renders/diffuse_bounce_9.bmp");
+
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 

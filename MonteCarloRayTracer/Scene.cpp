@@ -8,6 +8,8 @@ void Scene::addObject(Object* obj) //Could just make a function addObject
 void Scene::addAreaLight(Object* light)
 {
     area_lights.push_back(light);
+	//Add lights to the scene to see them
+	objects.push_back(light);
 }
 
 void Scene::addBox(Box* box)
@@ -38,6 +40,10 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 	if (ray.target == nullptr) return finalColor;
 
+	if (ray.target->material->emittance != 0.0) {
+		return ray.target->material->color;
+	}
+
 	//According to Lesson
 	for (Object* lightSource : this->area_lights) {
 
@@ -64,19 +70,24 @@ dvec3 Scene::localLighting(Ray& ray) const
 			cosTerm = glm::max(cosTerm, 0.0);
 
 			for (Object* shadowObject : this->objects) {
-				float hitX = shadowObject->rayIntersection(&shadowRay);
-				shadowRay.setEnd(hitX);
-				//Becomes false for hitX>Epsilon, since it intersects with itself
-				if (hitX > 0.002f && glm::length(shadowRay.end - shadowRay.start) < target_length) {
-					occluded = true;
-					break;
+				
+				if (shadowObject->material->emittance == 0.0) {
+					float hitX = shadowObject->rayIntersection(&shadowRay);
+					shadowRay.setEnd(hitX);
+					//Becomes false for hitX>Epsilon, since it intersects with itself
+					if (hitX > 0.002f && glm::length(shadowRay.end - shadowRay.start) < target_length) {
+						occluded = true;
+						break;
+					}
 				}
 			}
 			// Ray intersection is occluded if the intersected ray is shorter than the original ray
 			if (!occluded) {
 
 				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2.0);
-				thisLight += cosTerm * lightSource->material->color / dropoff;
+				thisLight += lightSource->material->emittance * cosTerm * lightSource->material->color / (dropoff * area_lights.size());
+				thisLight = thisLight;
+				finalColor = finalColor;
 			}
 		}
 

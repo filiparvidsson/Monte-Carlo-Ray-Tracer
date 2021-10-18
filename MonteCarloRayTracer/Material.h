@@ -10,6 +10,7 @@ struct Material
 
 	Material();
 	Material(const dvec3& color);
+	Material(const dvec3& color, double emittance);
 
 	virtual std::vector<Ray> brdf(const std::shared_ptr<Ray> &incoming) const = 0;
 };
@@ -27,5 +28,15 @@ struct DiffuseLambertian : Material
 
 	DiffuseLambertian(dvec3 color, double albedo);
 
-	std::vector<Ray> brdf(const std::shared_ptr<Ray> &incoming) const override;
+	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;
+};
+
+struct Light : Material
+{
+	//double albedo;
+	//float flux;
+
+	Light(dvec3 color, double emittance);
+
+	Ray brdf(const std::shared_ptr<Ray>& incoming) const override;
 };
