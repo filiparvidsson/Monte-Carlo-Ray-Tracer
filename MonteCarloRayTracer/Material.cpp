@@ -18,13 +18,13 @@ Ray Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 {
 	double reflected_importance = 0.0;
 
-	if (this->russianRoulette())
-	{
+	//if (this->russianRoulette())
+	//{
 		// Perfect reflection with no loss of importance
 		reflected_importance = incoming->importance;
-	}
+	//}
 
-	return Ray{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
+	return Ray{ incoming->end + incoming->target->getNormal(incoming->end) * 3e-2f, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
 }
 
 DiffuseLambertian::DiffuseLambertian(dvec3 color, double albedo)

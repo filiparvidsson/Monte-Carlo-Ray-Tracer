@@ -171,7 +171,7 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-        camera.createImage("../Renders/diffuse_bounce_3.bmp");
+        camera.createImage("../Renders/diffuse_bounce_4.bmp");
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 
