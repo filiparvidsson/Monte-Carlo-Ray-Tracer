@@ -83,11 +83,8 @@ dvec3 Scene::localLighting(Ray& ray) const
 			}
 			// Ray intersection is occluded if the intersected ray is shorter than the original ray
 			if (!occluded) {
-
 				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2.0);
 				thisLight += lightSource->material->emittance * cosTerm * lightSource->material->color / (dropoff * area_lights.size());
-				thisLight = thisLight;
-				finalColor = finalColor;
 			}
 		}
 

@@ -169,13 +169,8 @@ int main()
         std::cout << "DONE!\n";
 
         std::cout << "Creating image...\n";
-<<<<<<< HEAD
 
-        camera.createImage("../Renders/diffuse_bounce_9.bmp");
-
-=======
         camera.createImage("../Renders/diffuse_bounce_8.bmp");
->>>>>>> 74eca7d (now it works again...)
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
 
