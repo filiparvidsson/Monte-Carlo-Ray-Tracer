@@ -43,39 +43,39 @@ Pixel& Camera::getPixel(size_t i, size_t j) {
 }
 
 //cramps to dynamic range to be between 0 and 1
-void Camera::dynamicRange()
-{
-
-	double max_value_r = 0.0;
-	double max_value_g = 0.0;
-	double max_value_b = 0.0;
-	//double min_value = std::numeric_limits<double>::min();
-
-
-	for (size_t i = 0; i < RESOLUTION; ++i) {
-		for (size_t j = 0; j < RESOLUTION; ++j) {
-
-			Pixel& p = getPixel(i, j);
-
-			if (p.color.x > max_value_r) max_value_r = p.color.x;
-			if (p.color.y > max_value_g) max_value_g = p.color.y;
-			if (p.color.z > max_value_b) max_value_b = p.color.z;
-			
-		}
-	}
-
-	for (size_t i = 0; i < RESOLUTION; ++i) {
-		for (size_t j = 0; j < RESOLUTION; ++j) {
-
-			Pixel& p = getPixel(i, j);
-
-			p.color.x = p.color.x / (max_value_r);
-			p.color.y = p.color.y / (max_value_g);
-			p.color.z = p.color.z / (max_value_b);
-
-		}
-	}
-}
+//void Camera::dynamicRange()
+//{
+//
+//	double max_value_r = 0.0;
+//	double max_value_g = 0.0;
+//	double max_value_b = 0.0;
+//	//double min_value = std::numeric_limits<double>::min();
+//
+//
+//	for (size_t i = 0; i < RESOLUTION; ++i) {
+//		for (size_t j = 0; j < RESOLUTION; ++j) {
+//
+//			Pixel& p = getPixel(i, j);
+//
+//			if (p.color.x > max_value_r) max_value_r = p.color.x;
+//			if (p.color.y > max_value_g) max_value_g = p.color.y;
+//			if (p.color.z > max_value_b) max_value_b = p.color.z;
+//			
+//		}
+//	}
+//
+//	for (size_t i = 0; i < RESOLUTION; ++i) {
+//		for (size_t j = 0; j < RESOLUTION; ++j) {
+//
+//			Pixel& p = getPixel(i, j);
+//
+//			p.color.x = p.color.x / (max_value_r);
+//			p.color.y = p.color.y / (max_value_g);
+//			p.color.z = p.color.z / (max_value_b);
+//
+//		}
+//	}
+//}
 
 void Camera::createImage(const char* filepath) {
 

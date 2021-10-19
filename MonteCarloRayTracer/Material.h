@@ -38,5 +38,5 @@ struct Light : Material
 
 	Light(dvec3 color, double emittance);
 
-	Ray brdf(const std::shared_ptr<Ray>& incoming) const override;
+	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;
 };

@@ -93,11 +93,17 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 Light::Light(dvec3 color, double emittance)
 	: Material(color, emittance) {}
 
-Ray Light::brdf(const std::shared_ptr<Ray>& incoming) const
+std::vector<Ray> Light::brdf(const std::shared_ptr<Ray>& incoming) const
 {
 	double reflected_importance = 0.0;
 
-	return Ray{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
+	Ray stopped{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
+
+	std::vector<Ray> result;
+
+	result.push_back(stopped);
+
+	return result;
 }
 
 
