@@ -92,7 +92,9 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 		//finalColor += rayLight;
 	} //sqrt for gamma correction = 2
-	return sqrt(finalColor * ray.target->material->color);
+	//std::cout << glm::to_string(sqrt(finalColor * ray.target->material->color)) << "\n";
+	//return sqrt(finalColor * ray.target->material->color);
+	return finalColor * ray.target->material->color;
 	//return finalColor * ray.target->material->color;
 }
 
@@ -169,7 +171,7 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 				current->color = local_color * current->radiance;
 				for (std::shared_ptr<Ray>& child : current->children)
 				{
-					current->color += child->color * 0.05;
+					current->color += child->color;
 					child.reset();
 				}
 

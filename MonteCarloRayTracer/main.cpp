@@ -170,6 +170,8 @@ int main()
 
         std::cout << "Creating image...\n";
 
+        //camera.dynamicRange();
+
         camera.createImage("../Renders/diffuse_bounce_8.bmp");
         std::cout << "DONE!\n";
         std::cout << "Exiting program...\n";
