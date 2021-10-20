@@ -4,12 +4,13 @@
 #define _USE_MATH_DEFINES
 #endif
 
-#ifndef TYPEDEFS_DEPENDENCIES //So we wont declare things more than once
+#ifndef TYPEDEFS_DEPENDENCIES
 #define TYPEDEFS_DEPENDENCIES
 
-//Constants
+// Constants
 constexpr auto EPSILON = 1e-4;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
+// Settings
 constexpr int MAX_RAY_DEPTH = 10;
 constexpr auto MIN_ABSORPTION = 0.65;
 constexpr auto MAX_ABSORPTION = 0.90;
@@ -19,7 +20,7 @@ constexpr int N_SHADOW_RAYS = 1;
 constexpr int N_SAMPLES_PIXEL = 4; // Needs to be an int^2
 constexpr size_t RESOLUTION = 800;
 constexpr double DIFFUSE_REFLECTANCE = 0.2;
-constexpr double GLOBAL_COLOR_CONTRIBUTION = 0.5;
+constexpr double GLOBAL_COLOR_CONTRIBUTION = 0.3;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
@@ -31,10 +32,10 @@ constexpr double GLOBAL_COLOR_CONTRIBUTION = 0.5;
 #include <math.h>
 #include <sstream>
 #include <chrono>
+#include <thread>
 
-typedef glm::dvec3 dvec3; //Mainly for Colors
+typedef glm::dvec3 dvec3;
 typedef glm::vec3 vec3;
-typedef glm::ivec3 RGBval; //integer precision values for pixels
 
 //Colors
 const dvec3 RED{ 1.0, 0.0, 0.0 };
@@ -57,8 +58,6 @@ struct Ray;
 struct Camera;
 struct Material;
 
-
-#include "PointLight.h"
 #include "Pixel.h"
 #include "Objects.h"
 #include "Scene.h"

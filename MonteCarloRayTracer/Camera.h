@@ -16,7 +16,7 @@ struct Camera {
 	Camera(vec3 obs1, vec3 obs2);
 
 	// Sends rays from each pixel
-	void render(Scene& scene);
+	void render( Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t y_low_bound, size_t y_high_bound );
 
 	// Creates the output RBG-image
 	void createImage(const char* file_path);

@@ -110,7 +110,7 @@ float Sphere::rayIntersection(Ray* ray) {
 	numeratorPos = glm::max(numeratorPos, 0.0f);
 
 
-	double numeratorTrue = glm::min(numeratorNeg, numeratorPos);
+	float numeratorTrue = glm::min(numeratorNeg, numeratorPos);
 
 	if (numeratorTrue > EPSILON) { //Check if hit was behind camera, we dont want that
 		return numeratorTrue;

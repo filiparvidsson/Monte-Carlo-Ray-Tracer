@@ -14,7 +14,7 @@ Camera::Camera(vec3 obs1, vec3 obs2)
 	pixels->fill(Pixel{ dvec3(0.0, 0.0, 0.0) });
 }
 
-void Camera::render(Scene& scene) {
+void Camera::render(Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t y_low_bound, size_t y_up_bound ) {
 
 	vec3 start = Camera::main_obs ? obs1 : obs2;
 
@@ -22,8 +22,8 @@ void Camera::render(Scene& scene) {
 	float pixel_size{ glm::distance(this->plane[0][0], this->plane[0][1]) / RESOLUTION };
 	float pixel_sample_size{ pixel_size / pixel_dimensions };
 
-	for (size_t j = 0; j < RESOLUTION; ++j) {
-		for (size_t i = 0; i < RESOLUTION; ++i) {
+	for (size_t j = y_low_bound; j < y_up_bound; ++j) {
+		for (size_t i = x_low_bound; i < x_up_bound; ++i) {
 
 			Pixel& p = getPixel(i, j);
 			

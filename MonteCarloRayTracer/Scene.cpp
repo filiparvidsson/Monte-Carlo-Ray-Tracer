@@ -36,45 +36,45 @@ void Scene::rayTarget(Ray& ray) const
 
 dvec3 Scene::localLighting(Ray& ray) const
 {
-	dvec3 finalColor = BLACK;
+	dvec3 final_color = BLACK;
 
-	if (ray.target == nullptr) return finalColor;
+	if (ray.target == nullptr) return final_color;
 
 	if (ray.target->material->emittance != 0.0) {
 		return ray.target->material->color;
 	}
 
 	//According to Lesson
-	for (Object* lightSource : this->area_lights) {
+	for (Object* light_source : this->area_lights) {
 
-		dvec3 thisLight = BLACK;
+		dvec3 this_light = BLACK;
 
-		vec3 endOffset = ray.end + ray.target->getNormal(ray.end) * RAY_OFFSET_AMOUNT;
-		std::vector<Ray> shadowRays = lightSource->generateShadowRays(endOffset);
+		vec3 end_offset = ray.end + ray.target->getNormal(ray.end) * RAY_OFFSET_AMOUNT;
+		std::vector<Ray> shadow_rays = light_source->generateShadowRays(end_offset);
 
-		for (Ray& shadowRay : shadowRays) {
+		for (Ray& sr : shadow_rays) {
 
 			bool occluded = false;
-			float target_length = glm::length(shadowRay.end - shadowRay.start);
+			float target_length = glm::length(sr.end - sr.start);
 
 			vec3 targetNormal = ray.target->getNormal(ray.end);
-			vec3 lightNormal = lightSource->getNormal(shadowRay.end);
+			vec3 lightNormal = light_source->getNormal(sr.end);
 
-			double beta = glm::dot(-shadowRay.direction, lightNormal);
-			double alpha = glm::dot(targetNormal, shadowRay.direction);
-			double cosTerm = alpha * beta;
-			cosTerm = glm::max(cosTerm, 0.0);
+			double beta = glm::dot(-sr.direction, lightNormal);
+			double alpha = glm::dot(targetNormal, sr.direction);
+			double cos_term = alpha * beta;
+			cos_term = glm::max(cos_term, 0.0);
 
-			for (Object* shadowObject : this->objects) {
+			for (Object* shadow_object : this->objects) {
 				
-				Ray temp = shadowRay;
+				Ray temp = sr;
 
-				if (shadowObject->material->emittance == 0.0) {
-					float hitX = shadowObject->rayIntersection(&shadowRay);
+				if (shadow_object->material->emittance == 0.0) {
+					float hit_x = shadow_object->rayIntersection(&sr);
 					
-					temp.setEnd(hitX);
+					temp.setEnd(hit_x);
 
-					if (hitX > EPSILON && glm::length(temp.end - temp.start) < target_length) {
+					if (hit_x > EPSILON && glm::length(temp.end - temp.start) < target_length) {
 						occluded = true;
 						break;
 					}
@@ -82,13 +82,13 @@ dvec3 Scene::localLighting(Ray& ray) const
 			}
 			// Ray intersection is occluded if the intersected ray is shorter than the original ray
 			if (!occluded) {
-				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2);
-				thisLight += lightSource->material->emittance * cosTerm * lightSource->material->color / (dropoff * area_lights.size());
+				double dropoff = glm::pow(glm::length(sr.end - sr.start), 2);
+				this_light += light_source->material->emittance * cos_term * light_source->material->color / (dropoff * area_lights.size());
 			}
 		}
-		finalColor += thisLight / static_cast<double>(shadowRays.size());
+		final_color += this_light / static_cast<double>(shadow_rays.size());
 	} 
-	return finalColor * ray.target->material->color;
+	return final_color * ray.target->material->color;
 }
 
 // Creates a tree structure of rays none-recursivly to avoid stack overflow
