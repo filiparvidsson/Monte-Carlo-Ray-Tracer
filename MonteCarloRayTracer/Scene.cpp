@@ -49,9 +49,6 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 		dvec3 thisLight = BLACK;
 
-
-		//for (Object* shadowObject : scene.getObjects()) {
-			//ColorDbl rayLight = BLACK;
 		vec3 endOffset = ray.end + ray.target->getNormal(ray.end) * RAY_OFFSET_AMOUNT;
 		std::vector<Ray> shadowRays = lightSource->generateShadowRays(endOffset);
 
@@ -65,17 +62,19 @@ dvec3 Scene::localLighting(Ray& ray) const
 
 			double beta = glm::dot(-shadowRay.direction, lightNormal);
 			double alpha = glm::dot(targetNormal, shadowRay.direction);
-			//alpha = glm::max(0.0, alpha);
 			double cosTerm = alpha * beta;
 			cosTerm = glm::max(cosTerm, 0.0);
 
 			for (Object* shadowObject : this->objects) {
 				
+				Ray temp = shadowRay;
+
 				if (shadowObject->material->emittance == 0.0) {
 					float hitX = shadowObject->rayIntersection(&shadowRay);
-					shadowRay.setEnd(hitX);
-					//Becomes false for hitX>Epsilon, since it intersects with itself
-					if (hitX > 0.002f && glm::length(shadowRay.end - shadowRay.start) < target_length) {
+					
+					temp.setEnd(hitX);
+
+					if (hitX > EPSILON && glm::length(temp.end - temp.start) < target_length) {
 						occluded = true;
 						break;
 					}
@@ -83,19 +82,13 @@ dvec3 Scene::localLighting(Ray& ray) const
 			}
 			// Ray intersection is occluded if the intersected ray is shorter than the original ray
 			if (!occluded) {
-				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2.0);
+				double dropoff = glm::pow(glm::length(shadowRay.end - shadowRay.start), 2);
 				thisLight += lightSource->material->emittance * cosTerm * lightSource->material->color / (dropoff * area_lights.size());
 			}
 		}
-
 		finalColor += thisLight / static_cast<double>(shadowRays.size());
-
-		//finalColor += rayLight;
-	} //sqrt for gamma correction = 2
-	//std::cout << glm::to_string(sqrt(finalColor * ray.target->material->color)) << "\n";
-	//return sqrt(finalColor * ray.target->material->color);
+	} 
 	return finalColor * ray.target->material->color;
-	//return finalColor * ray.target->material->color;
 }
 
 // Creates a tree structure of rays none-recursivly to avoid stack overflow
@@ -105,10 +98,10 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 {
 	std::shared_ptr<Ray> current = root;
 
-
+	// TODO:
+	// FIX THIS SHIT
 	while(true)
 	{
-		
 		// Sets color from local lighting for leaf node
 		if (current->importance < IMPORTANCE_THRESHOLD)
 		{
@@ -171,7 +164,7 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 				current->color = local_color * current->radiance;
 				for (std::shared_ptr<Ray>& child : current->children)
 				{
-					current->color += child->color;
+					//current->color += child->color;  // UNCOMMENT FOR CHAOS
 					child.reset();
 				}
 

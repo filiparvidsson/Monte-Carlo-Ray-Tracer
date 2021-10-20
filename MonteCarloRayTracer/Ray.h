@@ -23,5 +23,5 @@ struct Ray
 	Ray(vec3 start, vec3 end);
 	Ray(vec3 start, vec3 direction, double importance);
 
-	void setEnd( const float t);
+	void setEnd(const float t);
 };

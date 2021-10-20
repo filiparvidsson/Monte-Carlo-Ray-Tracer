@@ -126,8 +126,8 @@ float Sphere::rayIntersection(Ray* ray) {
 std::vector<Ray> Triangle::generateShadowRays(const vec3& start)
 {
 	std::vector<Ray> shadowRays;
-	for (int i = 0; i < SHADOWSAMPLES; ++i) {
-		float u = rand() / RAND_MAX;
+	for (int i = 0; i < N_SHADOW_RAYS; ++i) {
+		float u = static_cast<float>(rand() / RAND_MAX);
 		float v = (1.0f - u) * (static_cast<float>(rand())) / RAND_MAX;
 		vec3 end = this->vertices[0] * (1.0f - u - v) + this->vertices[1] * u + this->vertices[2] * v;
 		shadowRays.push_back(Ray{ start, end });

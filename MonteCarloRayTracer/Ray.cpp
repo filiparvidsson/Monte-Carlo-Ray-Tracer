@@ -9,5 +9,5 @@ Ray::Ray(vec3 start, vec3 direction, double importance)
 
 void Ray::setEnd(const float t)
 {
-	end = start + direction * t;
+	this->end = this->start + this->direction * t;
 }

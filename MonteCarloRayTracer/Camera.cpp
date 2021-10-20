@@ -56,61 +56,90 @@ Pixel& Camera::getPixel(size_t i, size_t j) {
 	return (*pixels)[i * RESOLUTION + j];
 }
 
-//cramps to dynamic range to be between 0 and 1
-void Camera::dynamicRange()
-{
-
-	double max_value_r = 0.0;
-	double max_value_g = 0.0;
-	double max_value_b = 0.0;
-	//double min_value = std::numeric_limits<double>::min();
-
-
-	for (size_t i = 0; i < RESOLUTION; ++i) {
-		for (size_t j = 0; j < RESOLUTION; ++j) {
-
-			Pixel& p = getPixel(i, j);
-
-			if (p.color.x > max_value_r) max_value_r = p.color.x;
-			if (p.color.y > max_value_g) max_value_g = p.color.y;
-			if (p.color.z > max_value_b) max_value_b = p.color.z;
-			
-		}
-	}
-
-	for (size_t i = 0; i < RESOLUTION; ++i) {
-		for (size_t j = 0; j < RESOLUTION; ++j) {
-
-			Pixel& p = getPixel(i, j);
-
-			p.color.x = p.color.x / (max_value_r);
-			p.color.y = p.color.y / (max_value_g);
-			p.color.z = p.color.z / (max_value_b);
-
-		}
-	}
-}
+////cramps to dynamic range to be between 0 and 1
+//void Camera::dynamicRange()
+//{
+//
+//	double max_value_r = 0.0;
+//	double max_value_g = 0.0;
+//	double max_value_b = 0.0;
+//	//double min_value = std::numeric_limits<double>::min();
+//
+//
+//	for (size_t i = 0; i < RESOLUTION; ++i) {
+//		for (size_t j = 0; j < RESOLUTION; ++j) {
+//
+//			Pixel& p = getPixel(i, j);
+//
+//			if (p.color.x > max_value_r) max_value_r = p.color.x;
+//			if (p.color.y > max_value_g) max_value_g = p.color.y;
+//			if (p.color.z > max_value_b) max_value_b = p.color.z;
+//			
+//		}
+//	}
+//
+//	for (size_t i = 0; i < RESOLUTION; ++i) {
+//		for (size_t j = 0; j < RESOLUTION; ++j) {
+//
+//			Pixel& p = getPixel(i, j);
+//
+//			p.color.x = p.color.x / (max_value_r);
+//			p.color.y = p.color.y / (max_value_g);
+//			p.color.z = p.color.z / (max_value_b);
+//
+//		}
+//	}
+//}
 
 void Camera::createImage(const char* filepath) {
 
 	EasyBMP::RGBColor rgb(0, 0, 0);
 	EasyBMP::Image image(RESOLUTION, RESOLUTION, filepath, rgb);
 
+	//// OLD VERSION
+	//for (size_t i = 0; i < RESOLUTION; ++i) {
+	//	for (size_t j = 0; j < RESOLUTION; ++j) {
+
+	//		Pixel& p = getPixel(i, j);
+
+	//		// Truncate the double values with glm::min
+	//		rgb = EasyBMP::RGBColor(static_cast<uint8_t>(glm::min(p.color.x, 1.0) * 255.99),
+	//			static_cast<uint8_t>(glm::min(p.color.y, 1.0) * 255.99),
+	//			static_cast<uint8_t>(glm::min(p.color.z, 1.0) * 255.99));
+	//		
+	//		image.SetPixel(i, j, rgb);
+	//	}
+	//}
+
+	double max_intensity = 0.0;
+	for (size_t i = 0; i < RESOLUTION; ++i) {
+		for (size_t j = 0; j < RESOLUTION; ++j) {
+			
+			Pixel& p = getPixel(i, j);
+
+			p.color = glm::sqrt(p.color);
+
+			if (p.color.r > max_intensity)
+				max_intensity = p.color.r;
+			if (p.color.g > max_intensity)
+				max_intensity = p.color.g;
+			if (p.color.b > max_intensity)
+				max_intensity = p.color.b;
+		}
+	}
 
 	for (size_t i = 0; i < RESOLUTION; ++i) {
 		for (size_t j = 0; j < RESOLUTION; ++j) {
 
 			Pixel& p = getPixel(i, j);
 
-			// Truncate the double values with glm::min
-			rgb = EasyBMP::RGBColor(static_cast<uint8_t>(glm::min(p.color.x, 1.0) * 255.99),
-				static_cast<uint8_t>(glm::min(p.color.y, 1.0) * 255.99),
-				static_cast<uint8_t>(glm::min(p.color.z, 1.0) * 255.99));
-			/*rgb = EasyBMP::RGBColor(static_cast<uint8_t>(p.color.x * 255.99),
-				static_cast<uint8_t>(p.color.y * 255.99),
-				static_cast<uint8_t>(p.color.z * 255.99));*/
+			rgb = EasyBMP::RGBColor(static_cast<uint8_t>(p.color.r * 255.99 / max_intensity),
+									static_cast<uint8_t>(p.color.g * 255.99 / max_intensity),
+									static_cast<uint8_t>(p.color.b * 255.99 / max_intensity));
+			
 			image.SetPixel(i, j, rgb);
 		}
 	}
+
 	image.Write();
 }

@@ -1,20 +1,28 @@
 #include "dependencies.h"
 
+
 Material::Material()
-	: color{ BLACK }, emittance{ 0.0 }, reflectance{ 1.0 }{};
+	: color{ BLACK }, emittance{ 0.0 }
+{
+	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+}
 
 Material::Material(const dvec3& color)
 	: color{ color }, emittance{ 0.0 }
 {
-	reflectance = MIN_REFLECTANCE + (MAX_REFLECTANCE - MIN_REFLECTANCE) * glm::length(color) / glm::length(WHITE);
+	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
 }
 
 Material::Material(const dvec3& color, double emittance)
-	: color{ color }, emittance{ emittance }, reflectance{ 0.0 } {};
+	: color{ color }, emittance{ emittance }
+{
+	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+}
+
 
 Mirror::Mirror()
 {
-	this->reflectance = 0.0;
+	this->absorption = 0.0;
 }
 
 std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
@@ -38,13 +46,11 @@ std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 	return reflected;
 }
 
-DiffuseLambertian::DiffuseLambertian(dvec3 color, double albedo)
-	: Material(color), albedo{ albedo }{};
+DiffuseLambertian::DiffuseLambertian(dvec3 color, double reflectance)
+	: Material(color), reflectance{reflectance}{};
 
 std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) const
 {
-	// TODO: Small specular reflection
-	// TODO: More reflected rays
 
 	vec3 Z = incoming->target->getNormal(incoming->end);
 	vec3 X = glm::normalize(incoming->direction - glm::dot(incoming->direction, Z) * Z);
@@ -75,9 +81,9 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 
 		// Russian Roulette
 		double reflected_importance = 0.0;
-		if (static_cast<double>(rand()) / RAND_MAX < this->reflectance)
+		if (static_cast<double>(rand()) / RAND_MAX < this->absorption)
 		{
-			reflected_importance = incoming->importance / (this->reflectance * N_DIFFUSE_BOUNCES);	// VET INTE HUR DETTA SKA VARA
+			reflected_importance = incoming->importance * this->reflectance / (this->absorption * N_DIFFUSE_BOUNCES);
 		}
 
 		Ray reflected_ray{ incoming->end + incoming->target->getNormal(incoming->end) * RAY_OFFSET_AMOUNT, world_dir, reflected_importance };
@@ -91,7 +97,7 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 }
 
 Light::Light(dvec3 color, double emittance)
-	: Material(color, emittance) {}
+	: Material(color, emittance) {};
 
 std::vector<Ray> Light::brdf(const std::shared_ptr<Ray>& incoming) const
 {

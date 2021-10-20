@@ -6,7 +6,7 @@ struct Material
 {
 	dvec3 color;
 	double emittance;
-	double reflectance;
+	double absorption{ 0.0 };
 
 	Material();
 	Material(const dvec3& color);
@@ -24,18 +24,15 @@ struct Mirror : Material
 
 struct DiffuseLambertian : Material
 {
-	double albedo;
+	double reflectance;
 
-	DiffuseLambertian(dvec3 color, double albedo);
+	DiffuseLambertian(dvec3 color, double reflectance);
 
 	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;
 };
 
 struct Light : Material
 {
-	//double albedo;
-	//float flux;
-
 	Light(dvec3 color, double emittance);
 
 	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;

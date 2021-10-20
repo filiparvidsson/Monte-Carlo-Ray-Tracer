@@ -8,14 +8,14 @@
 #define TYPEDEFS_DEPENDENCIES
 
 //Constants
-constexpr auto EPSILON = 1e-8;
-constexpr int SHADOWSAMPLES = 1;
-constexpr auto MIN_REFLECTANCE = 0.3;
-constexpr auto MAX_REFLECTANCE = 0.65;
-constexpr float IMPORTANCE_THRESHOLD = 0.2f;
+constexpr auto EPSILON = 1e-4;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
 constexpr int MAX_RAY_DEPTH = 15;
+constexpr auto MIN_ABSORPTION = 0.65;
+constexpr auto MAX_ABSORPTION = 0.90;
+constexpr float IMPORTANCE_THRESHOLD = 0.1f;
 constexpr int N_DIFFUSE_BOUNCES = 1;
+constexpr int N_SHADOW_RAYS = 1;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
