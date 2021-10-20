@@ -21,9 +21,12 @@ int main()
     */
 
     std::cout << "Current settings: \n";
+    std::cout << "\t-Picture resolution: " << RESOLUTION << " x " << RESOLUTION << " pixels\n";
+    std::cout << "\t-Number of samples per pixel: " << N_SAMPLES_PIXEL << "\n";
     std::cout << "\t-Number of shadow rays: " << N_SHADOW_RAYS << "\n";
     std::cout << "\t-Number of bounces on diffuse surfaces: " << N_DIFFUSE_BOUNCES << "\n";
-    std::cout << "\t-Importance threshold: " << IMPORTANCE_THRESHOLD << "\n\n";
+    std::cout << "\t-Importance threshold: " << IMPORTANCE_THRESHOLD << "\n";
+    std::cout << "\n";
     
     std::cout << "Creating camera...\n";
     vec3 main_observer(-2, 0, 0);
@@ -41,19 +44,19 @@ int main()
 
     std::cout << "Creating all materials...\n";
     Mirror mirror{};
-    Light white_light{ WHITE, 25.0 };
-    Light red_light{ RED, 25.0 };
-    Light blue_light{ BLUE, 25.0 };
-    DiffuseLambertian white_lambertian{ WHITE, 0.5 };
-    DiffuseLambertian black_lambertian{ BLACK, 0.5 };
-    DiffuseLambertian red_lambertian{ RED, 0.5 };
-    DiffuseLambertian green_lambertian{ GREEN, 0.5 };
-    DiffuseLambertian blue_lambertian{ BLUE, 0.5 };
-    DiffuseLambertian cyan_lambertian{ CYAN, 0.5 };
-    DiffuseLambertian teal_lambertian{ TEAL, 0.5 };
-    DiffuseLambertian purple_lambertian{ PURPLE, 0.5 };
-    DiffuseLambertian yellow_lambertian{ YELLOW, 0.5 };
-    DiffuseLambertian pink_lambertian{ PINK, 0.5 };
+    Light white_light{ WHITE, 40.0 };
+    Light red_light{ RED, 40.0 };
+    Light blue_light{ BLUE, 40.0 };
+    DiffuseLambertian white_lambertian{ WHITE, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian black_lambertian{ BLACK, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian red_lambertian{ RED, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian green_lambertian{ GREEN, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian blue_lambertian{ BLUE, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian cyan_lambertian{ CYAN, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian teal_lambertian{ TEAL, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian purple_lambertian{ PURPLE, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian yellow_lambertian{ YELLOW, DIFFUSE_REFLECTANCE };
+    DiffuseLambertian pink_lambertian{ PINK, DIFFUSE_REFLECTANCE };
     std::cout << "DONE!\n\n";
 
     std::cout << "Setting up room...\n";
@@ -74,10 +77,10 @@ int main()
     const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
     //Square light
-    const vec3 P13 = vec3(6.0f, -1.0f, -4.9f);
-    const vec3 P14 = vec3(5.0f, -3.0f, -4.9f);
-    const vec3 P15 = vec3(5.0f, -1.0f, -4.9f);
-    const vec3 P16 = vec3(6.0f, -3.0f, -4.9f);
+    const vec3 P13 = vec3(6.0f, -1.0f, -4.99f);
+    const vec3 P14 = vec3(5.0f, -3.0f, -4.99f);
+    const vec3 P15 = vec3(5.0f, -1.0f, -4.99f);
+    const vec3 P16 = vec3(6.0f, -3.0f, -4.99f);
 
     //Top
     Triangle triangle1 = Triangle(P1, P2, P3, &purple_lambertian);
@@ -171,14 +174,21 @@ int main()
     std::cout << "Number of area lights: " << scene.area_lights.size() << "\n\n";
 
     std::cout << "Rendering scene...\n";
+    auto start_time{ std::chrono::high_resolution_clock::now() };
     camera.render(scene);
-    std::cout << "DONE!\n\n";
+    auto end_time{ std::chrono::high_resolution_clock::now() };
+    std::cout << "DONE!\n";
+    auto seconds{ std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() };
+    auto minutes = std::floor(seconds / 60);
+    seconds = seconds % 60;
+    std::cout << "Rendering took " << minutes << " minutes and " << seconds << " seconds.\n\n";
 
     std::cout << "Creating image...\n";
-
-    //camera.dynamicRange();
-
-    camera.createImage("../Renders/fix_bounces_1.bmp");
+    std::ostringstream file_path;
+    file_path << "../Renders/SPP-" << N_SAMPLES_PIXEL << "_SR-" << N_SHADOW_RAYS << "_DB-" << N_DIFFUSE_BOUNCES
+              << "_DR-" << DIFFUSE_REFLECTANCE << "_GCC-" << GLOBAL_COLOR_CONTRIBUTION << "_T-" << minutes << "-" << seconds << ".bmp";
+    const std::string s = file_path.str();
+    camera.createImage(s.c_str());
     std::cout << "DONE!\n\n";
     std::cout << "Exiting program...\n";
 

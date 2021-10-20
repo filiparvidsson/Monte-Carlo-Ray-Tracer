@@ -10,12 +10,16 @@
 //Constants
 constexpr auto EPSILON = 1e-4;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
-constexpr int MAX_RAY_DEPTH = 15;
+constexpr int MAX_RAY_DEPTH = 10;
 constexpr auto MIN_ABSORPTION = 0.65;
 constexpr auto MAX_ABSORPTION = 0.90;
 constexpr float IMPORTANCE_THRESHOLD = 0.1f;
 constexpr int N_DIFFUSE_BOUNCES = 1;
 constexpr int N_SHADOW_RAYS = 1;
+constexpr int N_SAMPLES_PIXEL = 4; // Needs to be an int^2
+constexpr size_t RESOLUTION = 800;
+constexpr double DIFFUSE_REFLECTANCE = 0.2;
+constexpr double GLOBAL_COLOR_CONTRIBUTION = 0.5;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
@@ -25,6 +29,8 @@ constexpr int N_SHADOW_RAYS = 1;
 #include <array>
 #include <cstdlib>
 #include <math.h>
+#include <sstream>
+#include <chrono>
 
 typedef glm::dvec3 dvec3; //Mainly for Colors
 typedef glm::vec3 vec3;
@@ -61,9 +67,5 @@ struct Material;
 #include "Material.h"
 #include <stdlib.h>
 #include <math.h>
-
-
-
-// **********************************************
 
 #endif

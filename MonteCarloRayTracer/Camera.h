@@ -5,8 +5,6 @@
 #include <array>
 
 
-size_t constexpr RESOLUTION = 800;
-
 struct Camera {
 
 	vec3 plane[2][2];
@@ -28,7 +26,4 @@ struct Camera {
 	void toggleObserver() {
 		main_obs = !main_obs;
 	}
-
-	void dynamicRange();
-
 };

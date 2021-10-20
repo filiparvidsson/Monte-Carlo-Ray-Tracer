@@ -115,7 +115,7 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 
 			dvec3 local_color = this->localLighting(*current);
 			current->radiance = glm::length(local_color);
-			current->color = local_color * current->radiance;
+			current->color = local_color;// * current->radiance;
 			current = current->parent;
 		}
 		// Create child rays if there are none and current isn't a leaf node
@@ -164,7 +164,7 @@ void Scene::traceRay(std::shared_ptr<Ray> &root) const
 				current->color = local_color * current->radiance;
 				for (std::shared_ptr<Ray>& child : current->children)
 				{
-					//current->color += child->color;  // UNCOMMENT FOR CHAOS
+					current->color += child->color * GLOBAL_COLOR_CONTRIBUTION;  
 					child.reset();
 				}
 
