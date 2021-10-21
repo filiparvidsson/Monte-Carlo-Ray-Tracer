@@ -68,8 +68,8 @@ dvec3 Scene::localLighting(Ray& ray) const
 			for (Object* shadow_object : this->objects) {
 				
 				Ray temp = sr;
-
-				if (shadow_object->material->emittance == 0.0) {
+				// Is shadow_object not a light source or transparent object
+				if (dynamic_cast<Light*>(shadow_object->material) == nullptr && dynamic_cast<Glass*>(shadow_object->material) == nullptr) {
 					float hit_x = shadow_object->rayIntersection(&sr);
 					
 					temp.setEnd(hit_x);

@@ -37,3 +37,12 @@ struct Light : Material
 
 	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;
 };
+
+struct Glass : Material
+{
+
+	double reflective_index;
+	Glass(dvec3 color, double index);
+
+	std::vector<Ray> brdf(const std::shared_ptr<Ray>& incoming) const override;
+};

@@ -10,11 +10,13 @@
 // Constants
 constexpr auto EPSILON = 1e-4;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
+constexpr double AIR_REFLECTIVE_INDEX = 1.0f;
+constexpr double GLASS_REFLECTIVE_INDEX = 1.5f;
 // Settings
-constexpr int MAX_RAY_DEPTH = 10;
+constexpr int MAX_RAY_DEPTH = 15;
 constexpr auto MIN_ABSORPTION = 0.65;
 constexpr auto MAX_ABSORPTION = 0.90;
-constexpr float IMPORTANCE_THRESHOLD = 0.1f;
+constexpr double IMPORTANCE_THRESHOLD = 0.1f;
 constexpr int N_DIFFUSE_BOUNCES = 1;
 constexpr int N_SHADOW_RAYS = 1;
 constexpr int N_SAMPLES_PIXEL = 4; // Needs to be an int^2

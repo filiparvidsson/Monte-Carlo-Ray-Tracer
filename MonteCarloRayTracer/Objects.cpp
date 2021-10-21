@@ -4,7 +4,7 @@
 
 // --CONSTRUCTORS--
 
-Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, const Material* material)
+Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, Material* material)
 	: Object{material} 
 {
 	vertices[0] = x;

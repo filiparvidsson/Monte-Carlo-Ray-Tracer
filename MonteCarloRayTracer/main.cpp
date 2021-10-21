@@ -46,6 +46,7 @@ int main()
     DiffuseLambertian purple_lambertian{ PURPLE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian yellow_lambertian{ YELLOW, DIFFUSE_REFLECTANCE };
     DiffuseLambertian pink_lambertian{ PINK, DIFFUSE_REFLECTANCE };
+    Glass green_glass{ GREEN, GLASS_REFLECTIVE_INDEX };
     std::cout << "DONE!\n\n";
 
     std::cout << "Setting up room...\n";
@@ -187,15 +188,21 @@ int main()
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
-    std::cout << "Adding mirror box...\n";
-    Box b1 = Box(vec3(5.0f, 1.0f, 3.0f), 0.5f, 0.5f, 2.0f, &mirror);
-    scene.addBox(&b1);
+    std::cout << "Adding green glass sphere...\n";
+    Sphere s3{ dvec3(4.0f, 0.0f, 0.0f), 1.5f, &green_glass };
+    scene.addObject(&s3);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
+
+    std::cout << "Adding green glass box...\n";
+    Box b2 = Box(vec3(5.0f, 1.0f, 3.0f), 0.5f, 0.5f, 2.0f, &green_glass);
+    scene.addBox(&b2);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding white box...\n";
-    Box b2 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
-    scene.addBox(&b2);
+    Box b3 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
+    scene.addBox(&b3);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
