@@ -3,13 +3,11 @@
 
 struct Ray
 {
-	dvec3 color;
 	vec3 start;
 	vec3 end;
 	vec3 direction;
-
+	dvec3 radiance;
 	double importance;
-	double radiance;
 
 	int depth{ 0 };
 	bool is_leaf{ false };
@@ -24,5 +22,5 @@ struct Ray
 	Ray(vec3 start, vec3 end);
 	Ray(vec3 start, vec3 direction, double importance);
 
-	void setEnd(const float t);
+	void setEnd(float t);
 };

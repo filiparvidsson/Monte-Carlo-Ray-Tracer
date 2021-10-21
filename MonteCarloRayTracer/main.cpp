@@ -4,16 +4,17 @@
 int main()
 {
     std::cout << "Current settings: \n";
-    std::cout << "\t-Picture resolution: " << RESOLUTION << " x " << RESOLUTION << " pixels\n";
-    std::cout << "\t-Number of samples per pixel: " << N_SAMPLES_PIXEL << "\n";
-    std::cout << "\t-Number of shadow rays: " << N_SHADOW_RAYS << "\n";
-    std::cout << "\t-Number of bounces on diffuse surfaces: " << N_DIFFUSE_BOUNCES << "\n";
-    std::cout << "\t-Importance threshold: " << IMPORTANCE_THRESHOLD << "\n";
-    std::cout << "\t-Minimum absorption: " << MIN_ABSORPTION << "\n";
-    std::cout << "\t-Maximum absorption: " << MAX_ABSORPTION << "\n";
-    std::cout << "\t-Diffuse standard reflectance: " << DIFFUSE_REFLECTANCE << "\n";
-    std::cout << "\t-Global color contribution: " << GLOBAL_COLOR_CONTRIBUTION << "\n";
-    std::cout << "\t-Maximum ray depth: " << MAX_RAY_DEPTH << "\n";
+    std::cout << "- Picture resolution: " << RESOLUTION << " x " << RESOLUTION << " pixels\n";
+    std::cout << "- Number of samples per pixel: " << N_SAMPLES_PIXEL << "\n";
+    std::cout << "- Number of shadow rays: " << N_SHADOW_RAYS << "\n";
+    std::cout << "- Number of bounces on diffuse surfaces: " << N_DIFFUSE_BOUNCES << "\n";
+    std::cout << "- Importance threshold: " << IMPORTANCE_THRESHOLD << "\n";
+    std::cout << "- Minimum absorption: " << MIN_ABSORPTION << "\n";
+    std::cout << "- Maximum absorption: " << MAX_ABSORPTION << "\n";
+    std::cout << "- Diffuse standard reflectance: " << DIFFUSE_REFLECTANCE << "\n";
+    std::cout << "- Global color contribution: " << GLOBAL_COLOR_CONTRIBUTION << "\n";
+    std::cout << "- Maximum ray depth: " << MAX_RAY_DEPTH << "\n";
+    std::cout << "- Dropoff power: " << DROPOFF_POWER << "\n";
     std::cout << "\n";
     
     std::cout << "Creating camera...\n";
@@ -32,10 +33,9 @@ int main()
 
     std::cout << "Creating all materials...\n";
     Mirror mirror{};
-    Light white_light{ WHITE, 30.0 };
-    Light red_light{ RED, 40.0 };
-    Light blue_light{ BLUE, 40.0 };
-    Light green_light{ GREEN, 1.0 };
+    Light white_light{ WHITE, 10.0 };
+    Light light_blue_light{ BLUE, 5.0 };
+
     DiffuseLambertian white_lambertian{ WHITE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian black_lambertian{ BLACK, DIFFUSE_REFLECTANCE };
     DiffuseLambertian red_lambertian{ RED, DIFFUSE_REFLECTANCE };
@@ -83,21 +83,37 @@ int main()
     const vec3 P11 = vec3(13.0f, 0.0f, 5.0f);
     const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
 
-    //Square light
-    const vec3 P13 = vec3(6.0f, -1.0f, -4.8f);
-    const vec3 P14 = vec3(5.0f, -3.0f, -4.8f);
-    const vec3 P15 = vec3(5.0f, -1.0f, -4.8f);
-    const vec3 P16 = vec3(6.0f, -3.0f, -4.8f);
+    //Center light
+    const vec3 P13 = vec3(6.0f, 1.0f, -4.8f);
+    const vec3 P14 = vec3(5.0f, -1.0f, -4.8f);
+    const vec3 P15 = vec3(5.0f, 1.0f, -4.8f);
+    const vec3 P16 = vec3(6.0f, -1.0f, -4.8f);
 
-    //Lamp border
-    const vec3 P17 = vec3(5.0f, -1.0f, -4.8f);
-    const vec3 P18 = vec3(5.0f, -1.0f, -5.0f);
-    const vec3 P19 = vec3(5.0f, -3.0f, -5.0f);
-    const vec3 P20 = vec3(5.0f, -3.0f, -4.8f);
-    const vec3 P21 = vec3(6.0f, -1.0f, -4.8f);
-    const vec3 P22 = vec3(6.0f, -1.0f, -5.0f);
-    const vec3 P23 = vec3(6.0f, -3.0f, -5.0f);
-    const vec3 P24 = vec3(6.0f, -3.0f, -4.8f);
+    //Center lamp border
+    const vec3 P17 = vec3(5.0f, 1.0f, -4.8f);
+    const vec3 P18 = vec3(5.0f, 1.0f, -5.0f);
+    const vec3 P19 = vec3(5.0f, -1.0f, -5.0f);
+    const vec3 P20 = vec3(5.0f, -1.0f, -4.8f);
+    const vec3 P21 = vec3(6.0f, 1.0f, -4.8f);
+    const vec3 P22 = vec3(6.0f, 1.0f, -5.0f);
+    const vec3 P23 = vec3(6.0f, -1.0f, -5.0f);
+    const vec3 P24 = vec3(6.0f, -1.0f, -4.8f);
+
+    //Left light
+    const vec3 P25 = vec3(6.0f, -5.8f, -0.5f);
+    const vec3 P26 = vec3(7.0f, -5.8f, -0.5f);
+    const vec3 P27 = vec3(6.0f, -5.8f, 0.5f);
+    const vec3 P28 = vec3(7.0f, -5.8f, 0.5f);
+
+    //Left light border
+    const vec3 P29 = vec3(6.0f, -5.8f, -0.5f);
+    const vec3 P30 = vec3(6.0f, -5.8f, 0.5f);
+    const vec3 P31 = vec3(6.0f, -6.0f, -0.5f);
+    const vec3 P32 = vec3(6.0f, -6.0f, 0.5f);
+    const vec3 P33 = vec3(7.0f, -5.8f, -0.5f);
+    const vec3 P34 = vec3(7.0f, -5.8f, 0.5f);
+    const vec3 P35 = vec3(7.0f, -6.0f, -0.5f);
+    const vec3 P36 = vec3(7.0f, -6.0f, 0.5f);
 
     //Top
     Triangle triangle1 = Triangle(P1, P2, P3, &purple_lambertian);
@@ -135,7 +151,7 @@ int main()
     Triangle triangle19 = Triangle(P2, P8, P9, &white_lambertian);
     Triangle triangle20 = Triangle(P2, P9, P3, &white_lambertian);
 
-    //Lamp borders
+    //Center light border
     Triangle triangle21 = Triangle(P17, P18, P19, &black_lambertian);
     Triangle triangle22 = Triangle(P17, P19, P20, &black_lambertian);
     Triangle triangle23 = Triangle(P17, P21, P18, &black_lambertian);
@@ -144,6 +160,16 @@ int main()
     Triangle triangle26 = Triangle(P21, P24, P23, &black_lambertian);
     Triangle triangle27 = Triangle(P19, P23, P24, &black_lambertian);
     Triangle triangle28 = Triangle(P19, P24, P20, &black_lambertian);
+
+    //Left light border
+    Triangle triangle29 = Triangle(P29, P31, P30, &black_lambertian);
+    Triangle triangle30 = Triangle(P30, P31, P32, &black_lambertian);
+    Triangle triangle31 = Triangle(P30, P32, P36, &black_lambertian);
+    Triangle triangle32 = Triangle(P30, P36, P34, &black_lambertian);
+    Triangle triangle33 = Triangle(P34, P36, P35, &black_lambertian);
+    Triangle triangle34 = Triangle(P33, P34, P35, &black_lambertian);
+    Triangle triangle35 = Triangle(P29, P33, P35, &black_lambertian);
+    Triangle triangle36 = Triangle(P29, P35, P31, &black_lambertian);
 
     scene.addObject(&triangle1);
     scene.addObject(&triangle2);
@@ -173,6 +199,14 @@ int main()
     scene.addObject(&triangle26);
     scene.addObject(&triangle27);
     scene.addObject(&triangle28);
+    scene.addObject(&triangle29);
+    scene.addObject(&triangle30);
+    scene.addObject(&triangle31);
+    scene.addObject(&triangle32);
+    scene.addObject(&triangle33);
+    scene.addObject(&triangle34);
+    scene.addObject(&triangle35);
+    scene.addObject(&triangle36);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
@@ -183,8 +217,14 @@ int main()
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding yellow sphere...\n";
-    Sphere s2{ dvec3(8.0f, 2.5f, 0.65f), 1.0f, &yellow_lambertian };
+    Sphere s2{ vec3(8.0f, 2.5f, 0.65f), 1.0f, &yellow_lambertian };
     scene.addObject(&s2);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
+
+    std::cout << "Adding white box...\n";
+    Box b3 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
+    scene.addBox(&b3);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
@@ -200,13 +240,7 @@ int main()
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
-    std::cout << "Adding white box...\n";
-    Box b3 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
-    scene.addBox(&b3);
-    std::cout << "DONE!\n";
-    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
-
-    std::cout << "Adding square area light...\n";
+    std::cout << "Adding center white area light...\n";
     Triangle al1 = Triangle(P14, P13, P15, &white_light);
     Triangle al2 = Triangle(P16, P13, P14, &white_light);
     scene.addAreaLight(&al1);
@@ -214,8 +248,16 @@ int main()
     std::cout << "DONE!\n";
     std::cout << "Number of area lights: " << scene.area_lights.size() << "\n\n";
 
+    std::cout << "Adding left blue area light...\n";
+    Triangle al3 = Triangle(P25, P27, P26, &light_blue_light);
+    Triangle al4 = Triangle(P26, P27, P28, &light_blue_light);
+    scene.addAreaLight(&al3);
+    scene.addAreaLight(&al4);
+    std::cout << "DONE!\n";
+    std::cout << "Number of area lights: " << scene.area_lights.size() << "\n\n";
+
     std::cout << "Rendering scene...\n";
-    auto start_time{ std::chrono::high_resolution_clock::now() };
+    auto start_time{ std::chrono::system_clock::now() };
 
     #ifdef NOTHREAD
     std::cout << "Using 1 CPU thread..."
@@ -229,7 +271,7 @@ int main()
     t1.join(); t2.join(); t3.join(); t4.join();
     #endif
 
-    auto end_time{ std::chrono::high_resolution_clock::now() };
+    auto end_time{ std::chrono::system_clock::now() };
     std::cout << "DONE!\n";
     auto seconds{ std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() };
     auto minutes = std::floor(seconds / 60);
@@ -238,8 +280,8 @@ int main()
 
     std::cout << "Creating image...\n";
     std::ostringstream file_path;
-    file_path << "../Renders/SPP-" << N_SAMPLES_PIXEL << "_SR-" << N_SHADOW_RAYS << "_DB-" << N_DIFFUSE_BOUNCES
-              << "_DR-" << DIFFUSE_REFLECTANCE << "_GCC-" << GLOBAL_COLOR_CONTRIBUTION << "_T-" << minutes << "-" << seconds << ".bmp";
+    file_path << "../Renders/SPP-" << N_SAMPLES_PIXEL << "_SR-" << N_SHADOW_RAYS << "_DB-" << N_DIFFUSE_BOUNCES << "_DR-" << DIFFUSE_REFLECTANCE
+                                   << "_GCC-" << GLOBAL_COLOR_CONTRIBUTION << "_DP-" << DROPOFF_POWER << "_T-" << minutes << "min" << seconds << "sec.bmp";
     const std::string s = file_path.str();
     camera.createImage(s.c_str());
     std::cout << "DONE!\n\n";

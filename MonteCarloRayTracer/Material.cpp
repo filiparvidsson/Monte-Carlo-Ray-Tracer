@@ -19,11 +19,16 @@ Material::Material(const dvec3& color, double emittance)
 	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
 }
 
-
 Mirror::Mirror()
 {
 	this->absorption = 0.0;
 }
+
+DiffuseLambertian::DiffuseLambertian(dvec3 color, double reflectance)
+	: Material(color), reflectance{ reflectance }{};
+
+Light::Light(dvec3 color, double emittance)
+	: Material(color, emittance) {};
 
 std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 {
@@ -142,7 +147,6 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 
 		// Transform direction to world coordinates
 		vec3 world_dir = glm::inverse(glm::transpose(M)) * glm::vec4(local_dir, 1.0); 
-		//vec3 worldDir = glm::inverse(M) * glm::vec4(localDir, 1.0); 
 
 		// Russian Roulette
 		double reflected_importance = 0.0;
@@ -157,18 +161,16 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 		
 		reflected.push_back(reflected_ray);
 	}
-
 	return reflected;
 }
 
-Light::Light(dvec3 color, double emittance)
-	: Material(color, emittance) {};
-
 std::vector<Ray> Light::brdf(const std::shared_ptr<Ray>& incoming) const
 {
-	double reflected_importance = 0.0;
+	double stopped_importance = 0.0;
+	
+	Ray stopped{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), stopped_importance };
 
-	Ray stopped{ incoming->end, glm::normalize(glm::reflect(incoming->end, incoming->target->getNormal(incoming->end))), reflected_importance };
+	stopped.depth = incoming->depth + 1;
 
 	std::vector<Ray> result;
 
@@ -176,10 +178,3 @@ std::vector<Ray> Light::brdf(const std::shared_ptr<Ray>& incoming) const
 
 	return result;
 }
-
-
-
-
-
-
-

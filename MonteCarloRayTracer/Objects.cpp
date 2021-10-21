@@ -1,4 +1,3 @@
-
 #include "dependencies.h"
 
 
@@ -15,8 +14,6 @@ Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, Material* materi
 	edge1 = y - x;
 	edge2 = z - x;
 }
-
-//Sphere's is already made in .h
 
 Box::Box(const vec3& pos, float height, float width1, float width2, Material* material)
 {
@@ -64,7 +61,7 @@ vec3 Sphere::getNormal(const vec3& hit)
 // --RAY INTERSECTIONS--
 float Triangle::rayIntersection(Ray* ray)
 {
-	//Möller-Trumbore
+	//Moller-Trumbore
 	vec3 T = vec3(ray->start - vertices[0]);
 	vec3 D = ray->direction;
 	vec3 P = glm::cross(D, edge2);
@@ -87,58 +84,55 @@ float Sphere::rayIntersection(Ray* ray) {
 
 	//A = rayStart, B = rayDirection, C = sphereCenter
 	//All dot products for the quadratic formula
-	vec3 dotProds;
+	vec3 dot_prods;
 
-	dotProds.x = glm::dot(ray->direction, ray->direction);
-	dotProds.y = glm::dot(ray->start - this->position, 2.0f * ray->direction);
-	dotProds.z = glm::dot(ray->start - this->position, ray->start - this->position) - this->radius * this->radius;
-
-	//std::cout << "x: " << dotProds.x << "y: " << dotProds.y << "z: " << dotProds.z << std::endl;
+	dot_prods.x = glm::dot(ray->direction, ray->direction);
+	dot_prods.y = glm::dot(ray->start - this->position, 2.0f * ray->direction);
+	dot_prods.z = glm::dot(ray->start - this->position, ray->start - this->position) - this->radius * this->radius;
 
 	//The dicriminant which check for hits
-	float discriminant = dotProds.y * dotProds.y / 4.0f - dotProds.x * dotProds.z;
+	float discriminant = dot_prods.y * dot_prods.y / 4.0f - dot_prods.x * dot_prods.z;
 
 	//If determinant < 0: No hit, If ==0, It scraped along the surface
 	if (discriminant < EPSILON) {
 		return -1.0;
 	}
 
-	float numeratorNeg = -(dotProds.y / 2.0f * dotProds.x) - sqrt(discriminant);
-	float numeratorPos = -(dotProds.y / 2.0f * dotProds.x) + sqrt(discriminant);
+	float numerator_neg = -(dot_prods.y / 2.0f * dot_prods.x) - sqrt(discriminant);
+	float numerator_pos = -(dot_prods.y / 2.0f * dot_prods.x) + sqrt(discriminant);
 
-	numeratorNeg = glm::max(numeratorNeg, 0.0f);
-	numeratorPos = glm::max(numeratorPos, 0.0f);
+	numerator_neg = glm::max(numerator_neg, 0.0f);
+	numerator_pos = glm::max(numerator_pos, 0.0f);
 
+	float numerator_true = glm::min(numerator_neg, numerator_pos);
 
-	float numeratorTrue = glm::min(numeratorNeg, numeratorPos);
-
-	if (numeratorTrue > EPSILON) { //Check if hit was behind camera, we dont want that
-		return numeratorTrue;
+	
+	//Check if hit was behind camera, we dont want that
+	if (numerator_true > EPSILON) 
+	{
+		return numerator_true;
 	}
 
-
 	return -1.0f;
-
 }
 
-// --GENERATESHADOWRAYS--
-
+// --GENERATE SHADOW RAYS--
 std::vector<Ray> Triangle::generateShadowRays(const vec3& start)
 {
-	std::vector<Ray> shadowRays;
+	std::vector<Ray> shadow_rays;
 	for (int i = 0; i < N_SHADOW_RAYS; ++i) {
 		float u = static_cast<float>(rand() / RAND_MAX);
 		float v = (1.0f - u) * (static_cast<float>(rand())) / RAND_MAX;
 		vec3 end = this->vertices[0] * (1.0f - u - v) + this->vertices[1] * u + this->vertices[2] * v;
-		shadowRays.push_back(Ray{ start, end });
+		shadow_rays.push_back(Ray{ start, end });
 	}
-	return shadowRays;
+	return shadow_rays;
 }
 
 std::vector<Ray> Sphere::generateShadowRays(const vec3& start)
 {
-	std::vector<Ray> shadowRays;
-	shadowRays.push_back(Ray{ start, this->position });
+	std::vector<Ray> shadow_rays;
+	shadow_rays.push_back(Ray{ start, this->position });
 
-	return shadowRays;
+	return shadow_rays;
 }

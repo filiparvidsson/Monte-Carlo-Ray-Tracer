@@ -43,8 +43,9 @@ void Camera::render(Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t 
 				std::shared_ptr<Ray> ray_ptr = std::make_shared<Ray>(ray);
 
 				scene.traceRay(ray_ptr);
-				p.color += ray_ptr->color / static_cast<double>(N_SAMPLES_PIXEL);
+				p.color += ray_ptr->radiance;
 			}
+			p.color /= static_cast<double>(N_SAMPLES_PIXEL);
 		}
 	}
 }
@@ -64,7 +65,7 @@ void Camera::createImage(const char* filepath) {
 			
 			Pixel& p = getPixel(i, j);
 
-			p.color = glm::sqrt(p.color);
+			p.color = glm::sqrt(p.color);	// Needed since there are areas in the image that are much brighter than the rest of the image
 
 			if (p.color.r > max_intensity)
 				max_intensity = p.color.r;

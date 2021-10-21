@@ -21,18 +21,18 @@ struct Sphere : public Object {
 	vec3 position;
 	double radius;
 
-	Sphere() = default;
 	Sphere(const vec3& pos, double rad, Material* material)
 		: Object{ material }, position{ pos }, radius{ rad } {};
 
 	float rayIntersection(Ray* ray) override;
 	std::vector<Ray> generateShadowRays(const vec3& start) override;
 	vec3 getNormal(const vec3& hit) override;
-
 };
 
 struct Triangle : public Object {
+
 	std::array<vec3, 3> vertices;
+
 	vec3 normal;
 	vec3 edge1;
 	vec3 edge2;
@@ -43,7 +43,6 @@ struct Triangle : public Object {
 	float rayIntersection(Ray* ray) override;
 	std::vector<Ray> generateShadowRays(const vec3& start) override;
 	vec3 getNormal(const vec3& hit) override;
-
 };
 
 struct Box : public Triangle {
@@ -53,5 +52,4 @@ struct Box : public Triangle {
 
 	Box() = default;
 	Box(const vec3& pos, float height, float width1, float width2, Material* material);
-
 };

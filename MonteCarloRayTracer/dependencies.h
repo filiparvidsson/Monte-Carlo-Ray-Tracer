@@ -13,16 +13,17 @@ constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
 constexpr double AIR_REFLECTIVE_INDEX = 1.0f;
 constexpr double GLASS_REFLECTIVE_INDEX = 1.5f;
 // Settings
-constexpr int MAX_RAY_DEPTH = 15;
-constexpr auto MIN_ABSORPTION = 0.65;
-constexpr auto MAX_ABSORPTION = 0.90;
-constexpr double IMPORTANCE_THRESHOLD = 0.1f;
-constexpr int N_DIFFUSE_BOUNCES = 1;
-constexpr int N_SHADOW_RAYS = 1;
-constexpr int N_SAMPLES_PIXEL = 4; // Needs to be an int^2
 constexpr size_t RESOLUTION = 800;
-constexpr double DIFFUSE_REFLECTANCE = 0.2;
-constexpr double GLOBAL_COLOR_CONTRIBUTION = 0.3;
+constexpr auto MIN_ABSORPTION = 0.4;
+constexpr auto MAX_ABSORPTION = 0.8;
+constexpr int MAX_RAY_DEPTH = 12;
+constexpr int N_DIFFUSE_BOUNCES = 2;
+constexpr int N_SHADOW_RAYS = 2;
+constexpr int N_SAMPLES_PIXEL = 100; // Should to be an int^2, e.g 4, 16 or 100
+constexpr float IMPORTANCE_THRESHOLD = 0.1f;
+constexpr double DIFFUSE_REFLECTANCE = 0.5;
+constexpr double GLOBAL_COLOR_CONTRIBUTION = 1.0;
+constexpr double DROPOFF_POWER = 1.8;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
@@ -50,9 +51,9 @@ const dvec3 YELLOW{ 1.0, 1.0, 0.0 };
 const dvec3 CYAN{ 0.0, 1.0, 1.0 };
 const dvec3 TEAL{ 0.0, 0.5, 0.5 };
 const dvec3 PINK{ 1.0, 0.4, 0.7 };
+const dvec3 LIGHT_BLUE{ 0.4, 0.7, 1.0 };
 
 // Forward declarations
-//struct PointLight;
 struct Pixel;
 struct Object;
 struct Scene;
