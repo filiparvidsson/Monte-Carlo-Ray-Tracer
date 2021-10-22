@@ -12,6 +12,8 @@ int main()
     std::cout << "- Minimum absorption: " << MIN_ABSORPTION << "\n";
     std::cout << "- Maximum absorption: " << MAX_ABSORPTION << "\n";
     std::cout << "- Diffuse standard reflectance: " << DIFFUSE_REFLECTANCE << "\n";
+    std::cout << "- Glass standard reflective index: " << GLASS_REFLECTIVE_INDEX << "\n";
+    std::cout << "- Air standard reflective index: " << AIR_REFLECTIVE_INDEX << "\n";
     std::cout << "- Global color contribution: " << GLOBAL_COLOR_CONTRIBUTION << "\n";
     std::cout << "- Maximum ray depth: " << MAX_RAY_DEPTH << "\n";
     std::cout << "- Dropoff power: " << DROPOFF_POWER << "\n";
@@ -33,8 +35,9 @@ int main()
 
     std::cout << "Creating all materials...\n";
     Mirror mirror{};
+
     Light white_light{ WHITE, 10.0 };
-    Light light_blue_light{ BLUE, 5.0 };
+    Light light_blue_light{ BLUE, 7.5 };
 
     DiffuseLambertian white_lambertian{ WHITE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian black_lambertian{ BLACK, DIFFUSE_REFLECTANCE };
@@ -46,7 +49,10 @@ int main()
     DiffuseLambertian purple_lambertian{ PURPLE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian yellow_lambertian{ YELLOW, DIFFUSE_REFLECTANCE };
     DiffuseLambertian pink_lambertian{ PINK, DIFFUSE_REFLECTANCE };
+
+    Glass glass{ BLACK, 2.0 };
     Glass green_glass{ GREEN, GLASS_REFLECTIVE_INDEX };
+    Glass white_glass{ WHITE, GLASS_REFLECTIVE_INDEX };
     std::cout << "DONE!\n\n";
 
     std::cout << "Setting up room...\n";
@@ -211,31 +217,31 @@ int main()
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding mirror sphere...\n";
-    Sphere s1{ vec3(10.0f, -1.5f, -0.5f), 1.5f, &mirror };
+    Sphere s1{ vec3(9.5f, -1.25f, -0.5f), 1.5f, &mirror };
     scene.addObject(&s1);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding yellow sphere...\n";
-    Sphere s2{ vec3(8.0f, 2.5f, 0.65f), 1.0f, &yellow_lambertian };
+    Sphere s2{ vec3(6.0f, 2.5f, 0.65f), 1.0f, &yellow_lambertian };
     scene.addObject(&s2);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding white box...\n";
-    Box b3 = Box(vec3(8.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
+    Box b3 = Box(vec3(6.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
     scene.addBox(&b3);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
-    std::cout << "Adding green glass sphere...\n";
-    Sphere s3{ dvec3(4.0f, 0.0f, 0.0f), 1.5f, &green_glass };
+    std::cout << "Adding glass sphere...\n";
+    Sphere s3{ dvec3(8.0f, 3.0f, -2.5f), 1.75f, &glass };
     scene.addObject(&s3);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding green glass box...\n";
-    Box b2 = Box(vec3(5.0f, 1.0f, 3.0f), 0.5f, 0.5f, 2.0f, &green_glass);
+    Box b2 = Box(vec3(6.0f, -3.0f, 2.0f), 2.0f, 2.0f, 1.5f, &green_glass);
     scene.addBox(&b2);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";

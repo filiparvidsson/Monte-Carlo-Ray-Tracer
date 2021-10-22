@@ -30,6 +30,9 @@ DiffuseLambertian::DiffuseLambertian(dvec3 color, double reflectance)
 Light::Light(dvec3 color, double emittance)
 	: Material(color, emittance) {};
 
+Glass::Glass(dvec3 color, double index)
+	:Material(color), reflective_index(index) {};
+
 std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 {
 	double reflected_importance = 0.0;
@@ -50,9 +53,6 @@ std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 	
 	return reflected;
 }
-
-Glass::Glass(dvec3 color, double index)
-	:Material(color), reflective_index(index) {};
 
 std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 {
@@ -82,14 +82,6 @@ std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 			refracted_importance = (1.0 - reflected_importance) * incoming->importance;
 		}
 	}
-	
-	/*if (incoming->inside_transparant_object) {
-		std::cout << "inc: " << incoming->importance << "\n";
-		std::cout << "r: " << reflected_importance << "\n";
-		std::cout << "t : " << refracted_importance << "\n";
-		std::cout << "depth: " << incoming->depth << "\n\n";
-	}*/
-
 
 	Ray reflected_ray{ incoming->end + N * RAY_OFFSET_AMOUNT,	// Start with offset
 				glm::normalize(glm::reflect(incoming->end, N)),	// Perfect reflection
@@ -110,14 +102,11 @@ std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 	refracted_ray.depth = incoming->depth + 1;
 
 	std::vector<Ray> result;
-	//result.push_back(reflected_ray);
+	result.push_back(reflected_ray);
 	result.push_back(refracted_ray);
 
 	return result;
 }
-
-DiffuseLambertian::DiffuseLambertian(dvec3 color, double reflectance)
-	: Material(color), reflectance{reflectance}{};
 
 std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) const
 {

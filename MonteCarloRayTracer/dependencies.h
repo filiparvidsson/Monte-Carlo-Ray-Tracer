@@ -10,20 +10,20 @@
 // Constants
 constexpr auto EPSILON = 1e-4;
 constexpr float RAY_OFFSET_AMOUNT = 3e-2f;
-constexpr double AIR_REFLECTIVE_INDEX = 1.0f;
-constexpr double GLASS_REFLECTIVE_INDEX = 1.5f;
 // Settings
 constexpr size_t RESOLUTION = 800;
 constexpr auto MIN_ABSORPTION = 0.4;
 constexpr auto MAX_ABSORPTION = 0.8;
 constexpr int MAX_RAY_DEPTH = 12;
-constexpr int N_DIFFUSE_BOUNCES = 2;
-constexpr int N_SHADOW_RAYS = 2;
-constexpr int N_SAMPLES_PIXEL = 100; // Should to be an int^2, e.g 4, 16 or 100
+constexpr int N_DIFFUSE_BOUNCES = 1;
+constexpr int N_SHADOW_RAYS = 1;
+constexpr int N_SAMPLES_PIXEL = 4; // Should to be an int^2, e.g 4, 16 or 100
 constexpr float IMPORTANCE_THRESHOLD = 0.1f;
-constexpr double DIFFUSE_REFLECTANCE = 0.5;
 constexpr double GLOBAL_COLOR_CONTRIBUTION = 1.0;
 constexpr double DROPOFF_POWER = 1.8;
+constexpr double DIFFUSE_REFLECTANCE = 0.5;
+constexpr double AIR_REFLECTIVE_INDEX = 1.0f;
+constexpr double GLASS_REFLECTIVE_INDEX = 1.5f;
 
 #include <glm/glm.hpp>
 #include "glm/gtx/string_cast.hpp"
