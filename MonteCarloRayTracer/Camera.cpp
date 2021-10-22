@@ -7,9 +7,9 @@ Camera::Camera(vec3 obs1, vec3 obs2)
 {
 	//Camera plane
 	plane[0][0] = vec3(0.0f, -1.0f, -1.0f); //Left bottom corner
-	plane[0][1] = vec3(0.0f, 1.0f, -1.0f); //Right bottom corner
-	plane[1][0] = vec3(0.0f, -1.0f, 1.0f); //Left top corner
-	plane[1][1] = vec3(0.0f, 1.0f, 1.0f); //Right top corner
+	plane[0][1] = vec3(0.0f, 1.0f, -1.0f);	//Right bottom corner
+	plane[1][0] = vec3(0.0f, -1.0f, 1.0f);	//Left top corner
+	plane[1][1] = vec3(0.0f, 1.0f, 1.0f);	//Right top corner
 	pixels = new std::array<Pixel, RESOLUTION* RESOLUTION>();
 	pixels->fill(Pixel{ dvec3(0.0, 0.0, 0.0) });
 }

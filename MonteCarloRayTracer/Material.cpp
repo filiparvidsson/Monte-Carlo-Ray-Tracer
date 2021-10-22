@@ -4,19 +4,19 @@
 Material::Material()
 	: color{ BLACK }, emittance{ 0.0 }
 {
-	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
 }
 
 Material::Material(const dvec3& color)
 	: color{ color }, emittance{ 0.0 }
 {
-	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
 }
 
 Material::Material(const dvec3& color, double emittance)
 	: color{ color }, emittance{ emittance }
 {
-	this->absorption = MIN_ABSORPTION + (MAX_ABSORPTION - MIN_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
 }
 
 Mirror::Mirror()
@@ -137,11 +137,12 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 		// Transform direction to world coordinates
 		vec3 world_dir = glm::inverse(glm::transpose(M)) * glm::vec4(local_dir, 1.0); 
 
-		// Russian Roulette
 		double reflected_importance = 0.0;
-		if (static_cast<double>(rand()) / RAND_MAX < this->absorption)
+
+		// Russian Roulette
+		if (static_cast<double>(rand()) / RAND_MAX < 1.0 / this->absorption)
 		{
-			reflected_importance = incoming->importance * this->reflectance / (this->absorption * N_DIFFUSE_BOUNCES);
+			reflected_importance = incoming->importance * this->reflectance / (this->absorption * static_cast<double>(N_DIFFUSE_BOUNCES));
 		}
 
 		Ray reflected_ray{ incoming->end + incoming->target->getNormal(incoming->end) * RAY_OFFSET_AMOUNT, world_dir, reflected_importance };
