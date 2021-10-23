@@ -1,9 +1,7 @@
 #include "dependencies.h"
 
 
-// --CONSTRUCTORS--
-
-Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, Material* material)
+Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, const Material* material)
 	: Object{material} 
 {
 	vertices[0] = x;
@@ -15,16 +13,16 @@ Triangle::Triangle(const vec3& x, const vec3& y, const vec3& z, Material* materi
 	edge2 = z - x;
 }
 
-Box::Box(const vec3& pos, float height, float width1, float width2, Material* material)
+Box::Box(const vec3& pos, float height, float depth, float width, const Material* material)
 {
-	corners[0] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * 0.5f);
-	corners[1] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * 0.5f);
-	corners[2] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * 0.5f);
-	corners[3] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * 0.5f);
-	corners[4] = pos + vec3(width1 * 0.5f, width2 * -0.5f, height * -0.5f);
-	corners[5] = pos + vec3(width1 * -0.5f, width2 * -0.5f, height * -0.5f);
-	corners[6] = pos + vec3(width1 * -0.5f, width2 * 0.5f, height * -0.5f);
-	corners[7] = pos + vec3(width1 * 0.5f, width2 * 0.5f, height * -0.5f);
+	corners[0] = pos + vec3(depth * 0.5f, width * -0.5f, height * 0.5f);
+	corners[1] = pos + vec3(depth * -0.5f, width * -0.5f, height * 0.5f);
+	corners[2] = pos + vec3(depth * -0.5f, width * 0.5f, height * 0.5f);
+	corners[3] = pos + vec3(depth * 0.5f, width * 0.5f, height * 0.5f);
+	corners[4] = pos + vec3(depth * 0.5f, width * -0.5f, height * -0.5f);
+	corners[5] = pos + vec3(depth * -0.5f, width * -0.5f, height * -0.5f);
+	corners[6] = pos + vec3(depth * -0.5f, width * 0.5f, height * -0.5f);
+	corners[7] = pos + vec3(depth * 0.5f, width * 0.5f, height * -0.5f);
 
 	//Top
 	triangles[0] = Triangle(corners[0], corners[3], corners[1], material);
@@ -47,21 +45,19 @@ Box::Box(const vec3& pos, float height, float width1, float width2, Material* ma
 
 }
 
-// --GET NORMALS--
-vec3 Triangle::getNormal(const vec3& hit)
+vec3 Triangle::getNormal(const vec3&) const
 {
 	return glm::normalize(glm::cross(this->edge1, this->edge2));
 }
 
-vec3 Sphere::getNormal(const vec3& hit)
+vec3 Sphere::getNormal(const vec3& hit) const
 {
 	return glm::normalize(hit - this->position);
 }
 
-// --RAY INTERSECTIONS--
-float Triangle::rayIntersection(Ray* ray)
+float Triangle::rayIntersection(Ray* ray) const
 {
-	//Moller-Trumbore
+	// Moller-Trumbore
 	vec3 T = vec3(ray->start - vertices[0]);
 	vec3 D = ray->direction;
 	vec3 P = glm::cross(D, edge2);
@@ -77,23 +73,22 @@ float Triangle::rayIntersection(Ray* ray)
 	}
 }
 
-float Sphere::rayIntersection(Ray* ray) {
+float Sphere::rayIntersection(Ray* ray) const
+{
+	// Follows following theroey viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
 
-	//Intersection for spheres
-	//Follows following theroey viclw17.github.io/2018/07/16/raytracing-ray-sphere-intersection/
-
-	//A = rayStart, B = rayDirection, C = sphereCenter
-	//All dot products for the quadratic formula
-	vec3 dot_prods;
+	// A = rayStart, B = rayDirection, C = sphereCenter
+	// All dot products for the quadratic formula
+	vec3 dot_prods{};
 
 	dot_prods.x = glm::dot(ray->direction, ray->direction);
 	dot_prods.y = glm::dot(ray->start - this->position, 2.0f * ray->direction);
 	dot_prods.z = glm::dot(ray->start - this->position, ray->start - this->position) - this->radius * this->radius;
 
-	//The dicriminant which check for hits
+	// The dicriminant which check for hits
 	float discriminant = dot_prods.y * dot_prods.y / 4.0f - dot_prods.x * dot_prods.z;
 
-	//If determinant < 0: No hit, If ==0, It scraped along the surface
+	// If determinant < 0: No hit, If ==0, It scraped along the surface
 	if (discriminant < EPSILON) {
 		return -1.0;
 	}
@@ -106,8 +101,7 @@ float Sphere::rayIntersection(Ray* ray) {
 
 	float numerator_true = glm::min(numerator_neg, numerator_pos);
 
-	
-	//Check if hit was behind camera, we dont want that
+	// Check if hit was behind camera, we dont want that
 	if (numerator_true > EPSILON) 
 	{
 		return numerator_true;
@@ -116,8 +110,8 @@ float Sphere::rayIntersection(Ray* ray) {
 	return -1.0f;
 }
 
-// --GENERATE SHADOW RAYS--
-std::vector<Ray> Triangle::generateShadowRays(const vec3& start)
+// Generate rays that hits random point on the triangular light source
+std::vector<Ray> Triangle::generateShadowRays(const vec3& start) const
 {
 	std::vector<Ray> shadow_rays;
 	for (int i = 0; i < N_SHADOW_RAYS; ++i) {
@@ -129,7 +123,8 @@ std::vector<Ray> Triangle::generateShadowRays(const vec3& start)
 	return shadow_rays;
 }
 
-std::vector<Ray> Sphere::generateShadowRays(const vec3& start)
+// TODO: Implement this function properly to be able to have sperical light sources
+std::vector<Ray> Sphere::generateShadowRays(const vec3& start) const
 {
 	std::vector<Ray> shadow_rays;
 	shadow_rays.push_back(Ray{ start, this->position });

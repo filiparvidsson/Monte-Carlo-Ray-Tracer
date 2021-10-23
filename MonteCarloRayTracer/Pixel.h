@@ -7,7 +7,7 @@ struct Pixel {
 	dvec3 color;
 	
 	Pixel()
-		: color{ dvec3(0.0, 0.0, 0.0) } {};
+		: color{ BLACK } {};
 
 	Pixel(dvec3 color)
 		: color{ color } {};

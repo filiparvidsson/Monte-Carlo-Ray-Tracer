@@ -1,39 +1,32 @@
 #include "dependencies.h"
 
 
-Material::Material()
-	: color{ BLACK }, emittance{ 0.0 }
-{
-	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
-}
-
 Material::Material(const dvec3& color)
-	: color{ color }, emittance{ 0.0 }
-{
-	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
-}
+	: color{ color }, emittance{ 0.0 } {};
 
 Material::Material(const dvec3& color, double emittance)
-	: color{ color }, emittance{ emittance }
-{
-	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
-}
+	: color{ color }, emittance{ emittance } {};
 
 Mirror::Mirror()
+	: Material(BLACK) {};
+
+DiffuseLambertian::DiffuseLambertian(const dvec3& color, double reflectance)
+	: Material(color), reflectance{ reflectance }
 {
-	this->absorption = 0.0;
-}
+	this->absorption = MAX_DIFFUSE_ABSORPTION - (MAX_DIFFUSE_ABSORPTION - MIN_DIFFUSE_ABSORPTION) * glm::length(color) / glm::length(WHITE);
+};
 
-DiffuseLambertian::DiffuseLambertian(dvec3 color, double reflectance)
-	: Material(color), reflectance{ reflectance }{};
-
-Light::Light(dvec3 color, double emittance)
+Light::Light(const dvec3& color, double emittance)
 	: Material(color, emittance) {};
 
-Glass::Glass(dvec3 color, double index)
+Glass::Glass(const dvec3& color, float index)
 	:Material(color), reflective_index(index) {};
 
-std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
+
+// The Bidirectional Reflectance Distribution Function of each material determines how incoming rays interact with the material in therms of direction and energy (importance) distribution.
+
+// Perfect reflection, total conservation of importance
+std::vector<Ray> Mirror::BRDF(const std::shared_ptr<Ray> &incoming) const
 {
 	double reflected_importance = 0.0;
 
@@ -54,13 +47,14 @@ std::vector<Ray> Mirror::brdf(const std::shared_ptr<Ray> &incoming) const
 	return reflected;
 }
 
-std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
+// Both perfectly reflected part and refracted part, total conservation of importance
+std::vector<Ray> Glass::BRDF(const std::shared_ptr<Ray>& incoming) const
 {
 	vec3 N = incoming->inside_transparant_object ? -incoming->target->getNormal(incoming->end) : incoming->target->getNormal(incoming->end);
 	vec3 I = incoming->direction;
 
-	double reflected_importance = 0.0;
-	double refracted_importance = 0.0;
+	double reflected_importance{ 0.0 };
+	double refracted_importance{ 0.0 };
 
 	double cos_inc_angle = glm::dot(-I, N);
 	double inc_angle = glm::acos(cos_inc_angle);
@@ -69,8 +63,6 @@ std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 
 	if (incoming->depth < MAX_RAY_DEPTH)
 	{
-		double R0 = incoming->inside_transparant_object ? glm::pow(((this->reflective_index - AIR_REFLECTIVE_INDEX) / (AIR_REFLECTIVE_INDEX + this->reflective_index)), 2.0)
-														: glm::pow(((AIR_REFLECTIVE_INDEX - this->reflective_index) / (AIR_REFLECTIVE_INDEX + this->reflective_index)), 2.0);
 		if (incoming->inside_transparant_object && inc_angle > max_angle)
 		{
 			reflected_importance = incoming->importance;
@@ -78,13 +70,16 @@ std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 		else
 		{
 			// Schlicks equation
+			double R0 = incoming->inside_transparant_object ? glm::pow(((this->reflective_index - AIR_REFLECTIVE_INDEX) / (AIR_REFLECTIVE_INDEX + this->reflective_index)), 2.0)
+				: glm::pow(((AIR_REFLECTIVE_INDEX - this->reflective_index) / (AIR_REFLECTIVE_INDEX + this->reflective_index)), 2.0);
+
 			reflected_importance = (R0 + (1.0 - R0) * glm::pow((1.0 - cos_inc_angle), 5.0)) * incoming->importance;
 			refracted_importance = (1.0 - reflected_importance) * incoming->importance;
 		}
 	}
 
 	Ray reflected_ray{ incoming->end + N * RAY_OFFSET_AMOUNT,	// Start with offset
-				glm::normalize(glm::reflect(incoming->end, N)),	// Perfect reflection
+				glm::normalize(glm::reflect(incoming->end, N)),
 				reflected_importance };
 	
 	float reflective_ratio = incoming->inside_transparant_object ? this->reflective_index / AIR_REFLECTIVE_INDEX : AIR_REFLECTIVE_INDEX / this->reflective_index;
@@ -108,9 +103,9 @@ std::vector<Ray> Glass::brdf(const std::shared_ptr<Ray>& incoming) const
 	return result;
 }
 
-std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) const
+// Random reflection direction, random ray elimination (Russian Roulette) with probabilities proportianal to material color, loss of importance
+std::vector<Ray> DiffuseLambertian::BRDF(const std::shared_ptr<Ray> &incoming) const
 {
-
 	vec3 Z = incoming->target->getNormal(incoming->end);
 	vec3 X = glm::normalize(incoming->direction - glm::dot(incoming->direction, Z) * Z);
 	vec3 Y = normalize(cross(-X, Z));
@@ -125,8 +120,8 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 	
 	for (int i = 0; i < N_DIFFUSE_BOUNCES; ++i)
 	{
-		double phi = (static_cast<double>(rand()) / RAND_MAX) * 2 * M_PI;	// [0, 2*PI] around the normal
-		double theta = (static_cast<double>(rand()) / RAND_MAX) * M_PI_2;	// [0, PI/2] towards the normal
+		float phi = (static_cast<float>(rand()) / RAND_MAX) * 2 * static_cast<float>(M_PI);
+		float theta = (static_cast<float>(rand()) / RAND_MAX) * static_cast<float>(M_PI_2);
 
 		// Cartesian coordinates
 		float x = cos(phi) * sin(theta);
@@ -154,7 +149,8 @@ std::vector<Ray> DiffuseLambertian::brdf(const std::shared_ptr<Ray> &incoming) c
 	return reflected;
 }
 
-std::vector<Ray> Light::brdf(const std::shared_ptr<Ray>& incoming) const
+// Always stops at light sources
+std::vector<Ray> Light::BRDF(const std::shared_ptr<Ray>& incoming) const
 {
 	double stopped_importance = 0.0;
 	

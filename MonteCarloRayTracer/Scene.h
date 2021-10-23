@@ -1,6 +1,7 @@
 #pragma once
 #include "dependencies.h"
 
+
 struct Scene {
 
 public:
@@ -13,6 +14,6 @@ public:
     void addBox(Box* box);
 
     void rayTarget(Ray& ray) const;
-    dvec3 localLighting(Ray& ray) const;
+    dvec3 localLighting(const Ray& ray) const;
     void traceRay(std::shared_ptr<Ray> &root) const;
 };

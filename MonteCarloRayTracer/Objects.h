@@ -5,28 +5,28 @@
 
 struct Object {
 
-	Material* material;
+	const Material* material;
 
 	Object() = default;
-	Object(Material* material)
+	Object(const Material* material)
 		: material{ material } {};
 
-	virtual float rayIntersection(Ray* ray) = 0;
-	virtual vec3 getNormal(const vec3& hit) = 0;
-	virtual std::vector<Ray> generateShadowRays(const vec3& start) = 0;
+	virtual float rayIntersection(Ray* ray) const = 0;
+	virtual vec3 getNormal(const vec3& hit) const = 0;
+	virtual std::vector<Ray> generateShadowRays(const vec3& start) const = 0;
 };
 
 struct Sphere : public Object {
 
 	vec3 position;
-	double radius;
+	float radius;
 
-	Sphere(const vec3& pos, double rad, Material* material)
+	Sphere(const vec3& pos, float rad, const Material* material)
 		: Object{ material }, position{ pos }, radius{ rad } {};
 
-	float rayIntersection(Ray* ray) override;
-	std::vector<Ray> generateShadowRays(const vec3& start) override;
-	vec3 getNormal(const vec3& hit) override;
+	float rayIntersection(Ray* ray) const override;
+	std::vector<Ray> generateShadowRays(const vec3& start) const override;
+	vec3 getNormal(const vec3& hit) const override;
 };
 
 struct Triangle : public Object {
@@ -38,11 +38,11 @@ struct Triangle : public Object {
 	vec3 edge2;
 
 	Triangle() = default;
-	Triangle(const vec3&, const vec3&, const vec3&, Material* material);
+	Triangle(const vec3&, const vec3&, const vec3&, const Material* material);
 
-	float rayIntersection(Ray* ray) override;
-	std::vector<Ray> generateShadowRays(const vec3& start) override;
-	vec3 getNormal(const vec3& hit) override;
+	float rayIntersection(Ray* ray) const override;
+	std::vector<Ray> generateShadowRays(const vec3& start) const override;
+	vec3 getNormal(const vec3& hit) const override;
 };
 
 struct Box : public Triangle {
@@ -51,5 +51,5 @@ struct Box : public Triangle {
 	std::array<Triangle, 12> triangles;
 
 	Box() = default;
-	Box(const vec3& pos, float height, float width1, float width2, Material* material);
+	Box(const vec3& pos, float height, float depth, float width, const Material* material);
 };

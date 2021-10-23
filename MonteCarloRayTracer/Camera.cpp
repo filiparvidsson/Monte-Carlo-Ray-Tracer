@@ -10,10 +10,13 @@ Camera::Camera(vec3 obs1, vec3 obs2)
 	plane[0][1] = vec3(0.0f, 1.0f, -1.0f);	//Right bottom corner
 	plane[1][0] = vec3(0.0f, -1.0f, 1.0f);	//Left top corner
 	plane[1][1] = vec3(0.0f, 1.0f, 1.0f);	//Right top corner
-	pixels = new std::array<Pixel, RESOLUTION* RESOLUTION>();
-	pixels->fill(Pixel{ dvec3(0.0, 0.0, 0.0) });
+	pixels = new std::array<Pixel, RESOLUTION * RESOLUTION>();
+	pixels->fill(Pixel{ BLACK });
 }
 
+// Sends rays from the observer, though the camera plane and into to scene. 
+// The ray branches and collects radiance as it interacts with objects in the scene.
+// The pixel gets its color from the final radiance when all the branches of the ray have stopped due to lack of importance.
 void Camera::render(Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t y_low_bound, size_t y_up_bound ) {
 
 	vec3 start = Camera::main_obs ? obs1 : obs2;
@@ -27,7 +30,6 @@ void Camera::render(Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t 
 
 			Pixel& p = getPixel(i, j);
 			
-
 			for (int k = 0; k < N_SAMPLES_PIXEL; ++k)
 			{
 				float x_end = static_cast<float>(i) * pixel_size - (1.0f - pixel_size) + static_cast<float>(k % pixel_dimensions) * pixel_sample_size;
@@ -44,6 +46,7 @@ void Camera::render(Scene& scene, size_t x_low_bound, size_t x_up_bound, size_t 
 
 				scene.traceRay(ray_ptr);
 				p.color += ray_ptr->radiance;
+				ray_ptr.reset();
 			}
 			p.color /= static_cast<double>(N_SAMPLES_PIXEL);
 		}
@@ -65,7 +68,7 @@ void Camera::createImage(const char* filepath) {
 			
 			Pixel& p = getPixel(i, j);
 
-			p.color = glm::sqrt(p.color);	// Needed since there are areas in the image that are much brighter than the rest of the image
+			p.color = glm::sqrt(p.color);	// Color balancing
 
 			if (p.color.r > max_intensity)
 				max_intensity = p.color.r;
@@ -88,6 +91,5 @@ void Camera::createImage(const char* filepath) {
 			image.SetPixel(i, j, rgb);
 		}
 	}
-
 	image.Write();
 }

@@ -19,7 +19,6 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
-#include <random>
 
 //------- Definitions ---------
 typedef glm::dvec3 dvec3;
@@ -34,15 +33,14 @@ constexpr int MAX_RAY_DEPTH = 12;
 constexpr int N_DIFFUSE_BOUNCES = 1;
 constexpr int N_SHADOW_RAYS = 1;
 constexpr int N_SAMPLES_PIXEL = 4; // Should to be an int^2, e.g 4, 16 or 100
-constexpr float IMPORTANCE_THRESHOLD = 0.05f;
+constexpr float AIR_REFLECTIVE_INDEX = 1.0f;
+constexpr float GLASS_REFLECTIVE_INDEX = 1.5f;
+constexpr double IMPORTANCE_THRESHOLD = 0.1;
 constexpr double GLOBAL_COLOR_CONTRIBUTION = 1.0;
 constexpr double DROPOFF_POWER = 2.0;
-constexpr double AIR_REFLECTIVE_INDEX = 1.0f;
-constexpr double GLASS_REFLECTIVE_INDEX = 1.5f;
 constexpr double DIFFUSE_REFLECTANCE = 0.9;
-// By what factor is the importance lowered on bounce, depending on color of the surface
-constexpr double MIN_DIFFUSE_ABSORPTION = 1.05;	// > 1.0
-constexpr double MAX_DIFFUSE_ABSORPTION = 1.2;
+constexpr double MIN_DIFFUSE_ABSORPTION = 1.2;	// > 1.0
+constexpr double MAX_DIFFUSE_ABSORPTION = 1.8;
 
 //---------- Colors -----------
 constexpr dvec3 WHITE{ 1.0, 1.0, 1.0 };

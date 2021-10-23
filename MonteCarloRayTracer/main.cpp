@@ -20,8 +20,8 @@ int main()
     std::cout << "\n";
     
     std::cout << "Creating camera...\n";
-    vec3 main_observer(-2, 0, 0);
-    vec3 sub_observer(-1, 0, 0);
+    vec3 main_observer{ -2, 0, 0 };
+    vec3 sub_observer{ -1, 0, 0 };
     Camera camera(main_observer, sub_observer);
     std::cout << "DONE!\n\n";
 
@@ -36,7 +36,7 @@ int main()
     std::cout << "Creating all materials...\n";
     Mirror mirror{};
 
-    Light white_light{ WHITE, 10.0 };
+    Light white_light{ WHITE, 7.5 };
 
     DiffuseLambertian white_lambertian{ WHITE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian dark_gray_lambertian{ DARK_GRAY, DIFFUSE_REFLECTANCE };
@@ -53,6 +53,7 @@ int main()
 
     Glass glass{ BLACK, GLASS_REFLECTIVE_INDEX };
     Glass light_blue_glass{ LIGHT_BLUE, GLASS_REFLECTIVE_INDEX };
+    Glass purple_glass{ PURPLE, GLASS_REFLECTIVE_INDEX };
     std::cout << "DONE!\n\n";
 
     std::cout << "Setting up room...\n";
@@ -75,87 +76,87 @@ int main()
 
     //Top
     const vec3 P1{ 0.0f, 6.0f, -5.0f };
-    const vec3 P2 = vec3(-3.0f, 0.0f, -5.0f);
-    const vec3 P3 = vec3(0.0f, -6.0f, -5.0f);
-    const vec3 P4 = vec3(10.0f, -6.0f, -5.0f);
-    const vec3 P5 = vec3(13.0f, 0.0f, -5.0f);
-    const vec3 P6 = vec3(10.0f, 6.0f, -5.0f);
+    const vec3 P2{ -3.0f, 0.0f, -5.0f };
+    const vec3 P3{ 0.0f, -6.0f, -5.0f };
+    const vec3 P4{ 10.0f, -6.0f, -5.0f };
+    const vec3 P5{ 13.0f, 0.0f, -5.0f };
+    const vec3 P6{ 10.0f, 6.0f, -5.0f };
 
     //Bottom
-    const vec3 P7 = vec3(0.0f, 6.0f, 5.0f);
-    const vec3 P8 = vec3(-3.0f, 0.0f, 5.0f);
-    const vec3 P9 = vec3(0.0f, -6.0f, 5.0f);
-    const vec3 P10 = vec3(10.0f, -6.0f, 5.0f);
-    const vec3 P11 = vec3(13.0f, 0.0f, 5.0f);
-    const vec3 P12 = vec3(10.0f, 6.0f, 5.0f);
+    const vec3 P7{ 0.0f, 6.0f, 5.0f };
+    const vec3 P8{ -3.0f, 0.0f, 5.0f };
+    const vec3 P9{ 0.0f, -6.0f, 5.0f };
+    const vec3 P10{ 10.0f, -6.0f, 5.0f };
+    const vec3 P11{ 13.0f, 0.0f, 5.0f };
+    const vec3 P12{ 10.0f, 6.0f, 5.0f };
 
     //Center light
-    const vec3 P13 = vec3(6.0f, 1.0f, -4.8f);
-    const vec3 P14 = vec3(5.0f, -1.0f, -4.8f);
-    const vec3 P15 = vec3(5.0f, 1.0f, -4.8f);
-    const vec3 P16 = vec3(6.0f, -1.0f, -4.8f);
+    const vec3 P13{ 6.0f, 1.0f, -4.8f };
+    const vec3 P14{ 5.0f, -1.0f, -4.8f };
+    const vec3 P15{ 5.0f, 1.0f, -4.8f };
+    const vec3 P16{ 6.0f, -1.0f, -4.8f };
 
     //Lamp border
-    const vec3 P17 = vec3(5.0f, 1.0f, -4.8f);
-    const vec3 P18 = vec3(5.0f, 1.0f, -5.0f);
-    const vec3 P19 = vec3(5.0f, -1.0f, -5.0f);
-    const vec3 P20 = vec3(5.0f, -1.0f, -4.8f);
-    const vec3 P21 = vec3(6.0f, 1.0f, -4.8f);
-    const vec3 P22 = vec3(6.0f, 1.0f, -5.0f);
-    const vec3 P23 = vec3(6.0f, -1.0f, -5.0f);
-    const vec3 P24 = vec3(6.0f, -1.0f, -4.8f);
+    const vec3 P17{ 5.0f, 1.0f, -4.8f };
+    const vec3 P18{ 5.0f, 1.0f, -5.0f };
+    const vec3 P19{ 5.0f, -1.0f, -5.0f };
+    const vec3 P20{ 5.0f, -1.0f, -4.8f };
+    const vec3 P21{ 6.0f, 1.0f, -4.8f };
+    const vec3 P22{ 6.0f, 1.0f, -5.0f };
+    const vec3 P23{ 6.0f, -1.0f, -5.0f };
+    const vec3 P24{ 6.0f, -1.0f, -4.8f };
 
     //Left light
-    const vec3 P25 = vec3(6.0f, -5.8f, -0.5f);
-    const vec3 P26 = vec3(7.0f, -5.8f, -0.5f);
-    const vec3 P27 = vec3(6.0f, -5.8f, 0.5f);
-    const vec3 P28 = vec3(7.0f, -5.8f, 0.5f);
+    const vec3 P25{ 6.0f, -5.8f, -0.5f };
+    const vec3 P26{ 7.0f, -5.8f, -0.5f };
+    const vec3 P27{ 6.0f, -5.8f, 0.5f };
+    const vec3 P28{ 7.0f, -5.8f, 0.5f };
 
     //Top
-    Triangle triangle1 = Triangle(P1, P2, P3, &white_lambertian);
-    Triangle triangle2 = Triangle(P4, P5, P6, &white_lambertian);
-    Triangle triangle3 = Triangle(P1, P3, P6, &white_lambertian);
-    Triangle triangle4 = Triangle(P3, P4, P6, &white_lambertian);
+    Triangle triangle1{ P1, P2, P3, &white_lambertian };
+    Triangle triangle2{ P4, P5, P6, &white_lambertian };
+    Triangle triangle3{ P1, P3, P6, &white_lambertian };
+    Triangle triangle4{ P3, P4, P6, &white_lambertian };
 
     //Bottom
-    Triangle triangle5 = Triangle(P9, P8, P7, &pink_lambertian);
-    Triangle triangle6 = Triangle(P12, P11, P10, &pink_lambertian);
-    Triangle triangle7 = Triangle(P9, P7, P12, &pink_lambertian);
-    Triangle triangle8 = Triangle(P9, P12, P10, &pink_lambertian);
+    Triangle triangle5{ P9, P8, P7, &pink_lambertian };
+    Triangle triangle6{ P12, P11, P10, &pink_lambertian };
+    Triangle triangle7{ P9, P7, P12, &pink_lambertian };
+    Triangle triangle8{ P9, P12, P10, &pink_lambertian };
 
     //Wall 1
-    Triangle triangle9 = Triangle(P3, P9, P10, &cyan_lambertian);
-    Triangle triangle10 = Triangle(P3, P10, P4, &cyan_lambertian);
+    Triangle triangle9{ P3, P9, P10, &cyan_lambertian };
+    Triangle triangle10{ P3, P10, P4, &cyan_lambertian };
 
     //Wall 2
-    Triangle triangle11 = Triangle(P10, P11, P4, &green_lambertian);
-    Triangle triangle12 = Triangle(P11, P5, P4, &green_lambertian);
+    Triangle triangle11{ P10, P11, P4, &red_lambertian };
+    Triangle triangle12{ P11, P5, P4, &red_lambertian };
 
     //Wall 3
-    Triangle triangle13 = Triangle(P11, P12, P5, &yellow_lambertian);
-    Triangle triangle14 = Triangle(P12, P6, P5, &yellow_lambertian);
+    Triangle triangle13{ P11, P12, P5, &green_lambertian };
+    Triangle triangle14{ P12, P6, P5, &green_lambertian };
 
     //Wall 4
-    Triangle triangle15 = Triangle(P12, P7, P6, &dark_purple_lambertian);
-    Triangle triangle16 = Triangle(P7, P1, P6, &dark_purple_lambertian);
+    Triangle triangle15{ P12, P7, P6, &dark_purple_lambertian };
+    Triangle triangle16{ P7, P1, P6, &dark_purple_lambertian };
 
     //Wall 5
-    Triangle triangle17 = Triangle(P7, P8, P1, &white_lambertian);
-    Triangle triangle18 = Triangle(P1, P8, P2, &white_lambertian);
+    Triangle triangle17{ P7, P8, P1, &mirror };
+    Triangle triangle18{ P1, P8, P2, &mirror };
 
     //Wall 6
-    Triangle triangle19 = Triangle(P2, P8, P9, &white_lambertian);
-    Triangle triangle20 = Triangle(P2, P9, P3, &white_lambertian);
+    Triangle triangle19{ P2, P8, P9, &mirror };
+    Triangle triangle20{ P2, P9, P3, &mirror };
 
     //Light border
-    Triangle triangle21 = Triangle(P17, P18, P19, &black_lambertian);
-    Triangle triangle22 = Triangle(P17, P19, P20, &black_lambertian);
-    Triangle triangle23 = Triangle(P17, P21, P18, &black_lambertian);
-    Triangle triangle24 = Triangle(P18, P21, P22, &black_lambertian);
-    Triangle triangle25 = Triangle(P21, P23, P22, &black_lambertian);
-    Triangle triangle26 = Triangle(P21, P24, P23, &black_lambertian);
-    Triangle triangle27 = Triangle(P19, P23, P24, &black_lambertian);
-    Triangle triangle28 = Triangle(P19, P24, P20, &black_lambertian);
+    Triangle triangle21{ P17, P18, P19, &black_lambertian };
+    Triangle triangle22{ P17, P19, P20, &black_lambertian };
+    Triangle triangle23{ P17, P21, P18, &black_lambertian };
+    Triangle triangle24{ P18, P21, P22, &black_lambertian };
+    Triangle triangle25{ P21, P23, P22, &black_lambertian };
+    Triangle triangle26{ P21, P24, P23, &black_lambertian };
+    Triangle triangle27{ P19, P23, P24, &black_lambertian };
+    Triangle triangle28{ P19, P24, P20, &black_lambertian };
 
     scene.addObject(&triangle1);
     scene.addObject(&triangle2);
@@ -189,45 +190,51 @@ int main()
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
-    std::cout << "Adding mirror sphere...\n";
-    Sphere s1{ vec3(9.5f, -1.25f, -0.5f), 1.5f, &mirror };
-    scene.addObject(&s1);
-    std::cout << "DONE!\n";
-    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
-
-    std::cout << "Adding red sphere...\n";
-    Sphere s2{ vec3(6.0f, 2.5f, 0.65f), 1.0f, &red_lambertian };
-    scene.addObject(&s2);
-    std::cout << "DONE!\n";
-    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
-
-    std::cout << "Adding white box...\n";
-    Box b1 = Box(vec3(6.0f, 3.0f, 3.5f), 3.5f, 3.5f, 3.5f, &white_lambertian);
+    std::cout << "Adding black box...\n";
+    Box b1 = Box(vec3(5.0f, 3.0f, 4.0f), 2.0f, 1.5f, 5.5f, &black_lambertian);
     scene.addBox(&b1);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
-    std::cout << "Adding black box...\n";
-    Box b2 = Box(vec3(6.5f, -4.0f, 3.1f), 2.5f, 0.75f, 0.75f, &black_lambertian);
+    std::cout << "Adding yellow box...\n";
+    Box b2 = Box(vec3(5.0f, 0.0f, 4.0f), 2.0f, 1.5f, 1.5f, &yellow_lambertian);
     scene.addBox(&b2);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
+    std::cout << "Adding white box...\n";
+    Box b3 = Box(vec3(5.0f, -3.0f, 4.0f), 2.0f, 1.5f, 1.5f, &white_lambertian);
+    scene.addBox(&b3);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
+
+    std::cout << "Adding mirror sphere...\n";
+    Sphere s1{ vec3(8.5f, 0.0f, -1.0f), 2.0f, &mirror };
+    scene.addObject(&s1);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
+
     std::cout << "Adding glass sphere...\n";
-    Sphere s3{ vec3(5.0f, -3.0f, 1.0f), 0.75f, &glass };
-    scene.addObject(&s3);
+    Sphere s2{ vec3(5.0f, 3.0f, 1.9f), 1.0f, &glass };
+    scene.addObject(&s2);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding light blue glass sphere...\n";
-    Sphere s4{ vec3(8.0f, 3.0f, -2.5f), 1.25f, &light_blue_glass };
+    Sphere s3{ vec3(5.0f, 0.0f, 1.9f), 1.0f, &light_blue_glass };
+    scene.addObject(&s3);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
+
+    std::cout << "Adding purple glass sphere...\n";
+    Sphere s4{ vec3(5.0f, -3.0f, 1.9f), 1.0f, &purple_glass };
     scene.addObject(&s4);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding white area light...\n";
-    Triangle al1 = Triangle(P14, P13, P15, &white_light);
-    Triangle al2 = Triangle(P16, P13, P14, &white_light);
+    Triangle al1{ P14, P13, P15, &white_light };
+    Triangle al2{ P16, P13, P14, &white_light };
     scene.addAreaLight(&al1);
     scene.addAreaLight(&al2);
     std::cout << "DONE!\n";
@@ -262,7 +269,7 @@ int main()
     const std::string s = file_path.str();
     camera.createImage(s.c_str());
     std::cout << "DONE!\n\n";
-    std::cout << "Exiting program...\n";
+    std::cout << "Exiting program..." << std::endl;
 
     return 0;
 }
