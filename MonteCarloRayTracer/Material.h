@@ -25,7 +25,7 @@ struct DiffuseLambertian : Material
 	double absorption;
 	double reflectance;
 
-	DiffuseLambertian(const dvec3& color, double reflectance);
+	DiffuseLambertian(const dvec3& color, double reflectance_ratio);
 
 	std::vector<Ray> BRDF(const std::shared_ptr<Ray>& incoming) const override;
 };

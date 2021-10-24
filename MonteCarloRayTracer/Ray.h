@@ -11,7 +11,7 @@ struct Ray
 
 	int depth{ 0 };
 	bool is_leaf{ false };
-	bool inside_transparant_object{ false };
+	bool inside_transparent_object{ false };
 
 	Object* target;
 

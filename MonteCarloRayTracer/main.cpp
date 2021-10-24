@@ -96,22 +96,6 @@ int main()
     const vec3 P15{ 5.0f, 1.0f, -4.8f };
     const vec3 P16{ 6.0f, -1.0f, -4.8f };
 
-    //Lamp border
-    const vec3 P17{ 5.0f, 1.0f, -4.8f };
-    const vec3 P18{ 5.0f, 1.0f, -5.0f };
-    const vec3 P19{ 5.0f, -1.0f, -5.0f };
-    const vec3 P20{ 5.0f, -1.0f, -4.8f };
-    const vec3 P21{ 6.0f, 1.0f, -4.8f };
-    const vec3 P22{ 6.0f, 1.0f, -5.0f };
-    const vec3 P23{ 6.0f, -1.0f, -5.0f };
-    const vec3 P24{ 6.0f, -1.0f, -4.8f };
-
-    //Left light
-    const vec3 P25{ 6.0f, -5.8f, -0.5f };
-    const vec3 P26{ 7.0f, -5.8f, -0.5f };
-    const vec3 P27{ 6.0f, -5.8f, 0.5f };
-    const vec3 P28{ 7.0f, -5.8f, 0.5f };
-
     //Top
     Triangle triangle1{ P1, P2, P3, &white_lambertian };
     Triangle triangle2{ P4, P5, P6, &white_lambertian };
@@ -148,16 +132,6 @@ int main()
     Triangle triangle19{ P2, P8, P9, &mirror };
     Triangle triangle20{ P2, P9, P3, &mirror };
 
-    //Light border
-    Triangle triangle21{ P17, P18, P19, &black_lambertian };
-    Triangle triangle22{ P17, P19, P20, &black_lambertian };
-    Triangle triangle23{ P17, P21, P18, &black_lambertian };
-    Triangle triangle24{ P18, P21, P22, &black_lambertian };
-    Triangle triangle25{ P21, P23, P22, &black_lambertian };
-    Triangle triangle26{ P21, P24, P23, &black_lambertian };
-    Triangle triangle27{ P19, P23, P24, &black_lambertian };
-    Triangle triangle28{ P19, P24, P20, &black_lambertian };
-
     scene.addObject(&triangle1);
     scene.addObject(&triangle2);
     scene.addObject(&triangle3);
@@ -178,20 +152,12 @@ int main()
     scene.addObject(&triangle18);
     scene.addObject(&triangle19);
     scene.addObject(&triangle20);
-    scene.addObject(&triangle21);
-    scene.addObject(&triangle22);
-    scene.addObject(&triangle23);
-    scene.addObject(&triangle24);
-    scene.addObject(&triangle25);
-    scene.addObject(&triangle26);
-    scene.addObject(&triangle27);
-    scene.addObject(&triangle28);
 
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Adding black box...\n";
-    Box b1 = Box(vec3(5.0f, 3.0f, 4.0f), 2.0f, 1.5f, 5.5f, &black_lambertian);
+    Box b1 = Box(vec3(5.0f, 3.0f, 4.0f), 2.0f, 1.5f, 1.5f, &black_lambertian);
     scene.addBox(&b1);
     std::cout << "DONE!\n";
     std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
@@ -239,6 +205,36 @@ int main()
     scene.addAreaLight(&al2);
     std::cout << "DONE!\n";
     std::cout << "Number of area lights: " << scene.area_lights.size() << "\n\n";
+
+    std::cout << "Adding area light border...\n";
+    const vec3 P17{ 5.0f, 1.0f, -4.8f };
+    const vec3 P18{ 5.0f, 1.0f, -5.0f };
+    const vec3 P19{ 5.0f, -1.0f, -5.0f };
+    const vec3 P20{ 5.0f, -1.0f, -4.8f };
+    const vec3 P21{ 6.0f, 1.0f, -4.8f };
+    const vec3 P22{ 6.0f, 1.0f, -5.0f };
+    const vec3 P23{ 6.0f, -1.0f, -5.0f };
+    const vec3 P24{ 6.0f, -1.0f, -4.8f };
+
+    Triangle triangle21{ P17, P18, P19, &black_lambertian };
+    Triangle triangle22{ P17, P19, P20, &black_lambertian };
+    Triangle triangle23{ P17, P21, P18, &black_lambertian };
+    Triangle triangle24{ P18, P21, P22, &black_lambertian };
+    Triangle triangle25{ P21, P23, P22, &black_lambertian };
+    Triangle triangle26{ P21, P24, P23, &black_lambertian };
+    Triangle triangle27{ P19, P23, P24, &black_lambertian };
+    Triangle triangle28{ P19, P24, P20, &black_lambertian };
+
+    scene.addObject(&triangle21);
+    scene.addObject(&triangle22);
+    scene.addObject(&triangle23);
+    scene.addObject(&triangle24);
+    scene.addObject(&triangle25);
+    scene.addObject(&triangle26);
+    scene.addObject(&triangle27);
+    scene.addObject(&triangle28);
+    std::cout << "DONE!\n";
+    std::cout << "Number of objects: " << scene.objects.size() << "\n\n";
 
     std::cout << "Rendering scene...\n";
     auto start_time{ std::chrono::system_clock::now() };

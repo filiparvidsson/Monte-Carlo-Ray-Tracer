@@ -32,15 +32,15 @@ constexpr size_t RESOLUTION = 800;
 constexpr int MAX_RAY_DEPTH = 12;
 constexpr int N_DIFFUSE_BOUNCES = 1;
 constexpr int N_SHADOW_RAYS = 1;
-constexpr int N_SAMPLES_PIXEL = 4; // Should to be an int^2, e.g 4, 16 or 100
+constexpr int N_SAMPLES_PIXEL = 4; // Should be Perfect Square, e.g. 1, 4, 9, ..., 961, 1024
 constexpr float AIR_REFLECTIVE_INDEX = 1.0f;
 constexpr float GLASS_REFLECTIVE_INDEX = 1.5f;
 constexpr double IMPORTANCE_THRESHOLD = 0.1;
 constexpr double GLOBAL_COLOR_CONTRIBUTION = 1.0;
 constexpr double DROPOFF_POWER = 2.0;
-constexpr double DIFFUSE_REFLECTANCE = 0.9;
-constexpr double MIN_DIFFUSE_ABSORPTION = 1.2;	// > 1.0
-constexpr double MAX_DIFFUSE_ABSORPTION = 1.8;
+constexpr double DIFFUSE_REFLECTANCE = 0.9;		// <= 1.0
+constexpr double MIN_DIFFUSE_ABSORPTION = 1.2;	// >= 1.0
+constexpr double MAX_DIFFUSE_ABSORPTION = 1.8;	// >= MIN_DIFFUSE_ABSORPTION
 
 //---------- Colors -----------
 constexpr dvec3 WHITE{ 1.0, 1.0, 1.0 };
