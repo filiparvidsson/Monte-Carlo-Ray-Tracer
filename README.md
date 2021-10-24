@@ -1,6 +1,6 @@
 # Monte Carlo Ray Tracer
 
-![scene](https://imgur.com/a/5OwdTq1)
+![scene](https://i.imgur.com/q9fl0Oe.png)
 
 *An image created by this renderer*
 
