@@ -74,14 +74,14 @@ std::vector<Ray> DiffuseLambertian::BRDF(const std::shared_ptr<Ray> &incoming) c
 		vec3 local_dir{ x, y, z };
 
 		// Transform direction to world coordinates
-		vec3 world_dir = glm::inverse(glm::transpose(M)) * glm::vec4(local_dir, 1.0); 
+		vec3 world_dir = glm::inverse(glm::transpose(M)) * glm::vec4(local_dir, 1.0f); 
 
 		double reflected_importance = 0.0;
 
 		// Russian Roulette
 		if (static_cast<double>(rand()) / RAND_MAX < 1.0 / this->absorption)
 		{
-			reflected_importance = M_PI * incoming->importance * this->reflectance / (this->absorption * static_cast<double>(N_DIFFUSE_BOUNCES));
+			reflected_importance = M_PI * incoming->importance * this->reflectance / static_cast<double>(N_DIFFUSE_BOUNCES);
 		}
 
 		Ray reflected_ray{ incoming->end + incoming->target->getNormal(incoming->end) * RAY_OFFSET_AMOUNT, world_dir, reflected_importance };
