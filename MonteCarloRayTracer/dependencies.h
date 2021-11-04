@@ -39,8 +39,8 @@ constexpr double IMPORTANCE_THRESHOLD = 0.1;
 constexpr double GLOBAL_COLOR_CONTRIBUTION = 1.0;
 constexpr double DROPOFF_POWER = 2.0;
 constexpr double DIFFUSE_REFLECTANCE = 0.9;		// <= 1.0
-constexpr double MIN_DIFFUSE_ABSORPTION = 1.2;	// >= 1.0
-constexpr double MAX_DIFFUSE_ABSORPTION = 1.8;	// >= MIN_DIFFUSE_ABSORPTION
+constexpr double MIN_DIFFUSE_ABSORPTION = 0.1;	// [0, 1]
+constexpr double MAX_DIFFUSE_ABSORPTION = 0.33;	// [MIN_DIFFUSE_ABSORPTION, 1]
 
 //---------- Colors -----------
 constexpr dvec3 WHITE{ 1.0, 1.0, 1.0 };

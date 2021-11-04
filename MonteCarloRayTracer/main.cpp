@@ -36,7 +36,7 @@ int main()
     std::cout << "Creating all materials...\n";
     Mirror mirror{};
 
-    Light white_light{ WHITE, 7.5 };
+    Light white_light{ WHITE, 10 };
 
     DiffuseLambertian white_lambertian{ WHITE, DIFFUSE_REFLECTANCE };
     DiffuseLambertian dark_gray_lambertian{ DARK_GRAY, DIFFUSE_REFLECTANCE };

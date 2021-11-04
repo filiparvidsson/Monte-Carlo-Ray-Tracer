@@ -79,7 +79,7 @@ std::vector<Ray> DiffuseLambertian::BRDF(const std::shared_ptr<Ray> &incoming) c
 		double reflected_importance = 0.0;
 
 		// Russian Roulette
-		if (static_cast<double>(rand()) / RAND_MAX < 1.0 / this->absorption)
+		if (static_cast<double>(rand()) / RAND_MAX > this->absorption)
 		{
 			reflected_importance = M_PI * incoming->importance * this->reflectance / static_cast<double>(N_DIFFUSE_BOUNCES);
 		}
